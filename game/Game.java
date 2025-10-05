@@ -1,4 +1,4 @@
-package v1;
+package game;
 /**
  * Classe Game - le moteur du jeu d'aventure Zuul.
  *

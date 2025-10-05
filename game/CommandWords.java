@@ -1,4 +1,4 @@
-package v1;
+package game;
 
 /**
  * This class is part of the "World of Zuul" application. 
