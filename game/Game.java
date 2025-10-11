@@ -12,23 +12,40 @@ public class Game
     
 
     private void createRooms(){
-        Room vOutside = new Room("outside the main entrance of the university");
-        Room vTheatre = new Room("in a lecture theatre");
-        Room vPub = new Room("in the campus pub");
-        Room vLab = new Room("in a computing lab");
-        Room vOffice = new Room("in the computing admin office");
-
-        vOutside.setExits(null,vTheatre,vLab,vPub);
-        vTheatre.setExits(null,null,null, vOutside);
-        vPub.setExits(null,vOutside,null,null);
-        vLab.setExits(vOutside,vOffice,null,null);
-        vOffice.setExits(null,null,null,vLab);
+        Room vShirago = new Room("in your village of birth, Shirakawa-go");
+        Room vGujoHachi = new Room("In the Gujô Hachiman castle");
+        Room vOsaka = new Room("in the Osaka city");
+        Room vTsushi = new Room("in the Tsushima island");
+        Room vSeki = new Room("in the Seki blacksmiths village, it's the end of your odyssey");
+        Room vNara = new Room("in the Nara city known for its deers");
+        Room vGinkaku = new Room("in the Ginkaku-ji temple");
+        Room vKinkaku = new Room("in the Kinkaku-ji temple");
+        Room vYoshino = new Room("in the Yoshino national park, the forest is big here");
+        Room vNagoya  = new Room("in the Nagoya city");
+        Room vMtFuji = new Room("at the foot of the Mt Fuji");
+        Room vTokyo = new Room("in the Tokyo city, the capital of Japan");
+        Room vSapporo = new Room("in the Sapporo city, in the north of Japan");
+        Room vAogashi = new Room("in the island of Aogashima, in the middle of the ocean");
         
-        this.aCurrentRoom = vOutside;
+        
+        this.aCurrentRoom = vShirago;  // la partie commence a Shirakawa-go
+        vShirago.setExits(null,null,vGujoHachi,null);
+        vGujoHachi.setExits(null,vMtFuji,null,vOsaka);
+        vOsaka.setExits(vGinkaku,vGujoHachi,vNara,vTsushi);
+        vGinkaku.setExits(null,vKinkaku,vOsaka,null);
+        vKinkaku.setExits(null,null,vGinkaku,null);
+        vTsushi.setExits(vOsaka,vSeki,null,null);
+        vSeki.setExits(null,null,null,vTsushi);
+        vNara.setExits(null,vYoshino,null,null);
+        vYoshino.setExits(null,vNagoya,null,null);
+        vNagoya.setExits(vMtFuji,null,null,vYoshino);
+        vMtFuji.setExits(vSapporo,vTokyo,vNagoya,vGujoHachi);
+        vTokyo.setExits(null,null,null,vNagoya);
+        vSapporo.setExits(null,null,vAogashi,null);
+        vAogashi.setExits(vSapporo,null,vTokyo,null);
     }
-
     private void printLocationInfo(){
-        System.out.println(" You are " + this.aCurrentRoom.getDescription());
+        System.out.println("You are " + this.aCurrentRoom.getDescription());
         System.out.println("Possible exits");
         if (this.aCurrentRoom.getExit("east") != null) {
             System.out.println("- East");
@@ -82,14 +99,13 @@ public class Game
         System.out.println("Welcome to the World of Zuul! \nWorld of Zuul is a new, incredibly boring adventure game." +
         "\nType 'help' if you need help");
         System.out.println();
-        System.out .println( "You are"+ this.aCurrentRoom.getDescription());
         this.printLocationInfo();
 
     }
 
     public void printHelp(){
         System.out.println("You are lost. You are alone.\r\n" + //
-                        "You wander around at the university.\r\n" + //
+                        "You wander around Japan.\r\n" + //
                         "\r\n" + //
                         "Your command words are:\r\n" + //
                         "  go quit help");
