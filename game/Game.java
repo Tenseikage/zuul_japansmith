@@ -1,6 +1,6 @@
 package game;
 /**
- * Classe Game - le moteur du jeu d'aventure Zuul.
+ * Game class - the main class of the "World of Zuul" application.
  *
  * @author TARATIBU Christophe
  */
@@ -10,7 +10,9 @@ public class Game
     private Parser aParser;
 
     
-
+    /**
+     * Create all the rooms and link their exits together.
+     */
     private void createRooms(){
         Room vShirago = new Room("in your village of birth, Shirakawa-go");
         Room vGujoHachi = new Room("In the Gujô Hachiman castle");
@@ -29,21 +31,62 @@ public class Game
         
         
         this.aCurrentRoom = vShirago;  // la partie commence a Shirakawa-go
-        vShirago.setExits(null,null,vGujoHachi,null);
-        vGujoHachi.setExits(null,vMtFuji,null,vOsaka);
-        vOsaka.setExits(vGinkaku,vGujoHachi,vNara,vTsushi);
-        vGinkaku.setExits(null,vKinkaku,vOsaka,null);
-        vKinkaku.setExits(null,null,vGinkaku,null);
-        vTsushi.setExits(vOsaka,vSeki,null,null);
-        vSeki.setExits(null,null,null,vTsushi);
-        vNara.setExits(null,vYoshino,null,null);
-        vYoshino.setExits(null,vNagoya,null,null);
-        vNagoya.setExits(vMtFuji,null,null,vYoshino);
-        vMtFuji.setExits(vSapporo,vTokyo,vNagoya,vGujoHachi);
-        vTokyo.setExits(null,null,null,vNagoya);
-        vSapporo.setExits(null,null,vAogashi,null);
-        vAogashi.setExits(vSapporo,null,vTokyo,null);
+        vShirago.setExit("south", vGujoHachi);
+
+        // GujoHachi : east -> MtFuji, west -> Osaka
+        vGujoHachi.setExit("east", vMtFuji);
+        vGujoHachi.setExit("west", vOsaka);
+
+        // Osaka : north -> Ginkaku, east -> GujoHachi, south -> Nara, west -> Tsushi
+        vOsaka.setExit("north", vGinkaku);
+        vOsaka.setExit("east", vGujoHachi);
+        vOsaka.setExit("south", vNara);
+        vOsaka.setExit("west", vTsushi);
+
+        // Ginkaku : east -> Kinkaku, south -> Osaka
+        vGinkaku.setExit("east", vKinkaku);
+        vGinkaku.setExit("south", vOsaka);
+
+        // Kinkaku : south -> Ginkaku
+        vKinkaku.setExit("south", vGinkaku);
+
+        // Tsushi : north -> Osaka, east -> Seki
+        vTsushi.setExit("north", vOsaka);
+        vTsushi.setExit("east", vSeki);
+
+        // Seki : west -> Tsushi
+        vSeki.setExit("west", vTsushi);
+
+        // Nara : east -> Yoshino
+        vNara.setExit("east", vYoshino);
+
+        // Yoshino : east -> Nagoya
+        vYoshino.setExit("east", vNagoya);
+
+        // Nagoya : north -> MtFuji, west -> Yoshino
+        vNagoya.setExit("north", vMtFuji);
+        vNagoya.setExit("west", vYoshino);
+
+        // MtFuji : north -> Sapporo, east -> Tokyo, south -> Nagoya, west -> GujoHachi
+        vMtFuji.setExit("north", vSapporo);
+        vMtFuji.setExit("east", vTokyo);
+        vMtFuji.setExit("south", vNagoya);
+        vMtFuji.setExit("west", vGujoHachi);
+
+        // Tokyo : west -> Nagoya
+        vTokyo.setExit("west", vNagoya);
+
+        // Sapporo : south -> Aogashi
+        vSapporo.setExit("south", vAogashi);
+
+        // Aogashi : north -> Sapporo, south -> Tokyo
+        vAogashi.setExit("north", vSapporo);
+        vAogashi.setExit("south", vTokyo);
     }
+
+    /**
+     * Print out the description of the current room and its exits.
+     */
     private void printLocationInfo(){
         System.out.println("You are " + this.aCurrentRoom.getDescription());
         System.out.println("Possible exits");
@@ -61,6 +104,12 @@ public class Game
         }
 
     }
+
+    /**
+     * Go to the room in the given direction. If there is no room in that
+     * direction, print an error message.
+     * @param pCmd the command to process (should contain "go" and a direction).
+     */
     private void goRooms(Command pCmd){
         if(!pCmd.hasSecondWord()){
             System.out.println("Go where ?");
@@ -95,6 +144,9 @@ public class Game
         }
     }
 
+    /**
+     * Print out the opening message for the player.
+     */
     public void welcome(){
         System.out.println("Welcome to the World of Zuul! \nWorld of Zuul is a new, incredibly boring adventure game." +
         "\nType 'help' if you need help");
@@ -103,6 +155,10 @@ public class Game
 
     }
 
+    /**
+     * Print out some help information.
+     * Here we print some stupid, cryptic message and a list of the command words.
+     */
     public void printHelp(){
         System.out.println("You are lost. You are alone.\r\n" + //
                         "You wander around Japan.\r\n" + //
@@ -111,6 +167,11 @@ public class Game
                         "  go quit help");
     }
 
+    /**
+     * Quit the game. Return true if this command quits the game, false otherwise.
+     * @param pCmd Command to process
+     * @return boolean if the command quits the game
+     */
     private boolean quit(final Command pCmd){
         if (pCmd.hasSecondWord()) {
             System.out.println("Quit what ?");
@@ -119,6 +180,11 @@ public class Game
         return true;
     }
     
+    /**
+     * Process the command. Return true if the command ends the game, false otherwise.
+     * @param pCmd The command to process.
+     * @return true if the command make the game working, false otherwise.
+     */
     private boolean processCommand(final Command pCmd) {
         if (pCmd.isUnknown()) {
             System.out.println("I don't know what you mean...");
@@ -140,6 +206,10 @@ public class Game
         }
     }
 
+    /**
+     * Play the game.  The main loop.  Repeatedly get commands and
+     * execute them until the game is over.
+     */
     public void play() {
         this.welcome();
         boolean vFinished = false;
@@ -149,9 +219,15 @@ public class Game
         }
         System.out.println("Thank you for playing.  Good bye.");
     }
+    /**
+     * Main method to start the game.
+     * @param args No arguments are taken into account.
+     */
     public Game(){
         this.aParser = new Parser();
         this.createRooms();
         play();
+        
     }
+    
 } // Game

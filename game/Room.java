@@ -1,61 +1,56 @@
 package game;
+import java.util.HashMap;
 /**
- * Classe Room - un lieu du jeu d'aventure Zuul.
+ * Room class - a room in an adventure game.
  *
  * @author Christophe TARATIBU
  */
 public class Room
 {
     private String aDescription;
-    private Room aNorthExit;
-    private Room aEastExit;
-    private Room aSouthExit;
-    private Room aWestExit;
+    private HashMap<String, Room> aExits; // les sorties de cette piece
 
     public Room(final String pDescription){
         this.aDescription = pDescription;  
+        this.aExits = new HashMap<String, Room>();
     }
     
+    /**
+     * Gives the description of the room.
+     * @return The description of the room.
+     */
     public String getDescription(){
         return this.aDescription;
     }
-
+    
+    /**
+     * Gives the room's exit in the given direction.
+     * @param pDirection The direction of the exit.
+     * @return The room in the given direction.
+     */
     public Room getExit(String vDirection){
-        switch (vDirection) {
-            case "north":
-                return this.aNorthExit;                   
-            case "south":
-                return this.aSouthExit;
-            case "east":
-                return this.aEastExit;
-            case "west":
-                return this.aWestExit;
-            default:
-                return null;
-        }
+        return this.aExits.get(vDirection);
     }
 
+    /**
+     * Gives a string of all exits of the room.
+     * @return A string of all exits of the room.
+     */
     public String getExitString(){
-        String vStrExits = "";
-        if(this.getExit("south") != null){
-            vStrExits += "South ";
+        String vExitString = "Exits:";
+        for(String vDirection : this.aExits.keySet()){
+            vExitString += " " + vDirection;
         }
-        if(this.getExit("north") != null){
-            vStrExits += "North";
-        }
-        if(this.getExit("east") != null){
-            vStrExits += "East";
-        }
-        if(this.getExit("west")!= null){
-            vStrExits += "West";
-        }
-        return vStrExits;
+        return vExitString;
     }
 
-    public void setExits(final Room pNorthExit,final Room pEastExit, final Room pSouthExit, final Room pWestExit){
-        this.aNorthExit = pNorthExit;
-        this.aEastExit = pEastExit;
-        this.aSouthExit = pSouthExit;
-        this.aWestExit = pWestExit;
+    
+    /**
+     * Defines an exit of the room.
+     * @param pDirection The direction of the exit.
+     * @param pNeighbor The room in the given direction.
+     */
+    public void setExit(String pDirection, Room pNeighbor){
+        this.aExits.put(pDirection, pNeighbor);
     }
 } // Room
