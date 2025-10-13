@@ -20,11 +20,20 @@ public class CommandWords
      */
     public CommandWords()
     {
-        this.aValidCommands = new String[3];
+        this.aValidCommands = new String[5];
         this.aValidCommands[0] = "go";
         this.aValidCommands[1] = "help";
         this.aValidCommands[2] = "quit";
+        this.aValidCommands[3] = "look";
+        this.aValidCommands[4] = "eat";
     } // CommandWords()
+
+    public void showAll(){
+        for(String vCmd : this.aValidCommands){
+            System.out.println(vCmd + " ");
+        }
+        System.out.println();
+    }
 
     /**
      * Check whether a given String is a valid command word. 

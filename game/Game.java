@@ -88,21 +88,15 @@ public class Game
      * Print out the description of the current room and its exits.
      */
     private void printLocationInfo(){
-        System.out.println("You are " + this.aCurrentRoom.getDescription());
-        System.out.println("Possible exits");
-        if (this.aCurrentRoom.getExit("east") != null) {
-            System.out.println("- East");
-        }
-        if (this.aCurrentRoom.getExit("west") != null) {
-            System.out.println("- West");
-        }
-        if (this.aCurrentRoom.getExit("north") != null) {
-            System.out.println("- North");
-        }
-        if (this.aCurrentRoom.getExit("south") != null) {
-            System.out.println("- South");
-        }
+        System.out.println(this.aCurrentRoom.getLongDescription());
+    }
 
+    private void look(){
+        System.out.println(this.aCurrentRoom.getLongDescription()); 
+    }
+
+    private void eat(){
+        System.out.println("You have eaten now and you are not hungry any more.");
     }
 
     /**
@@ -113,19 +107,17 @@ public class Game
     private void goRooms(Command pCmd){
         if(!pCmd.hasSecondWord()){
             System.out.println("Go where ?");
+            return;
         }
         Room vNextRoom = null;
         String vDirection = pCmd.getSecondWord();
-        System.out.println(vDirection);
         switch (vDirection) {
             case "north":
                 vNextRoom = this.aCurrentRoom.getExit(vDirection);
                 break;
-        
             case "south":
                 vNextRoom = this.aCurrentRoom.getExit(vDirection);
                 break;
-
             case "east":
                 vNextRoom = this.aCurrentRoom.getExit(vDirection);
                 break;
@@ -163,8 +155,9 @@ public class Game
         System.out.println("You are lost. You are alone.\r\n" + //
                         "You wander around Japan.\r\n" + //
                         "\r\n" + //
-                        "Your command words are:\r\n" + //
-                        "  go quit help");
+                        "Your command words are:\r\n" //
+                        );
+        this.aParser.showCommands();
     }
 
     /**
@@ -190,9 +183,8 @@ public class Game
             System.out.println("I don't know what you mean...");
             return false;
         }
-
         String vCommandWord = pCmd.getCommandWord();
-        if ("help".equals(vCommandWord )) {
+        if ("help".equals(vCommandWord)) {
             printHelp();
             return false;
         } else if ("go".equals(vCommandWord)) {
@@ -200,6 +192,14 @@ public class Game
             return false;
         } else if ("quit".equals(vCommandWord)) {
             return quit(pCmd);
+
+        } else if("look".equals(vCommandWord)){
+            this.look();
+            return false;
+        
+        } else if ("eat".equals(vCommandWord)){
+            this.eat();
+            return false;
         } else {
             System.out.println("Erreur du programmeur : commande non reconnue !");
             return true;
@@ -207,7 +207,7 @@ public class Game
     }
 
     /**
-     * Play the game.  The main loop.  Repeatedly get commands and
+     * Play the game. The main loop.  Repeatedly get commands and
      * execute them until the game is over.
      */
     public void play() {

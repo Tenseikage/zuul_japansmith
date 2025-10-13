@@ -1,14 +1,18 @@
 #BlueJ class context
 comment0.target=Room
-comment0.text=\r\n\ Classe\ Room\ -\ un\ lieu\ du\ jeu\ d'aventure\ Zuul.\r\n\r\n\ @author\ Christophe\ TARATIBU\r\n
+comment0.text=\r\n\ Room\ class\ -\ a\ room\ in\ an\ adventure\ game.\r\n\r\n\ @author\ Christophe\ TARATIBU\r\n
 comment1.params=pDescription
 comment1.target=Room(java.lang.String)
 comment2.params=
-comment2.target=java.lang.String\ getDescription()
+comment2.target=java.lang.String\ getLongDescription()
+comment2.text=public\ String\ getDescription(){\r\n\ \ \ \ \ \ \ \ return\ this.aDescription;\r\n}
 comment3.params=vDirection
 comment3.target=Room\ getExit(java.lang.String)
+comment3.text=\r\n\ Gives\ the\ room's\ exit\ in\ the\ given\ direction.\r\n\ @param\ pDirection\ The\ direction\ of\ the\ exit.\r\n\ @return\ The\ room\ in\ the\ given\ direction.\r\n
 comment4.params=
 comment4.target=java.lang.String\ getExitString()
+comment4.text=\r\n\ Gives\ a\ string\ of\ all\ exits\ of\ the\ room.\r\n\ @return\ A\ string\ of\ all\ exits\ of\ the\ room.\r\n
 comment5.params=pDirection\ pNeighbor
 comment5.target=void\ setExit(java.lang.String,\ Room)
+comment5.text=\r\n\ Defines\ an\ exit\ of\ the\ room.\r\n\ @param\ pDirection\ The\ direction\ of\ the\ exit.\r\n\ @param\ pNeighbor\ The\ room\ in\ the\ given\ direction.\r\n
 numComments=6

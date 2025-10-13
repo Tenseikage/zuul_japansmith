@@ -1,14 +1,19 @@
 #BlueJ class context
 comment0.target=Command
-comment0.text=\r\n\ Classe\ Command\ -\ une\ commande\ du\ jeu\ d'aventure\ Zuul.\r\n\r\n\ @author\ Christophe\ TARATIBU\r\n
+comment0.text=\r\n\ Command\ class\ -\ a\ command\ issued\ by\ the\ user.\r\n\r\n\ @author\ Christophe\ TARATIBU\r\n
 comment1.params=pCommandWord\ pSecondWord
 comment1.target=Command(java.lang.String,\ java.lang.String)
+comment1.text=\r\n\ Create\ a\ command\ object.\ First\ and\ second\ word\ must\ be\ supplied,\ but\r\n\ either\ one\ (or\ both)\ can\ be\ null.\ The\ command\ word\ should\ be\ null\ to\r\n\ indicate\ that\ this\ was\ a\ command\ that\ is\ not\ recognised\ by\ this\ game.\r\n\ @param\ pCommandWord\ The\ first\ word\ of\ the\ command.\ Null\ if\ the\ command\r\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ was\ not\ recognised.\r\n\ @param\ pSecondWord\ \ The\ second\ word\ of\ the\ command.\r\n
 comment2.params=
 comment2.target=java.lang.String\ getCommandWord()
+comment2.text=\r\n\ @return\ The\ command\ word\ (the\ first\ word)\ of\ this\ command.\ If\ the\r\n\ \ \ \ \ \ \ \ \ command\ was\ not\ understood,\ the\ result\ is\ null.\r\n
 comment3.params=
 comment3.target=java.lang.String\ getSecondWord()
+comment3.text=\r\n\ @return\ The\ second\ word\ of\ this\ command.\ Returns\ null\ if\ there\ was\ no\r\n\ \ \ \ \ \ \ \ \ second\ word.\r\n
 comment4.params=
 comment4.target=boolean\ hasSecondWord()
+comment4.text=\r\n\ @return\ true\ if\ the\ command\ has\ a\ second\ word.\r\n
 comment5.params=
 comment5.target=boolean\ isUnknown()
+comment5.text=\r\n\ @return\ true\ if\ the\ command\ word\ is\ unknown\r\n
 numComments=6

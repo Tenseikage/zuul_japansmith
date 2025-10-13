@@ -67,4 +67,8 @@ public class Parser
         }
 
     } // getCommand()
+
+    public void showCommands(){
+        this.aValidCommands.showAll();
+    }
 } // Parser

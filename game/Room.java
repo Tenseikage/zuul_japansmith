@@ -16,11 +16,15 @@ public class Room
     }
     
     /**
-     * Gives the description of the room.
-     * @return The description of the room.
+     * Gives the description of the room and possible exits.
+     * @return The description of the room and exits.
      */
-    public String getDescription(){
+    /*public String getDescription(){
         return this.aDescription;
+    }*/
+
+    public String getLongDescription(){
+        return "You're " + this.aDescription + getExitString();
     }
     
     /**
@@ -37,7 +41,7 @@ public class Room
      * @return A string of all exits of the room.
      */
     public String getExitString(){
-        String vExitString = "Exits:";
+        String vExitString = "\nExits:";
         for(String vDirection : this.aExits.keySet()){
             vExitString += " " + vDirection;
         }
