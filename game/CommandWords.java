@@ -13,19 +13,16 @@ package game;
 public class CommandWords
 {
     // a constant array that will hold all valid command words
-    private final String[] aValidCommands;
+    private final String[] aValidCommands = {
+        "go", "quit", "help", "look", "eat"
+    };
 
     /**
      * Constructor - initialise the command words.
      */
     public CommandWords()
     {
-        this.aValidCommands = new String[5];
-        this.aValidCommands[0] = "go";
-        this.aValidCommands[1] = "help";
-        this.aValidCommands[2] = "quit";
-        this.aValidCommands[3] = "look";
-        this.aValidCommands[4] = "eat";
+        
     } // CommandWords()
 
     public void showAll(){

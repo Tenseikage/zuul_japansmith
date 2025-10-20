@@ -26,7 +26,6 @@ public class Room
     public String getLongDescription(){
         return "You're " + this.aDescription + getExitString();
     }
-    
     /**
      * Gives the room's exit in the given direction.
      * @param pDirection The direction of the exit.
