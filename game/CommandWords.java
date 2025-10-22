@@ -25,6 +25,9 @@ public class CommandWords
         
     } // CommandWords()
 
+    /**
+     * Print all valid commands to System.out.
+     */
     public void showAll(){
         for(String vCmd : this.aValidCommands){
             System.out.println(vCmd + " ");

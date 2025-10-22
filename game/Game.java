@@ -91,10 +91,16 @@ public class Game
         System.out.println(this.aCurrentRoom.getLongDescription());
     }
 
+    /**
+     * Print out the description of the current room.
+     */
     private void look(){
         System.out.println(this.aCurrentRoom.getLongDescription()); 
     }
 
+    /**
+     * Print a sentence.
+     */
     private void eat(){
         System.out.println("You have eaten now and you are not hungry any more.");
     }
