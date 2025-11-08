@@ -40,11 +40,11 @@ public class Room
      * @return A string of all exits of the room.
      */
     public String getExitString(){
-        String vExitString = "\nExits:";
-        for(String vDirection : this.aExits.keySet()){
-            vExitString += " " + vDirection;
+        StringBuilder vReturnString = new StringBuilder("Exits:");
+        for (String vDirection : this.aExits.keySet() ) {
+            vReturnString.append( " " + vDirection );
         }
-        return vExitString;
+        return vReturnString.toString();
     }
 
     

@@ -8,5 +8,6 @@ comment2.params=
 comment2.target=Command\ getCommand()
 comment2.text=\r\n\ @return\ The\ next\ command\ from\ the\ user.\r\n
 comment3.params=
-comment3.target=void\ showCommands()
+comment3.target=java.lang.String\ getCommandString()
+comment3.text=\r\n\ Returns\ a\ String\ with\ valid\ command\ words.\r\n
 numComments=4

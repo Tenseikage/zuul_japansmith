@@ -26,16 +26,6 @@ public class CommandWords
     } // CommandWords()
 
     /**
-     * Print all valid commands to System.out.
-     */
-    public void showAll(){
-        for(String vCmd : this.aValidCommands){
-            System.out.println(vCmd + " ");
-        }
-        System.out.println();
-    }
-
-    /**
      * Check whether a given String is a valid command word. 
      * @return true if a given string is a valid command,
      * false if it isn't.
@@ -49,4 +39,18 @@ public class CommandWords
         // if we get here, the string was not found in the commands :
         return false;
     } // isCommand()
+
+    /**
+     * @return A string of all valid commands.
+     */
+    public String getCommandList() 
+    {
+        StringBuilder vCommands = new StringBuilder();
+        for ( int vI=0; vI<this.aValidCommands.length; vI++ ) {
+            vCommands.append( this.aValidCommands[vI] + "  " );
+
+        }
+        //System.out.println(vCommands.toString());
+        return vCommands.toString();
+    }
 } // CommandWords

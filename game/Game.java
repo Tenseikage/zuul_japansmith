@@ -114,26 +114,9 @@ public class Game
         if(!pCmd.hasSecondWord()){
             System.out.println("Go where ?");
             return;
-        }
-        Room vNextRoom = null;
+        };
         String vDirection = pCmd.getSecondWord();
-        switch (vDirection) {
-            case "north":
-                vNextRoom = this.aCurrentRoom.getExit(vDirection);
-                break;
-            case "south":
-                vNextRoom = this.aCurrentRoom.getExit(vDirection);
-                break;
-            case "east":
-                vNextRoom = this.aCurrentRoom.getExit(vDirection);
-                break;
-            case "west":
-                vNextRoom = this.aCurrentRoom.getExit(vDirection);
-                break;
-            default:
-                System.out.println("Unknown direction");
-                break;
-        }
+        Room vNextRoom = this.aCurrentRoom.getExit(vDirection);
         if(vNextRoom == null){
             System.out.println("There's no door");
         } else {
@@ -161,9 +144,9 @@ public class Game
         System.out.println("You are lost. You are alone.\r\n" + //
                         "You wander around Japan.\r\n" + //
                         "\r\n" + //
-                        "Your command words are:\r\n" //
+                        "Your command words are:\r\n" +  this.aParser.getCommandString() //
                         );
-        this.aParser.showCommands();
+       
     }
 
     /**
@@ -192,24 +175,21 @@ public class Game
         String vCommandWord = pCmd.getCommandWord();
         if ("help".equals(vCommandWord)) {
             printHelp();
-            return false;
         } else if ("go".equals(vCommandWord)) {
             goRooms(pCmd);
-            return false;
         } else if ("quit".equals(vCommandWord)) {
             return quit(pCmd);
 
         } else if("look".equals(vCommandWord)){
             this.look();
-            return false;
         
         } else if ("eat".equals(vCommandWord)){
             this.eat();
-            return false;
         } else {
             System.out.println("Erreur du programmeur : commande non reconnue !");
             return true;
         }
+        return false;
     }
 
     /**
@@ -235,5 +215,9 @@ public class Game
         play();
         
     }
+    /*public static void main(final String[] args){
+        Game vGame = new Game();
+        vGame.play();
+    }*/
     
 } // Game

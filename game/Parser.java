@@ -68,7 +68,10 @@ public class Parser
 
     } // getCommand()
 
-    public void showCommands(){
-        this.aValidCommands.showAll();
-    }
+    /**
+     * Returns a String with valid command words.
+     */
+    public String getCommandString(){
+        return this.aValidCommands.getCommandList();
+    } // was showCommands()
 } // Parser
