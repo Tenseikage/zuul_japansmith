@@ -129,7 +129,7 @@ public class Game
      * Print out the opening message for the player.
      */
     public void welcome(){
-        System.out.println("Welcome to the World of Zuul! \nWorld of Zuul is a new, incredibly boring adventure game." +
+        System.out.println("Welcome to the World of Zuul : The return of Yamata no Orochi! \nWorld of Zuul is a new, incredibly boring adventure game." +
         "\nType 'help' if you need help");
         System.out.println();
         this.printLocationInfo();
@@ -144,7 +144,7 @@ public class Game
         System.out.println("You are lost. You are alone.\r\n" + //
                         "You wander around Japan.\r\n" + //
                         "\r\n" + //
-                        "Your command words are:\r\n" +  this.aParser.getCommandString() //
+                        "Your command words are:\r\n" +  this.aParser.showCommands() //
                         );
        
     }

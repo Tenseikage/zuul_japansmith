@@ -30,8 +30,7 @@ public class CommandWords
      * @return true if a given string is a valid command,
      * false if it isn't.
      */
-    public boolean isCommand( final String pString )
-    {
+    public boolean isCommand( final String pString ){
         for ( int vI=0; vI<this.aValidCommands.length; vI++ ) {
             if ( this.aValidCommands[vI].equals( pString ) )
                 return true;
