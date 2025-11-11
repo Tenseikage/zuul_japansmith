@@ -9,19 +9,21 @@ public class Room
 {
     private String aDescription;
     private HashMap<String, Room> aExits; // les sorties de cette piece
+    private String aImageName;
 
-    public Room(final String pDescription){
+    public Room(final String pDescription, final String pImageName){
         this.aDescription = pDescription;  
         this.aExits = new HashMap<String, Room>();
+        this.aImageName = pImageName;
     }
     
     /**
      * Gives the description of the room and possible exits.
      * @return The description of the room and exits.
      */
-    /*public String getDescription(){
+    public String getDescription(){
         return this.aDescription;
-    }*/
+    }
 
     public String getLongDescription(){
         return "You're " + this.aDescription + getExitString();
@@ -56,4 +58,12 @@ public class Room
     public void setExit(String pDirection, Room pNeighbor){
         this.aExits.put(pDirection, pNeighbor);
     }
-} // Room
+
+    /**
+     * Return a string describing the room's image name.
+     * @return The image name of the room.
+     */
+    public String getImageName(){
+       return this.aImageName;
+    }
+}
