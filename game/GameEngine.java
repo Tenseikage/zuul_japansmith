@@ -38,8 +38,9 @@ public class GameEngine
     private void printWelcome()
     {
         this.aGui.print( "\n" );
-        this.aGui.println( "Welcome to the World of Zuul!" );
-        this.aGui.println( "World of Zuul is a new, incredibly boring adventure game." );
+        this.aGui.println( "Welcome to game of The return of Yamata no Orochi !" );
+        this.aGui.println( "The monster came back to life and Tetsuma must create a katana to save Japan !." );
+        this.aGui.println("From now, you have to help him find materials to let him create the weapon !");
         this.aGui.println( "Type 'help' if you need help." );
         this.aGui.print( "\n" );
         this.aGui.println( this.aCurrentRoom.getLongDescription() );
@@ -51,27 +52,27 @@ public class GameEngine
      * Create all the rooms and link their exits together.
      */
     private void createRooms(){
-        Room vShirago = new Room("in your village of birth, Shirakawa-go","./images/shirakawa.jpg");
-        Room vGujoHachi = new Room("In the Gujô Hachiman castle","./images/gujohachi.jpg");
-        Room vOsaka = new Room("in the Osaka city","./images/Osaka.jpg");
-        Room vTsushi = new Room("in the Tsushima island","./images/Tsushima.jpg");
-        Room vSeki = new Room("in the Seki blacksmiths village, it's the end of your odyssey","./images/seki.jpg");
-        Room vNara = new Room("in the Nara city known for its deers,","./images/Nara_fire.jpg");
-        Room vGinkaku = new Room("in the Ginkaku-ji temple","./images/Ginkakuji_fall_2.jpg");
-        Room vKinkaku = new Room("in the Kinkaku-ji temple","./images/Kinkaku.jpg");
-        Room vYoshino = new Room("in the Yoshino national park, the forest is big here","./images/Yoshino_park.jpg");
+        Room vShirago = new Room("in your village of birth, Shirakawa-go.","./images/shirakawa.jpg");
+        Room vGujoHachi = new Room("In the Gujô Hachiman castle.","./images/gujohachi.jpg");
+        Room vOsaka = new Room("in the Osaka city.","./images/Osaka.jpg");
+        Room vTsushi = new Room("in the Tsushima island.","./images/Tsushima.jpg");
+        Room vSeki = new Room("in the Seki blacksmiths village, it's the end of your odyssey.","./images/seki.jpg");
+        Room vNara = new Room("in the Nara city known for its deers.","./images/Nara_fire.jpg");
+        Room vGinkaku = new Room("in the Ginkaku-ji temple.","./images/Ginkakuji_fall_2.jpg");
+        Room vKinkaku = new Room("in the Kinkaku-ji temple.","./images/Kinkaku.jpg");
+        Room vYoshino = new Room("in the Yoshino national park, the forest is big here.","./images/Yoshino_park.jpg");
         Room vNagoya  = new Room("in the Nagoya city","./images/Nagoya.jpg");
-        Room vMtFuji = new Room("at the foot of the Mt Fuji","./images/MtFuji.jpg");
-        Room vTokyo = new Room("in the Tokyo tower, the biggest tower of Japan","./images/tokyo_tower.jpg");
-        Room vSapporo = new Room("in the Sapporo city, in the north of Japan","./images/sapporo_snow.jpg");
-        Room vAogashi = new Room("in the island of Aogashima, in the middle of the ocean","./images/Aogashima.jpg");
+        Room vMtFuji = new Room("at the foot of the Mt Fuji.","./images/MtFuji.jpg");
+        Room vTokyo = new Room("in the Tokyo tower, the biggest tower of Japan.","./images/tokyo_tower.jpg");
+        Room vSapporo = new Room("in the Sapporo city, in the north of Japan.","./images/sapporo_snow.jpg");
+        Room vAogashi = new Room("in the island of Aogashima, in the middle of the ocean.","./images/Aogashima.jpg");
         
         
         this.aCurrentRoom = vShirago;  // la partie commence a Shirakawa-go
         vShirago.setExit("south", vGujoHachi);
 
-        // GujoHachi : east -> MtFuji, west -> Osaka
-        vGujoHachi.setExit("east", vMtFuji);
+        // GujoHachi : up -> MtFuji, west -> Osaka
+        vGujoHachi.setExit("up", vMtFuji);
         vGujoHachi.setExit("west", vOsaka);
 
         // Osaka : north -> Ginkaku, east -> GujoHachi, south -> Nara, west -> Tsushi
@@ -100,15 +101,15 @@ public class GameEngine
         // Yoshino : east -> Nagoya
         vYoshino.setExit("east", vNagoya);
 
-        // Nagoya : north -> MtFuji, west -> Yoshino
-        vNagoya.setExit("north", vMtFuji);
+        // Nagoya : up -> MtFuji, west -> Yoshino
         vNagoya.setExit("west", vYoshino);
+        vNagoya.setExit("up", vMtFuji);
 
         // MtFuji : north -> Sapporo, east -> Tokyo, south -> Nagoya, west -> GujoHachi
-        vMtFuji.setExit("north", vSapporo);
-        vMtFuji.setExit("east", vTokyo);
-        vMtFuji.setExit("south", vNagoya);
-        vMtFuji.setExit("west", vGujoHachi);
+        vMtFuji.setExit("down-north", vSapporo);
+        vMtFuji.setExit("down-east", vTokyo);
+        vMtFuji.setExit("down-south", vNagoya);
+        vMtFuji.setExit("down-west", vGujoHachi);
 
         // Tokyo : west -> Nagoya
         vTokyo.setExit("west", vNagoya);
@@ -125,14 +126,14 @@ public class GameEngine
      * Print a sentence.
      */
     private void eat(){
-        System.out.println("You have eaten now and you are not hungry any more.");
+        this.aGui.println("You have eaten now and you are not hungry any more.");
     }
 
     /**
      * Print out the description of the current room.
      */
     private void look(){
-        System.out.println(this.aCurrentRoom.getLongDescription()); 
+        this.aGui.println(this.aCurrentRoom.getLongDescription()); 
     }
 
     /**
@@ -140,11 +141,11 @@ public class GameEngine
      * @param pCmd The command to process.
      * @return true if the command make the game working, false otherwise.
      */
-    public void processCommand(final String pCmdLine) {
+    public void interpretCommand(final String pCmdLine) {
         this.aGui.println( "> " + pCmdLine);
         Command pCmd = this.aParser.getCommand( pCmdLine );
         if (pCmd.isUnknown()) {
-            System.out.println("I don't know what you mean...");
+            this.aGui.println("I don't know what you mean...");
             return;
         }
         String vCommandWord = pCmd.getCommandWord();
@@ -154,7 +155,7 @@ public class GameEngine
             this.goRooms(pCmd);
         } else if ("quit".equals(vCommandWord)) {
             if (pCmd.hasSecondWord()) {
-                System.out.println("Quit what ?");
+                this.aGui.println("Quit what ?");
             } else {
                 this.endGame();
             }
@@ -177,7 +178,7 @@ public class GameEngine
      * Here we print some stupid, cryptic message and a list of the command words.
      */
     public void printHelp(){
-        System.out.println("You are lost. You are alone.\r\n" + //
+        this.aGui.println("You are lost. You are alone.\r\n" + //
                         "You wander around Japan.\r\n" + //
                         "\r\n" + //
                         "Your command words are:\r\n" +  this.aParser.showCommands() //
@@ -197,7 +198,7 @@ public class GameEngine
         String vDirection = pCmd.getSecondWord();
         Room vNextRoom = this.aCurrentRoom.getExit(vDirection);
         if(vNextRoom == null){
-            System.out.println("There's no door");
+            this.aGui.println("There's no door");
         } else {
             this.aCurrentRoom = vNextRoom;
             //this.printLocationInfo();

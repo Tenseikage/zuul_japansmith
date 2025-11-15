@@ -42,6 +42,7 @@ public class Command
      * @return true if the command has a second word.
      */
     public boolean hasSecondWord(){
+       
         return this.aSecondWord != null;
     }
 
@@ -49,6 +50,7 @@ public class Command
      * @return true if the command word is unknown
      */
     public boolean isUnknown(){
+        //System.out.println(this.aCommandWord);
         return this.aCommandWord == null;
     }
 } // Command

@@ -20,6 +20,11 @@ public class UserInterface implements ActionListener
     private JTextField aEntryField;
     private JTextArea  aLog;
     private JLabel     aImage;
+    private JButton   aQuitButton;
+    private JButton aGoWestButton;
+    private JButton aGoNorthButton;
+    private JButton aGoSouthButton;
+    private JButton aGoEastButton;
 
     /**
      * Construct a UserInterface. As a parameter, a Game Engine
@@ -96,7 +101,11 @@ public class UserInterface implements ActionListener
     {
         this.aMyFrame = new JFrame( "No title !?" ); // change the title !
         this.aEntryField = new JTextField( 34 );
-
+        this.aQuitButton = new JButton("Quit");
+        this.aGoNorthButton = new JButton("go north");
+        this.aGoSouthButton = new JButton("go south");
+        this.aGoEastButton = new JButton("go east");
+        this.aGoWestButton = new JButton("go west");
         this.aLog = new JTextArea();
         this.aLog.setEditable( false );
         JScrollPane vListScroller = new JScrollPane( this.aLog );
@@ -110,10 +119,29 @@ public class UserInterface implements ActionListener
         vPanel.add( this.aImage, BorderLayout.NORTH );
         vPanel.add( vListScroller, BorderLayout.CENTER );
         vPanel.add( this.aEntryField, BorderLayout.SOUTH );
+
+        JPanel vSouthPanel = new JPanel(new BorderLayout());
+        vSouthPanel.add(this.aEntryField,BorderLayout.CENTER);
+        vSouthPanel.add(this.aGoNorthButton,BorderLayout.NORTH);
+        vSouthPanel.add(this.aGoEastButton,BorderLayout.EAST);
+        vSouthPanel.add(this.aGoWestButton,BorderLayout.WEST);
+        vSouthPanel.add(this.aGoSouthButton,BorderLayout.SOUTH);
+        //vSouthPanel.add(this.aQuitButton,BorderLayout.SOUTH);
+        JPanel vSouthButtonsPanel = new JPanel(new GridLayout(2, 1, 0, 5));
+        vSouthButtonsPanel.add(this.aGoSouthButton);
+        vSouthButtonsPanel.add(this.aQuitButton);
+        vSouthPanel.add(vSouthButtonsPanel,BorderLayout.SOUTH);
+        vPanel.add(vSouthPanel,BorderLayout.SOUTH);
         this.aMyFrame.getContentPane().add( vPanel, BorderLayout.CENTER );
+        //this.aMyFrame.getContentPane().add( this.aQuitButton, BorderLayout.SOUTH );
 
         // add some event listeners to some components
         this.aEntryField.addActionListener( this );
+        this.aQuitButton.addActionListener(this);
+        this.aGoNorthButton.addActionListener(this);
+        this.aGoSouthButton.addActionListener(this);
+        this.aGoEastButton.addActionListener(this);
+        this.aGoWestButton.addActionListener(this);
 
         // to end program when window is closed
         this.aMyFrame.addWindowListener(
@@ -136,18 +164,38 @@ public class UserInterface implements ActionListener
     {
         // no need to check the type of action at the moment
         // because there is only one possible action (text input) :
-        this.processCommand(); // never suppress this line
+        if(pE.getSource() == this.aQuitButton){
+            this.processCommand("quit");
+            System.exit(0);
+        } else if(pE.getSource() == this.aGoNorthButton){
+            this.processCommand("go north");
+        } else if(pE.getSource() == this.aGoSouthButton){
+            this.processCommand("go south");
+        }  else if(pE.getSource() == this.aGoWestButton){
+            this.processCommand("go west");
+        }  else if(pE.getSource() == this.aGoEastButton){
+            this.processCommand("go east");
+        } else {
+            this.processCommand(null);
+        }
+         // never suppress this line
     } // actionPerformed(.)
 
     /**
      * A command has been entered in the entry field.  
      * Read the command and do whatever is necessary to process it.
      */
-    private void processCommand()
+    private void processCommand(final String pInput)
     {
-        String vInput = this.aEntryField.getText();
-        this.aEntryField.setText( "" );
-        this.aEngine.processCommand( vInput );
+        if(pInput == null){
+            String vInputKb = this.aEntryField.getText();
+            this.aEntryField.setText( "" );
+            this.aEngine.interpretCommand( vInputKb );
+        } else {
+            this.aEntryField.setText( "" );
+            this.aEngine.interpretCommand(pInput);
+        }
+        
     } // processCommand()
 } // UserInterface 
 

@@ -19,13 +19,13 @@ import java.util.StringTokenizer;
  */
 public class Parser 
 {
-    private CommandWords aValidCommands;  // (voir la classe CommandWords)
+    private CommandWords aCommandWords;  // (voir la classe CommandWords)
     /**
      * Constructeur par defaut qui cree les 2 objets prevus pour les attributs
      */
     public Parser() 
     {
-        this.aValidCommands = new CommandWords();
+        this.aCommandWords = new CommandWords();
         // System.in designe le clavier, comme System.out designe l'ecran
     } // Parser()
 
@@ -51,16 +51,17 @@ public class Parser
         // Now check whether this word is known. If so, create a command
         // with it. If not, create a "null" command (for unknown command).
 
-        if ( this.aValidCommands.isCommand( vWord1 ) )
+        if ( this.aCommandWords.isCommand( vWord1 ) ) {
             return new Command( vWord1, vWord2 );
-        else
+        } else {
             return new Command( null, vWord2 );
+        }
     } // getCommand(.)
 
     /**
      * Returns a String with valid command words.
      */
     public String showCommands(){
-        return this.aValidCommands.getCommandList();
+        return this.aCommandWords.getCommandList();
     } // was showCommands()
 } // Parser

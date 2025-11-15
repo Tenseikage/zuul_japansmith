@@ -42,7 +42,7 @@ public class Room
      * @return A string of all exits of the room.
      */
     public String getExitString(){
-        StringBuilder vReturnString = new StringBuilder("Exits:");
+        StringBuilder vReturnString = new StringBuilder(" Exits:");
         for (String vDirection : this.aExits.keySet() ) {
             vReturnString.append( " " + vDirection );
         }
