@@ -99,7 +99,7 @@ public class UserInterface implements ActionListener
      */
     private void createGUI()
     {
-        this.aMyFrame = new JFrame( "No title !?" ); // change the title !
+        this.aMyFrame = new JFrame( "The return of Yamata no Orochi" ); // change the title !
         this.aEntryField = new JTextField( 34 );
         this.aQuitButton = new JButton("Quit");
         this.aGoNorthButton = new JButton("go north");
@@ -165,8 +165,11 @@ public class UserInterface implements ActionListener
         // no need to check the type of action at the moment
         // because there is only one possible action (text input) :
         if(pE.getSource() == this.aQuitButton){
+            //this.aEngine.endGame();
             this.processCommand("quit");
-            System.exit(0);
+            Timer vTimer = new Timer(1000, ev -> System.exit(0));
+            vTimer.setRepeats(false);
+            vTimer.start();
         } else if(pE.getSource() == this.aGoNorthButton){
             this.processCommand("go north");
         } else if(pE.getSource() == this.aGoSouthButton){

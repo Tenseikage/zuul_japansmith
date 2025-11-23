@@ -10,6 +10,7 @@ public class Room
     private String aDescription;
     private HashMap<String, Room> aExits; // les sorties de cette piece
     private String aImageName;
+    private Item aItem;
 
     public Room(final String pDescription, final String pImageName){
         this.aDescription = pDescription;  
@@ -26,7 +27,14 @@ public class Room
     }
 
     public String getLongDescription(){
-        return "You're " + this.aDescription + getExitString();
+        String vDescription = "You are " + this.aDescription + ".\n" + this.getExitString();
+        if(this.aItem != null){
+            vDescription += "\n" + this.aItem.getItemDescription();
+        } else {
+            vDescription += "\nThere's no item in this room.";
+        }
+        return vDescription;
+        
     }
     /**
      * Gives the room's exit in the given direction.
@@ -57,6 +65,23 @@ public class Room
      */
     public void setExit(String pDirection, Room pNeighbor){
         this.aExits.put(pDirection, pNeighbor);
+    }
+
+    /**
+     * Set an item in the room
+     * @param pItemDescription
+     * @param pItemPoids
+     */
+    public void setItem(final String pItemDescription, final int pItemPoids){
+        this.aItem = new Item(pItemDescription, pItemPoids);
+    }
+
+    /**
+     * Get the item in the room
+     * @return The item in the room
+     */
+    public Item getItem(){
+        return this.aItem;
     }
 
     /**

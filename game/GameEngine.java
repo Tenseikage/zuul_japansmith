@@ -52,20 +52,20 @@ public class GameEngine
      * Create all the rooms and link their exits together.
      */
     private void createRooms(){
-        Room vShirago = new Room("in your village of birth, Shirakawa-go.","./images/shirakawa.jpg");
-        Room vGujoHachi = new Room("In the Gujô Hachiman castle.","./images/gujohachi.jpg");
-        Room vOsaka = new Room("in the Osaka city.","./images/Osaka.jpg");
-        Room vTsushi = new Room("in the Tsushima island.","./images/Tsushima.jpg");
-        Room vSeki = new Room("in the Seki blacksmiths village, it's the end of your odyssey.","./images/seki.jpg");
-        Room vNara = new Room("in the Nara city known for its deers.","./images/Nara_fire.jpg");
-        Room vGinkaku = new Room("in the Ginkaku-ji temple.","./images/Ginkakuji_fall_2.jpg");
-        Room vKinkaku = new Room("in the Kinkaku-ji temple.","./images/Kinkaku.jpg");
-        Room vYoshino = new Room("in the Yoshino national park, the forest is big here.","./images/Yoshino_park.jpg");
-        Room vNagoya  = new Room("in the Nagoya city","./images/Nagoya.jpg");
-        Room vMtFuji = new Room("at the foot of the Mt Fuji.","./images/MtFuji.jpg");
-        Room vTokyo = new Room("in the Tokyo tower, the biggest tower of Japan.","./images/tokyo_tower.jpg");
-        Room vSapporo = new Room("in the Sapporo city, in the north of Japan.","./images/sapporo_snow.jpg");
-        Room vAogashi = new Room("in the island of Aogashima, in the middle of the ocean.","./images/Aogashima.jpg");
+        Room vShirago = new Room("in your village of birth, Shirakawa-go.","./Images/shirakawa.jpg");
+        Room vGujoHachi = new Room("In the Gujô Hachiman castle.","./Images/gujohachi.jpg");
+        Room vOsaka = new Room("in the Osaka city.","./Images/Osaka.jpg");
+        Room vTsushi = new Room("in the Tsushima island.","./Images/Tsushima.jpg");
+        Room vSeki = new Room("in the Seki blacksmiths village, it's the end of your odyssey.","./Images/seki.jpg");
+        Room vNara = new Room("in the Nara city known for its deers.","./Images/Nara_fire.jpg");
+        Room vGinkaku = new Room("in the Ginkaku-ji temple.","./Images/Ginkakuji_fall_2.jpg");
+        Room vKinkaku = new Room("in the Kinkaku-ji temple.","./Images/Kinkaku.jpg");
+        Room vYoshino = new Room("in the Yoshino national park, the forest is big here.","./Images/Yoshino_park.jpg");
+        Room vNagoya  = new Room("in the Nagoya city","./Images/Nagoya.jpg");
+        Room vMtFuji = new Room("at the foot of the Mt Fuji.","./Images/MtFuji.jpg");
+        Room vTokyo = new Room("in the Tokyo tower, the biggest tower of Japan.","./Images/tokyo_tower.jpg");
+        Room vSapporo = new Room("in the Sapporo city, in the north of Japan.","./Images/sapporo_snow.jpg");
+        Room vAogashi = new Room("in the island of Aogashima, in the middle of the ocean.","./Images/Aogashima.jpg");
         
         
         this.aCurrentRoom = vShirago;  // la partie commence a Shirakawa-go
@@ -212,7 +212,7 @@ public class GameEngine
     }
 
 
-    private void endGame(){
+    public void endGame(){
         this.aGui.println( "Thank you for playing.  Good bye." );
         this.aGui.enable( false );
     }
