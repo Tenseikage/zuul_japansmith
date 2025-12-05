@@ -10,11 +10,12 @@ public class Room
     private String aDescription;
     private HashMap<String, Room> aExits; // les sorties de cette piece
     private String aImageName;
-    private Item aItem;
+    private Items aRoomListItems;
 
     public Room(final String pDescription, final String pImageName){
         this.aDescription = pDescription;  
         this.aExits = new HashMap<String, Room>();
+        this.aRoomListItems = new Items();
         this.aImageName = pImageName;
     }
     
@@ -28,12 +29,14 @@ public class Room
 
     public String getLongDescription(){
         String vDescription = "You are " + this.aDescription + ".\n" + this.getExitString();
-        if(this.aItem != null){
+        vDescription += " " + this.aRoomListItems.showItem();
+        return vDescription;
+        /*if(this.aItem != null){
             vDescription += "\n" + this.aItem.getItemDescription();
         } else {
             vDescription += "\nThere's no item in this room.";
         }
-        return vDescription;
+        return vDescription;*/
         
     }
     /**
@@ -59,6 +62,25 @@ public class Room
 
     
     /**
+     * Set an item in the room
+     * @param pItemDescription
+     * @param pItemPoids
+     */
+    public void addItem(final String pName, final Item pItem){
+        this.aRoomListItems.addItem(pName, pItem);
+    }
+
+    /**
+     * Get the item in the room
+     * @return The item in the room
+     */
+    public Item getItem(final String pName){
+        Item vItem = this.aRoomListItems.getItem(pName);
+        return vItem;
+    }
+
+
+    /**
      * Defines an exit of the room.
      * @param pDirection The direction of the exit.
      * @param pNeighbor The room in the given direction.
@@ -67,22 +89,7 @@ public class Room
         this.aExits.put(pDirection, pNeighbor);
     }
 
-    /**
-     * Set an item in the room
-     * @param pItemDescription
-     * @param pItemPoids
-     */
-    public void setItem(final String pItemDescription, final int pItemPoids){
-        this.aItem = new Item(pItemDescription, pItemPoids);
-    }
-
-    /**
-     * Get the item in the room
-     * @return The item in the room
-     */
-    public Item getItem(){
-        return this.aItem;
-    }
+    
 
     /**
      * Return a string describing the room's image name.

@@ -70,6 +70,7 @@ public class GameEngine
         
         this.aCurrentRoom = vShirago;  // la partie commence a Shirakawa-go
         vShirago.setExit("south", vGujoHachi);
+        vShirago.addItem("Mochi", new Item("A sweety mochi", 1));
 
         // GujoHachi : up -> MtFuji, west -> Osaka
         vGujoHachi.setExit("up", vMtFuji);

@@ -34,8 +34,6 @@ public class Item {
     public String getItemName(){
         return this.aItemDescription;
     }
-
-
     /**
      * Get the item description
      * @return Description of the item
