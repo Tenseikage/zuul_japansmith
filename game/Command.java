@@ -23,6 +23,7 @@ public class Command
     }
 
     /**
+     * Returns the command word of this command.
      * @return The command word (the first word) of this command. If the
      *         command was not understood, the result is null.
      */
@@ -31,6 +32,7 @@ public class Command
     }
 
     /**
+     * Returns the second word of this command.
      * @return The second word of this command. Returns null if there was no
      *         second word.
      */
@@ -39,6 +41,7 @@ public class Command
     }
 
     /**
+     * Verifies is command has a second word
      * @return true if the command has a second word.
      */
     public boolean hasSecondWord(){
@@ -47,6 +50,7 @@ public class Command
     }
 
     /**
+     * Verifies if the command word is unknown
      * @return true if the command word is unknown
      */
     public boolean isUnknown(){

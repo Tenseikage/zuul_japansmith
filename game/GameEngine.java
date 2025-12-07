@@ -30,6 +30,10 @@ public class GameEngine
         this.aPreviouRooms = new Stack<>();
     }
 
+    /**
+     * Sets the GUI
+     * @param pUserInterface User Interface 
+     */
     public void setGUI( final UserInterface pUserInterface )
     {
         this.aGui = pUserInterface;
@@ -165,8 +169,7 @@ public class GameEngine
 
     /**
      * Process the command. Return true if the command ends the game, false otherwise.
-     * @param pCmd The command to process.
-     * @return true if the command make the game working, false otherwise.
+     * @param pCmdLine The command to process.
      */
     public void interpretCommand(final String pCmdLine) {
         this.aGui.println( "> " + pCmdLine);
@@ -242,6 +245,9 @@ public class GameEngine
     }
 
 
+    /**
+     * End the game
+     */
     public void endGame(){
         this.aGui.println( "Thank you for playing.  Good bye." );
         this.aGui.enable( false );

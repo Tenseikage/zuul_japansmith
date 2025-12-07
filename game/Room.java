@@ -12,6 +12,11 @@ public class Room
     private String aImageName;
     private Items aRoomListItems;
 
+    /**
+     * Initialization of a room
+     * @param pDescription Room's description
+     * @param pImageName An image used to show the room
+     */
     public Room(final String pDescription, final String pImageName){
         this.aDescription = pDescription;  
         this.aExits = new HashMap<String, Room>();
@@ -27,16 +32,14 @@ public class Room
         return this.aDescription;
     }
 
+    /**
+     * Gives a long description of this room
+     * @return Description of the room with exits
+     */
     public String getLongDescription(){
         String vDescription = "You are " + this.aDescription + ".\n" + this.getExitString();
         vDescription += " " + this.aRoomListItems.showItem();
         return vDescription;
-        /*if(this.aItem != null){
-            vDescription += "\n" + this.aItem.getItemDescription();
-        } else {
-            vDescription += "\nThere's no item in this room.";
-        }
-        return vDescription;*/
         
     }
     /**
@@ -44,8 +47,8 @@ public class Room
      * @param pDirection The direction of the exit.
      * @return The room in the given direction.
      */
-    public Room getExit(String vDirection){
-        return this.aExits.get(vDirection);
+    public Room getExit(String pDirection){
+        return this.aExits.get(pDirection);
     }
 
     /**
@@ -62,9 +65,9 @@ public class Room
 
     
     /**
-     * Set an item in the room
-     * @param pItemDescription
-     * @param pItemPoids
+     * Add an item in the room
+     * @param pName Name of the item
+     * @param pItem Item
      */
     public void addItem(final String pName, final Item pItem){
         this.aRoomListItems.addItem(pName, pItem);
@@ -72,6 +75,7 @@ public class Room
 
     /**
      * Get the item in the room
+     * @param pName Name of the item    
      * @return The item in the room
      */
     public Item getItem(final String pName){

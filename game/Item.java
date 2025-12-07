@@ -6,16 +6,16 @@ package game;
  */
 public class Item {
     private String aItemDescription;
-    private int aItemPoids;
+    private int aItemWeight;
 
     /**
      * Constructor for objects of class Item
-     * @param pItemDescription
-     * @param pItemPoids
+     * @param pItemDescription Description of the item
+     * @param pItemPoids Weight of the item             
      */
     public Item(final String pItemDescription, final int pItemPoids){
         this.aItemDescription = pItemDescription;
-        this.aItemPoids = pItemPoids;
+        this.aItemWeight = pItemPoids;
        
     }
     
@@ -24,7 +24,7 @@ public class Item {
      * @return Weight of the item
      */
     public int getItemPoids(){
-        return this.aItemPoids;
+        return this.aItemWeight;
     }
 
     /**
@@ -39,6 +39,6 @@ public class Item {
      * @return Description of the item
      */
     public String getItemDescription(){
-        return "There is " + this.aItemDescription + "Item weight : " + this.aItemPoids;
+        return "There is " + this.aItemDescription + "Item weight : " + this.aItemWeight;
     }
 }

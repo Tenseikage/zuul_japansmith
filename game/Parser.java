@@ -29,6 +29,11 @@ public class Parser
         // System.in designe le clavier, comme System.out designe l'ecran
     } // Parser()
 
+    /**
+     *  Retrieve the command
+     * @param pInputLine Line written by the user
+     * @return The command created
+     */
     public Command getCommand( final String pInputLine ) 
     {
         String vWord1;
@@ -60,6 +65,7 @@ public class Parser
 
     /**
      * Returns a String with valid command words.
+     * @return A string with valid command words.
      */
     public String showCommands(){
         return this.aCommandWords.getCommandList();
