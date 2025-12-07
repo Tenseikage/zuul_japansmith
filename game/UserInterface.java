@@ -11,7 +11,7 @@ import java.net.URL;
  * text entry area, a text output area and an optional image.
  * 
  * @author Michael Kolling
- * @version 1.0 (Jan 2003) DB edited (2023)
+ * @version 1.0 (Jan 2003) DB edited (2023) Christophe TARATIBU modified (2025)
  */
 public class UserInterface implements ActionListener
 {

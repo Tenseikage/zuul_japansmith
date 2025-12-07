@@ -1,4 +1,5 @@
 package game;
+import java.util.Stack;
 
 /**
  *  This class is part of the "World of Zuul" application. 
@@ -9,12 +10,14 @@ package game;
  *  the parser returns.
  * 
  * @author  Michael Kolling and David J. Barnes
- * @version 1.0 (Jan 2003) DB edited (2019)
+ * @version 1.0 (Jan 2003) DB edited (2019) Christophe TARATIBU modified (2025)
  */
 public class GameEngine
 {
     private Parser        aParser;
     private Room          aCurrentRoom;
+    private Stack<Room> aPreviouRooms;
+    //private LinkedList<Room> aLastRooms;
     private UserInterface aGui;
 
     /**
@@ -24,6 +27,7 @@ public class GameEngine
     {
         this.aParser = new Parser();
         this.createRooms();
+        this.aPreviouRooms = new Stack<>();
     }
 
     public void setGUI( final UserInterface pUserInterface )
@@ -85,22 +89,27 @@ public class GameEngine
         // Ginkaku : east -> Kinkaku, south -> Osaka
         vGinkaku.setExit("east", vKinkaku);
         vGinkaku.setExit("south", vOsaka);
+        vGinkaku.addItem("Silver Shigane", new Item("A silver metal used for blade crafting", 3));
 
         // Kinkaku : south -> Ginkaku
         vKinkaku.setExit("south", vGinkaku);
+        vKinkaku.addItem("Gold Tamagane", new Item("A golden metal used for blade crafting", 3));
 
         // Tsushi : north -> Osaka, east -> Seki
         vTsushi.setExit("north", vOsaka);
         vTsushi.setExit("east", vSeki);
+        vTsushi.addItem("Volcanic stone", new Item("A stone impregnated by the sea god's energy", 2));
 
         // Seki : west -> Tsushi
         vSeki.setExit("west", vTsushi);
 
         // Nara : east -> Yoshino
         vNara.setExit("east", vYoshino);
+        vNara.addItem("Horn of the goddess", new Item("A horn given by the goddess of deers", 2));
 
         // Yoshino : east -> Nagoya
         vYoshino.setExit("east", vNagoya);
+        vYoshino.addItem("Bamboo of holy forest", new Item("A rare type of bamboo which only exists here", 2));
 
         // Nagoya : up -> MtFuji, west -> Yoshino
         vNagoya.setExit("west", vYoshino);
@@ -117,10 +126,13 @@ public class GameEngine
 
         // Sapporo : south -> Aogashi
         vSapporo.setExit("south", vAogashi);
+        vSapporo.addItem("Ice'dragon's amulet",new Item("An amulet which freezes monsters and yokais", 5));
+
 
         // Aogashi : north -> Sapporo, south -> Tokyo
         vAogashi.setExit("north", vSapporo);
         vAogashi.setExit("south", vTokyo);
+        vAogashi.addItem("Aogashima's salt", new Item("Holy salt used for purifying monsters", 1));
     }
 
     /**
@@ -135,6 +147,20 @@ public class GameEngine
      */
     private void look(){
         this.aGui.println(this.aCurrentRoom.getLongDescription()); 
+    }
+
+    /**
+     * Go back to the previous room
+     */
+    private void back(){
+        if(this.aPreviouRooms.empty()){
+            this.aGui.println("You can't go back anymore !");
+            return;
+        }
+        this.aCurrentRoom = this.aPreviouRooms.pop();
+        this.aGui.println( this.aCurrentRoom.getLongDescription() );
+        if ( this.aCurrentRoom.getImageName() != null )
+            this.aGui.showImage( this.aCurrentRoom.getImageName() );
     }
 
     /**
@@ -166,7 +192,10 @@ public class GameEngine
         
         } else if ("eat".equals(vCommandWord)){
             this.eat();
-        } else {
+        } else if ("back".equals(vCommandWord)){
+            this.back();
+        } 
+        else {
             System.out.println("Erreur du programmeur : commande non reconnue !");
             return;
         }
@@ -201,8 +230,8 @@ public class GameEngine
         if(vNextRoom == null){
             this.aGui.println("There's no door");
         } else {
+            this.aPreviouRooms.push(this.aCurrentRoom);
             this.aCurrentRoom = vNextRoom;
-            //this.printLocationInfo();
             this.aGui.println( this.aCurrentRoom.getLongDescription() );
             if ( this.aCurrentRoom.getImageName() != null )
                 this.aGui.showImage( this.aCurrentRoom.getImageName() );

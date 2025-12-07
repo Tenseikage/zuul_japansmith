@@ -2,6 +2,11 @@ package game;
 
 import java.util.HashMap;
 
+
+/**
+ *  Items class which manages a collection of items.
+ *  @author Christophe TARATIBU
+ */
 public class Items {
     private HashMap<String,Item> aListItems;
 
@@ -23,7 +28,7 @@ public class Items {
 
     public String showItem(){
         if(this.aListItems.isEmpty()){
-            System.out.println("yoss!");
+            //System.out.println("yoss!");
             return "\nThere are no items in this room";
         }
         return "\nItems : " + String.join(", ", this.aListItems.keySet());
