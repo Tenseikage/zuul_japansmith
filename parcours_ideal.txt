@@ -1,0 +1,21 @@
+# parcours_ideal.txt — suite minimale pour progresser le plus loin
+# Ajuste selon la carte réelle si besoin
+look
+# départ
+go north
+look
+# avancer
+go east
+look
+# si nécessaire, manger avant un combat/épreuve
+eat
+# continuer
+go east
+look
+# reculer si bloqué
+back
+# reprendre une autre voie
+go south
+look
+# terminer
+quit

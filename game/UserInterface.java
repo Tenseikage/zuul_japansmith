@@ -25,6 +25,9 @@ public class UserInterface implements ActionListener
     private JButton aGoNorthButton;
     private JButton aGoSouthButton;
     private JButton aGoEastButton;
+    private JButton aLookButton;
+    private JButton aEatButton;
+    private JButton aBackButton;
 
     /**
      * Construct a UserInterface. As a parameter, a Game Engine
@@ -109,6 +112,9 @@ public class UserInterface implements ActionListener
         this.aGoSouthButton = new JButton("go south");
         this.aGoEastButton = new JButton("go east");
         this.aGoWestButton = new JButton("go west");
+        this.aLookButton = new JButton("look");
+        this.aEatButton = new JButton("eat");
+        this.aBackButton = new JButton("back");
         this.aLog = new JTextArea();
         this.aLog.setEditable( false );
         JScrollPane vListScroller = new JScrollPane( this.aLog );
@@ -118,23 +124,38 @@ public class UserInterface implements ActionListener
         this.aImage = new JLabel();
 
         JPanel vPanel = new JPanel();
-        vPanel.setLayout( new BorderLayout() ); // ==> only five places
+        vPanel.setLayout( new BorderLayout() );
         vPanel.add( this.aImage, BorderLayout.NORTH );
+        // Journal au centre
         vPanel.add( vListScroller, BorderLayout.CENTER );
-        vPanel.add( this.aEntryField, BorderLayout.SOUTH );
 
-        JPanel vSouthPanel = new JPanel(new BorderLayout());
-        vSouthPanel.add(this.aEntryField,BorderLayout.CENTER);
-        vSouthPanel.add(this.aGoNorthButton,BorderLayout.NORTH);
-        vSouthPanel.add(this.aGoEastButton,BorderLayout.EAST);
-        vSouthPanel.add(this.aGoWestButton,BorderLayout.WEST);
-        vSouthPanel.add(this.aGoSouthButton,BorderLayout.SOUTH);
-        //vSouthPanel.add(this.aQuitButton,BorderLayout.SOUTH);
-        JPanel vSouthButtonsPanel = new JPanel(new GridLayout(2, 1, 0, 5));
-        vSouthButtonsPanel.add(this.aGoSouthButton);
-        vSouthButtonsPanel.add(this.aQuitButton);
-        vSouthPanel.add(vSouthButtonsPanel,BorderLayout.SOUTH);
-        vPanel.add(vSouthPanel,BorderLayout.SOUTH);
+        // Bas de fenêtre : croix directionnelle + commandes au milieu
+        JPanel vSouthPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5,5,5,5);
+        // nord (en haut)
+        gbc.gridx = 1; gbc.gridy = 0; gbc.fill = GridBagConstraints.HORIZONTAL;
+        vSouthPanel.add(this.aGoNorthButton, gbc);
+        // ouest (à gauche)
+        gbc.gridx = 0; gbc.gridy = 1; gbc.fill = GridBagConstraints.HORIZONTAL;
+        vSouthPanel.add(this.aGoWestButton, gbc);
+        // est (à droite)
+        gbc.gridx = 2; gbc.gridy = 1; gbc.fill = GridBagConstraints.HORIZONTAL;
+        vSouthPanel.add(this.aGoEastButton, gbc);
+        // sud (en bas)
+        gbc.gridx = 1; gbc.gridy = 2; gbc.fill = GridBagConstraints.HORIZONTAL;
+        vSouthPanel.add(this.aGoSouthButton, gbc);
+        // milieu : panneau avec look/eat/back
+        JPanel vMiddleCommands = new JPanel(new GridLayout(1, 3, 5, 5));
+        vMiddleCommands.add(this.aLookButton);
+        vMiddleCommands.add(this.aEatButton);
+        vMiddleCommands.add(this.aBackButton);
+        gbc.gridx = 1; gbc.gridy = 1; gbc.fill = GridBagConstraints.NONE;
+        vSouthPanel.add(vMiddleCommands, gbc);
+        // bouton Quit à droite du bas
+        gbc.gridx = 3; gbc.gridy = 2; gbc.fill = GridBagConstraints.HORIZONTAL;
+        vSouthPanel.add(this.aQuitButton, gbc);
+        vPanel.add(vSouthPanel, BorderLayout.SOUTH);
         this.aMyFrame.getContentPane().add( vPanel, BorderLayout.CENTER );
         //this.aMyFrame.getContentPane().add( this.aQuitButton, BorderLayout.SOUTH );
 
@@ -145,6 +166,9 @@ public class UserInterface implements ActionListener
         this.aGoSouthButton.addActionListener(this);
         this.aGoEastButton.addActionListener(this);
         this.aGoWestButton.addActionListener(this);
+        this.aLookButton.addActionListener(this);
+        this.aEatButton.addActionListener(this);
+        this.aBackButton.addActionListener(this);
 
         // to end program when window is closed
         this.aMyFrame.addWindowListener(
@@ -181,6 +205,12 @@ public class UserInterface implements ActionListener
             this.processCommand("go west");
         }  else if(pE.getSource() == this.aGoEastButton){
             this.processCommand("go east");
+        } else if(pE.getSource() == this.aLookButton){
+            this.processCommand("look");
+        } else if(pE.getSource() == this.aEatButton){
+            this.processCommand("eat");
+        } else if(pE.getSource() == this.aBackButton){
+            this.processCommand("back");
         } else {
             this.processCommand(null);
         }
@@ -192,7 +222,7 @@ public class UserInterface implements ActionListener
      * Read the command and do whatever is necessary to process it.
      * @param pInput The input command string.
      */
-    private void processCommand(final String pInput)
+    public void processCommand(final String pInput)
     {
         if(pInput == null){
             String vInputKb = this.aEntryField.getText();

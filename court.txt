@@ -1,0 +1,7 @@
+# court.txt — fichier de test court
+# Au moins 3 commandes différentes
+look
+go north
+eat
+back
+quit

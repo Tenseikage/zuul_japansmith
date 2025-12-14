@@ -1,4 +1,6 @@
 package game;
+import java.io.InputStream;
+import java.util.Scanner;
 import java.util.Stack;
 
 /**
@@ -15,10 +17,12 @@ import java.util.Stack;
 public class GameEngine
 {
     private Parser        aParser;
-    private Room          aCurrentRoom;
-    private Stack<Room> aPreviouRooms;
+    //private Room          aCurrentRoom;
+    //private Stack<Room> aPreviouRooms;
     //private LinkedList<Room> aLastRooms;
     private UserInterface aGui;
+    private boolean aTestMode;
+    Player aPlayer;
 
     /**
      * Constructor for objects of class GameEngine
@@ -27,7 +31,9 @@ public class GameEngine
     {
         this.aParser = new Parser();
         this.createRooms();
-        this.aPreviouRooms = new Stack<>();
+        //this.aPreviouRooms = new Stack<>();
+        this.aTestMode = false;
+       
     }
 
     /**
@@ -51,9 +57,9 @@ public class GameEngine
         this.aGui.println("From now, you have to help him find materials to let him create the weapon !");
         this.aGui.println( "Type 'help' if you need help." );
         this.aGui.print( "\n" );
-        this.aGui.println( this.aCurrentRoom.getLongDescription() );
-        if ( this.aCurrentRoom.getImageName() != null )
-            this.aGui.showImage( this.aCurrentRoom.getImageName() );
+        this.aGui.println( this.aPlayer.getCurrentRoom().getLongDescription() );
+        if ( this.aPlayer.getCurrentRoom().getImageName() != null )
+            this.aGui.showImage( this.aPlayer.getCurrentRoom().getImageName() );
     }
 
    /**
@@ -76,7 +82,7 @@ public class GameEngine
         Room vAogashi = new Room("in the island of Aogashima, in the middle of the ocean.","./Images/Aogashima.jpg");
         
         
-        this.aCurrentRoom = vShirago;  // la partie commence a Shirakawa-go
+        
         vShirago.setExit("south", vGujoHachi);
         vShirago.addItem("Mochi", new Item("A sweety mochi", 1));
 
@@ -137,6 +143,9 @@ public class GameEngine
         vAogashi.setExit("north", vSapporo);
         vAogashi.setExit("south", vTokyo);
         vAogashi.addItem("Aogashima's salt", new Item("Holy salt used for purifying monsters", 1));
+         this.aPlayer = new Player("Tetsuma");
+        this.aPlayer.setCurrentRoom(vShirago);
+
     }
 
     /**
@@ -150,22 +159,34 @@ public class GameEngine
      * Print out the description of the current room.
      */
     private void look(){
-        this.aGui.println(this.aCurrentRoom.getLongDescription()); 
+        this.aGui.println( this.aPlayer.getCurrentRoom().getLongDescription() );
+        if ( this.aPlayer.getCurrentRoom().getImageName() != null )
+            this.aGui.showImage( this.aPlayer.getCurrentRoom().getImageName() );
     }
 
     /**
      * Go back to the previous room
      */
     private void back(){
-        if(this.aPreviouRooms.empty()){
-            this.aGui.println("You can't go back anymore !");
-            return;
+        Room vPreviousRoom = this.aPlayer.getPreviousRoom();
+        if(vPreviousRoom == null){
+            this.aGui.println("You can't go back any further !");
         }
-        this.aCurrentRoom = this.aPreviouRooms.pop();
-        this.aGui.println( this.aCurrentRoom.getLongDescription() );
-        if ( this.aCurrentRoom.getImageName() != null )
-            this.aGui.showImage( this.aCurrentRoom.getImageName() );
+        else{
+            this.aPlayer.setCurrentRoom(vPreviousRoom);
+            this.aGui.println( this.aPlayer.getCurrentRoom().getLongDescription() );
+            if ( this.aPlayer.getCurrentRoom().getImageName() != null )
+                this.aGui.showImage( this.aPlayer.getCurrentRoom().getImageName() );
+        }
     }
+
+    public void take(){
+
+    }
+    public void drop(){
+
+    }
+
 
     /**
      * Process the command. Return true if the command ends the game, false otherwise.
@@ -197,12 +218,42 @@ public class GameEngine
             this.eat();
         } else if ("back".equals(vCommandWord)){
             this.back();
-        } 
+        } else if("test".equals(vCommandWord)){
+            this.testFile(pCmd);
+        }
         else {
             System.out.println("Erreur du programmeur : commande non reconnue !");
             return;
         }
     }
+
+    
+    /**
+     * Test text file reading
+     */
+    private void testFile (final Command pCommand){
+        if(pCommand.hasSecondWord() == false){
+            this.aGui.println("Error : you must specify a file name !");
+            return;
+        }
+      
+        String vFileName = pCommand.getSecondWord();
+        vFileName+=".txt";
+        //lire le fichier
+        InputStream vInputStream = this.getClass().getClassLoader().getResourceAsStream(vFileName);
+        Scanner vScanner = new Scanner(vInputStream);      
+        if(vInputStream != null){
+            this.aTestMode = true;
+            while(vScanner.hasNextLine()){
+                String vLigne = vScanner.nextLine();
+                this.aGui.processCommand(vLigne);
+            }
+        }
+        this.aTestMode = false;
+        vScanner.close();
+    }
+
+   
 
     // implementations of user commands:
 
@@ -229,15 +280,15 @@ public class GameEngine
             return;
         };
         String vDirection = pCmd.getSecondWord();
-        Room vNextRoom = this.aCurrentRoom.getExit(vDirection);
+        Room vNextRoom = this.aPlayer.getCurrentRoom().getExit(vDirection);
         if(vNextRoom == null){
             this.aGui.println("There's no door");
         } else {
-            this.aPreviouRooms.push(this.aCurrentRoom);
-            this.aCurrentRoom = vNextRoom;
-            this.aGui.println( this.aCurrentRoom.getLongDescription() );
-            if ( this.aCurrentRoom.getImageName() != null )
-                this.aGui.showImage( this.aCurrentRoom.getImageName() );
+            this.aPlayer.addPreviousRoom(this.aPlayer.getCurrentRoom());
+            this.aPlayer.setCurrentRoom(vNextRoom);
+            this.aGui.println( this.aPlayer.getCurrentRoom().getLongDescription() );
+            if (this.aPlayer.getCurrentRoom().getImageName() != null )
+                this.aGui.showImage( this.aPlayer.getCurrentRoom().getImageName() );
             else{
                 System.out.println("Image non trouvée");
             }
