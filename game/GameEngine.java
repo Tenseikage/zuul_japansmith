@@ -180,11 +180,45 @@ public class GameEngine
         }
     }
 
-    public void take(){
-
+    /**
+     * Take an item from the room
+     * @param pCmd The command to process
+     */
+    public void take(final Command pCmd){
+        if(!pCmd.hasSecondWord()){
+            this.aGui.println("Take what ?");
+            return;
+        }
+        String vItemName = pCmd.getSecondWord();
+        Item vItem = this.aPlayer.getCurrentRoom().getItem(vItemName);
+        if(vItem == null){
+            this.aGui.println("This item is not here !");
+        } else{
+            this.aPlayer.addItem(vItemName, vItem);
+            this.aPlayer.getCurrentRoom().removeItem(vItemName);
+            this.aGui.println("You have taken the " + vItemName);
+        }
+        
     }
-    public void drop(){
 
+    /**
+     * Drop an item in the room
+     * @param pCmd The command to process
+     */
+    public void drop(final Command pCmd){
+        if(!pCmd.hasSecondWord()){
+            this.aGui.println("Drop what ?");
+            return;
+        }
+        String vItemName = pCmd.getSecondWord();
+        Item vItem = this.aPlayer.getItem(vItemName);
+        if(vItem == null){
+            this.aGui.println("You don't have this item !");
+        } else{
+            this.aPlayer.removeItem(vItemName);
+            this.aPlayer.getCurrentRoom().addItem(vItemName, vItem);
+            this.aGui.println("You have dropped the " + vItemName);
+        }
     }
 
 
@@ -213,15 +247,17 @@ public class GameEngine
 
         } else if("look".equals(vCommandWord)){
             this.look();
-        
         } else if ("eat".equals(vCommandWord)){
             this.eat();
         } else if ("back".equals(vCommandWord)){
             this.back();
         } else if("test".equals(vCommandWord)){
             this.testFile(pCmd);
-        }
-        else {
+        } else if("take".equals(vCommandWord)){
+            this.take(pCmd);
+        } else if("drop".equals(vCommandWord)){
+            this.drop(pCmd);
+        } else {
             System.out.println("Erreur du programmeur : commande non reconnue !");
             return;
         }
@@ -229,7 +265,8 @@ public class GameEngine
 
     
     /**
-     * Test text file reading
+     * Launch a test file
+     * @param pCommand The command to process
      */
     private void testFile (final Command pCommand){
         if(pCommand.hasSecondWord() == false){
@@ -239,7 +276,6 @@ public class GameEngine
       
         String vFileName = pCommand.getSecondWord();
         vFileName+=".txt";
-        //lire le fichier
         InputStream vInputStream = this.getClass().getClassLoader().getResourceAsStream(vFileName);
         Scanner vScanner = new Scanner(vInputStream);      
         if(vInputStream != null){
@@ -302,6 +338,22 @@ public class GameEngine
     public void endGame(){
         this.aGui.println( "Thank you for playing.  Good bye." );
         this.aGui.enable( false );
+    }
+
+    /**
+     * Get item names present in the current room (for UI selection)
+     * @return array of item names; empty array if none
+     */
+    public String[] getCurrentRoomItemNames(){
+        return this.aPlayer.getCurrentRoom().getItemNames();
+    }
+
+    /**
+     * Get item names present in player's inventory (for UI selection)
+     * @return array of item names; empty array if none
+     */
+    public String[] getPlayerItemNames(){
+        return this.aPlayer.getInventoryItemNames();
     }
 
 }

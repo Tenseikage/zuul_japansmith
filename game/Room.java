@@ -93,7 +93,13 @@ public class Room
         this.aExits.put(pDirection, pNeighbor);
     }
 
-    
+    /**
+     * Remove an item from the room
+     * @param pName Name of the item
+     */
+    public void removeItem(final String pName){
+        this.aRoomListItems.removeItem(pName);
+    }
 
     /**
      * Return a string describing the room's image name.
@@ -101,5 +107,21 @@ public class Room
      */
     public String getImageName(){
        return this.aImageName;
+    }
+
+    /**
+     * Get all item names present in this room
+     * @return array of item names
+     */
+    public String[] getItemNames(){
+        return this.aRoomListItems.getItemNames();
+    }
+
+    /**
+     * Whether the room currently has no items
+     * @return true if no items
+     */
+    public boolean hasNoItems(){
+        return this.aRoomListItems.isEmpty();
     }
 }

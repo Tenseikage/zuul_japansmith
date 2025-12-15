@@ -55,4 +55,20 @@ public class Items {
         return "\nItems : " + String.join(", ", this.aListItems.keySet());
 
     }
+
+    /**
+     * Return the names of items as an array (for UI lists/dialogs)
+     * @return array of item names
+     */
+    public String[] getItemNames(){
+        return this.aListItems.keySet().toArray(new String[0]);
+    }
+
+    /**
+     * Check whether there are any items stored
+     * @return true if empty
+     */
+    public boolean isEmpty(){
+        return this.aListItems.isEmpty();
+    }
 }

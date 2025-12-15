@@ -28,6 +28,8 @@ public class UserInterface implements ActionListener
     private JButton aLookButton;
     private JButton aEatButton;
     private JButton aBackButton;
+    private JButton aTakeButton;
+    private JButton aDropButton;
 
     /**
      * Construct a UserInterface. As a parameter, a Game Engine
@@ -115,6 +117,8 @@ public class UserInterface implements ActionListener
         this.aLookButton = new JButton("look");
         this.aEatButton = new JButton("eat");
         this.aBackButton = new JButton("back");
+        this.aTakeButton = new JButton("take");
+        this.aDropButton = new JButton("drop");
         this.aLog = new JTextArea();
         this.aLog.setEditable( false );
         JScrollPane vListScroller = new JScrollPane( this.aLog );
@@ -131,30 +135,32 @@ public class UserInterface implements ActionListener
 
         // Bas de fenêtre : croix directionnelle + commandes au milieu
         JPanel vSouthPanel = new JPanel(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5,5,5,5);
+        GridBagConstraints vGbc = new GridBagConstraints();
+        vGbc.insets = new Insets(5,5,5,5);
         // nord (en haut)
-        gbc.gridx = 1; gbc.gridy = 0; gbc.fill = GridBagConstraints.HORIZONTAL;
-        vSouthPanel.add(this.aGoNorthButton, gbc);
+        vGbc.gridx = 1; vGbc.gridy = 0; vGbc.fill = GridBagConstraints.HORIZONTAL;
+        vSouthPanel.add(this.aGoNorthButton, vGbc);
         // ouest (à gauche)
-        gbc.gridx = 0; gbc.gridy = 1; gbc.fill = GridBagConstraints.HORIZONTAL;
-        vSouthPanel.add(this.aGoWestButton, gbc);
+        vGbc.gridx = 0; vGbc.gridy = 1; vGbc.fill = GridBagConstraints.HORIZONTAL;
+        vSouthPanel.add(this.aGoWestButton, vGbc);
         // est (à droite)
-        gbc.gridx = 2; gbc.gridy = 1; gbc.fill = GridBagConstraints.HORIZONTAL;
-        vSouthPanel.add(this.aGoEastButton, gbc);
+        vGbc.gridx = 2; vGbc.gridy = 1; vGbc.fill = GridBagConstraints.HORIZONTAL;
+        vSouthPanel.add(this.aGoEastButton, vGbc);
         // sud (en bas)
-        gbc.gridx = 1; gbc.gridy = 2; gbc.fill = GridBagConstraints.HORIZONTAL;
-        vSouthPanel.add(this.aGoSouthButton, gbc);
+        vGbc.gridx = 1; vGbc.gridy = 2; vGbc.fill = GridBagConstraints.HORIZONTAL;
+        vSouthPanel.add(this.aGoSouthButton, vGbc);
         // milieu : panneau avec look/eat/back
-        JPanel vMiddleCommands = new JPanel(new GridLayout(1, 3, 5, 5));
+        JPanel vMiddleCommands = new JPanel(new GridLayout(1, 5, 5, 5));
         vMiddleCommands.add(this.aLookButton);
         vMiddleCommands.add(this.aEatButton);
         vMiddleCommands.add(this.aBackButton);
-        gbc.gridx = 1; gbc.gridy = 1; gbc.fill = GridBagConstraints.NONE;
-        vSouthPanel.add(vMiddleCommands, gbc);
+        vMiddleCommands.add(this.aTakeButton);
+        vMiddleCommands.add(this.aDropButton);
+        vGbc.gridx = 1; vGbc.gridy = 1; vGbc.fill = GridBagConstraints.NONE;
+        vSouthPanel.add(vMiddleCommands, vGbc);
         // bouton Quit à droite du bas
-        gbc.gridx = 3; gbc.gridy = 2; gbc.fill = GridBagConstraints.HORIZONTAL;
-        vSouthPanel.add(this.aQuitButton, gbc);
+        vGbc.gridx = 3; vGbc.gridy = 2; vGbc.fill = GridBagConstraints.HORIZONTAL;
+        vSouthPanel.add(this.aQuitButton, vGbc);
         vPanel.add(vSouthPanel, BorderLayout.SOUTH);
         this.aMyFrame.getContentPane().add( vPanel, BorderLayout.CENTER );
         //this.aMyFrame.getContentPane().add( this.aQuitButton, BorderLayout.SOUTH );
@@ -169,6 +175,8 @@ public class UserInterface implements ActionListener
         this.aLookButton.addActionListener(this);
         this.aEatButton.addActionListener(this);
         this.aBackButton.addActionListener(this);
+        this.aTakeButton.addActionListener(this);
+        this.aDropButton.addActionListener(this);
 
         // to end program when window is closed
         this.aMyFrame.addWindowListener(
@@ -211,6 +219,44 @@ public class UserInterface implements ActionListener
             this.processCommand("eat");
         } else if(pE.getSource() == this.aBackButton){
             this.processCommand("back");
+        } else if(pE.getSource() == this.aTakeButton){
+            // Open dialog to choose an item present in the room
+            String[] vOptions = this.aEngine.getCurrentRoomItemNames();
+            if (vOptions == null || vOptions.length == 0){
+                this.println("There are no items to take here.");
+            } else {
+                String vChoice = (String) JOptionPane.showInputDialog(
+                    this.aMyFrame,
+                    "Choose an item to take:",
+                    "Take",
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    vOptions,
+                    vOptions[0]
+                );
+                if (vChoice != null && !vChoice.isEmpty()){
+                    this.processCommand("take " + vChoice);
+                }
+            }
+        } else if(pE.getSource() == this.aDropButton){
+            // Open dialog to choose an item from inventory to drop
+            String[] vOptions = this.aEngine.getPlayerItemNames();
+            if (vOptions == null || vOptions.length == 0){
+                this.println("You have no items to drop.");
+            } else {
+                String vChoice = (String) JOptionPane.showInputDialog(
+                    this.aMyFrame,
+                    "Choose an item to drop:",
+                    "Drop",
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    vOptions,
+                    vOptions[0]
+                );
+                if (vChoice != null && !vChoice.isEmpty()){
+                    this.processCommand("drop " +vChoice);
+                }
+            }
         } else {
             this.processCommand(null);
         }
