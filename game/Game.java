@@ -18,11 +18,11 @@ public class Game
         this.aGui = new UserInterface( this.aEngine );
         this.aEngine.setGUI( this.aGui );
     }
-    public static void main( String[] pArgs )
+    /*public static void main( String[] pArgs )
     {
         new Game();
         
-    }
+    }*/
     
     
 } // Game

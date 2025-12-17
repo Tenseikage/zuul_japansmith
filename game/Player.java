@@ -17,7 +17,7 @@ public class Player {
     private int aNumberOfMoves;
     /**
     * Initialization of a player
-    * @param pName
+    * @param pName The name of the player
     */
     public Player(final String pName){
         this.aName = pName;
@@ -34,17 +34,16 @@ public class Player {
     public String getName(){
         return this.aName;
     }
-
     /**
-     * Gives the number of moves of the player
-     * @return The number of moves of the player
+     * Adds a previous room to the stack of previous rooms
+     * @param pRoom The previous room to add
      */
     public void addPreviousRoom(final Room pRoom){
         this.aPreviouRooms.push(pRoom);
     }
     /**
-     * Gives the current room of the player
-     * @return The current room of the player
+     * Sets the current room of the player
+     * @param pRoom The current room of the player
      */
     public void setCurrentRoom(final Room pRoom){
         this.aCurrentRoom = pRoom;
