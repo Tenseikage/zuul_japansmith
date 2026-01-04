@@ -7,13 +7,13 @@ import java.util.HashMap;
  *  Items class which manages a collection of items.
  *  @author Christophe TARATIBU
  */
-public class Items {
+public class ItemList {
     private HashMap<String,Item> aListItems;
 
     /**
      *  Initialization of the item list
      */
-    public Items(){
+    public ItemList(){
         this.aListItems = new HashMap<>();
     }
 
@@ -49,7 +49,6 @@ public class Items {
      */
     public String showItem(){
         if(this.aListItems.isEmpty()){
-            //System.out.println("yoss!");
             return "\nThere are no items in this room";
         }
         return "\nItems : " + String.join(", ", this.aListItems.keySet());
@@ -63,6 +62,7 @@ public class Items {
     public String[] getItemNames(){
         return this.aListItems.keySet().toArray(new String[0]);
     }
+
 
     /**
      * Check whether there are any items stored

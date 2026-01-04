@@ -10,7 +10,7 @@ public class Room
     private String aDescription;
     private HashMap<String, Room> aExits; // les sorties de cette piece
     private String aImageName;
-    private Items aRoomListItems;
+    private ItemList aRoomListItems;
 
     /**
      * Initialization of a room
@@ -20,7 +20,7 @@ public class Room
     public Room(final String pDescription, final String pImageName){
         this.aDescription = pDescription;  
         this.aExits = new HashMap<String, Room>();
-        this.aRoomListItems = new Items();
+        this.aRoomListItems = new ItemList();
         this.aImageName = pImageName;
     }
     

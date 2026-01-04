@@ -30,6 +30,7 @@ public class UserInterface implements ActionListener
     private JButton aBackButton;
     private JButton aTakeButton;
     private JButton aDropButton;
+    private JButton aItemsButton;
 
     /**
      * Construct a UserInterface. As a parameter, a Game Engine
@@ -119,6 +120,7 @@ public class UserInterface implements ActionListener
         this.aBackButton = new JButton("back");
         this.aTakeButton = new JButton("take");
         this.aDropButton = new JButton("drop");
+        this.aItemsButton = new JButton("items");
         this.aLog = new JTextArea();
         this.aLog.setEditable( false );
         JScrollPane vListScroller = new JScrollPane( this.aLog );
@@ -150,12 +152,13 @@ public class UserInterface implements ActionListener
         vGbc.gridx = 1; vGbc.gridy = 2; vGbc.fill = GridBagConstraints.HORIZONTAL;
         vSouthPanel.add(this.aGoSouthButton, vGbc);
         // milieu : panneau avec look/eat/back
-        JPanel vMiddleCommands = new JPanel(new GridLayout(1, 5, 5, 5));
+        JPanel vMiddleCommands = new JPanel(new GridLayout(1, 6, 5, 5));
         vMiddleCommands.add(this.aLookButton);
         vMiddleCommands.add(this.aEatButton);
         vMiddleCommands.add(this.aBackButton);
         vMiddleCommands.add(this.aTakeButton);
         vMiddleCommands.add(this.aDropButton);
+        vMiddleCommands.add(this.aItemsButton);
         vGbc.gridx = 1; vGbc.gridy = 1; vGbc.fill = GridBagConstraints.NONE;
         vSouthPanel.add(vMiddleCommands, vGbc);
         // bouton Quit à droite du bas
@@ -177,6 +180,7 @@ public class UserInterface implements ActionListener
         this.aBackButton.addActionListener(this);
         this.aTakeButton.addActionListener(this);
         this.aDropButton.addActionListener(this);
+        this.aItemsButton.addActionListener(this);
 
         // to end program when window is closed
         this.aMyFrame.addWindowListener(
@@ -257,6 +261,8 @@ public class UserInterface implements ActionListener
                     this.processCommand("drop " +vChoice);
                 }
             }
+        } else if(pE.getSource() == this.aItemsButton){
+            this.processCommand("items");
         } else {
             this.processCommand(null);
         }

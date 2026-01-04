@@ -9,7 +9,7 @@ import java.util.Stack;
  */
 public class Player {
     private Room aCurrentRoom;
-    private Items aPlayerItems;
+    private ItemList aPlayerItems;
     private static final int MAX_WEIGHT = 7;
     private Stack<Room> aPreviouRooms;
     private int aCurrentWeight;
@@ -21,7 +21,7 @@ public class Player {
     */
     public Player(final String pName){
         this.aName = pName;
-        this.aPlayerItems = new Items();
+        this.aPlayerItems = new ItemList();
         this.aPreviouRooms = new Stack<>();
         this.aCurrentWeight = 0;
         this.aNumberOfMoves = 0;
@@ -139,6 +139,14 @@ public class Player {
      */
     public boolean isInventoryEmpty(){
         return this.aPlayerItems.isEmpty();
+    }
+
+    /**
+     * Get all items in player's inventory
+     * @return A string listing all items
+     */
+    public String getItems(){
+        return "Items: "  + String.join(", ", this.aPlayerItems.getItemNames());
     }
 
     

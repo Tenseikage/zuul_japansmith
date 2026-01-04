@@ -23,7 +23,7 @@ public class Item {
      * Get the item weight
      * @return Weight of the item
      */
-    public int getItemPoids(){
+    public int getItemWeight(){
         return this.aItemWeight;
     }
 

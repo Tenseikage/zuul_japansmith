@@ -194,11 +194,16 @@ public class GameEngine
         if(vItem == null){
             this.aGui.println("This item is not here !");
         } else{
-            this.aPlayer.addItem(vItemName, vItem);
-            this.aPlayer.getCurrentRoom().removeItem(vItemName);
-            this.aGui.println("You have taken the " + vItemName);
+            int vNewWeight = this.aPlayer.getWeight() + vItem.getItemWeight();
+            if(vNewWeight > this.aPlayer.getMaxWeight()){
+                this.aGui.println("You can't take this item, it's too heavy !");
+            } else{
+                this.aPlayer.addItem(vItemName, vItem);
+                this.aPlayer.setWeight(vNewWeight);
+                this.aPlayer.getCurrentRoom().removeItem(vItemName);
+                this.aGui.println("You have taken the " + vItemName);
+            }
         }
-        
     }
 
     /**
@@ -216,9 +221,19 @@ public class GameEngine
             this.aGui.println("You don't have this item !");
         } else{
             this.aPlayer.removeItem(vItemName);
+            int vNewWeight = this.aPlayer.getWeight() - vItem.getItemWeight();
+            this.aPlayer.setWeight(vNewWeight);
             this.aPlayer.getCurrentRoom().addItem(vItemName, vItem);
             this.aGui.println("You have dropped the " + vItemName);
         }
+    }
+    /**
+     * Show player's inventory
+     */
+    private void playerInventory(){
+        this.aGui.println("You have : \n" + this.aPlayer.getItems());
+        this.aGui.println("Current weight : " + this.aPlayer.getWeight() + " / " + this.aPlayer.getMaxWeight());
+       
     }
 
 
@@ -257,7 +272,10 @@ public class GameEngine
             this.take(pCmd);
         } else if("drop".equals(vCommandWord)){
             this.drop(pCmd);
-        } else {
+        } else if("items".equals(vCommandWord)){
+            this.playerInventory();
+        }
+        else {
             System.out.println("Erreur du programmeur : commande non reconnue !");
             return;
         }
