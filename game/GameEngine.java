@@ -16,13 +16,13 @@ import java.util.Stack;
  */
 public class GameEngine
 {
-    private Parser        aParser;
+    private final Parser        aParser;
     //private Room          aCurrentRoom;
     //private Stack<Room> aPreviouRooms;
     //private LinkedList<Room> aLastRooms;
     private UserInterface aGui;
     private boolean aTestMode;
-    Player aPlayer;
+    private Player aPlayer;
 
     /**
      * Constructor for objects of class GameEngine
@@ -95,6 +95,7 @@ public class GameEngine
         vOsaka.setExit("east", vGujoHachi);
         vOsaka.setExit("south", vNara);
         vOsaka.setExit("west", vTsushi);
+        vOsaka.addItem("Anko mochi", new Item("A mochi with anko flavour of Osaka", 2));
 
         // Ginkaku : east -> Kinkaku, south -> Osaka
         vGinkaku.setExit("east", vKinkaku);
@@ -143,7 +144,7 @@ public class GameEngine
         vAogashi.setExit("north", vSapporo);
         vAogashi.setExit("south", vTokyo);
         vAogashi.addItem("Aogashima's salt", new Item("Holy salt used for purifying monsters", 1));
-         this.aPlayer = new Player("Tetsuma");
+        this.aPlayer = new Player("Tetsuma");
         this.aPlayer.setCurrentRoom(vShirago);
 
     }
@@ -151,8 +152,26 @@ public class GameEngine
     /**
      * Print a sentence.
      */
-    private void eat(){
-        this.aGui.println("You have eaten now and you are not hungry any more.");
+    private void eat(final Command pCmd){
+        if(!pCmd.hasSecondWord()){
+            this.aGui.println("Eat what ?");
+            return;
+        }
+        String vItemName = pCmd.getSecondWord();
+        Item vItem = this.aPlayer.getItem(vItemName);
+        if(vItem == null){
+            this.aGui.println("You don't have this item !");
+        } 
+        if (!vItemName.equals("Anko Mochi")){
+            this.aGui.println("You can't eat this item !");
+            return;
+
+        }
+        this.aPlayer.superPower();
+        this.aPlayer.removeItem(vItemName);
+        this.aPlayer.setWeight(this.aPlayer.getWeight() - vItem.getItemWeight());
+        this.aGui.println("You have eaten the Anko Mochi ! Your maximum weight has been doubled !");
+        return;
     }
 
     /**
@@ -263,7 +282,7 @@ public class GameEngine
         } else if("look".equals(vCommandWord)){
             this.look();
         } else if ("eat".equals(vCommandWord)){
-            this.eat();
+            this.eat(pCmd);
         } else if ("back".equals(vCommandWord)){
             this.back();
         } else if("test".equals(vCommandWord)){

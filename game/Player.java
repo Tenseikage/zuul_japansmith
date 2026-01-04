@@ -9,11 +9,11 @@ import java.util.Stack;
  */
 public class Player {
     private Room aCurrentRoom;
-    private ItemList aPlayerItems;
-    private static final int MAX_WEIGHT = 7;
-    private Stack<Room> aPreviouRooms;
+    private final ItemList aPlayerItems;
+    private int aMaxWeight;
+    private final Stack<Room> aPreviouRooms;
     private int aCurrentWeight;
-    private String aName;
+    private final String aName;
     private int aNumberOfMoves;
     /**
     * Initialization of a player
@@ -24,7 +24,9 @@ public class Player {
         this.aPlayerItems = new ItemList();
         this.aPreviouRooms = new Stack<>();
         this.aCurrentWeight = 0;
+        this.aMaxWeight = 8;
         this.aNumberOfMoves = 0;
+        this.aCurrentRoom = null;
     }
 
     /**
@@ -97,7 +99,7 @@ public class Player {
      * @return The maximum weight the player can carry
      */
     public int getMaxWeight(){
-        return MAX_WEIGHT;
+        return this.aMaxWeight;
     }
 
     /**
@@ -140,6 +142,11 @@ public class Player {
     public boolean isInventoryEmpty(){
         return this.aPlayerItems.isEmpty();
     }
+
+    public void superPower(){
+        this.aMaxWeight *= 2;
+    } 
+    
 
     /**
      * Get all items in player's inventory

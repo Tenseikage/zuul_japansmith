@@ -6,8 +6,8 @@ package game;
  */
 public class Game
 { 
-    private UserInterface aGui;
-	private GameEngine aEngine;
+    private final UserInterface aGui;
+	private final GameEngine aEngine;
 
         /**
      * Create the game and initialise its internal map. Create the inerface and link to it.

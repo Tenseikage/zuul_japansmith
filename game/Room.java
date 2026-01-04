@@ -7,9 +7,9 @@ import java.util.HashMap;
  */
 public class Room
 {
-    private String aDescription;
-    private HashMap<String, Room> aExits; // les sorties de cette piece
-    private String aImageName;
+    private final String aDescription;
+    private final HashMap<String, Room> aExits; // les sorties de cette piece
+    private final String aImageName;
     private ItemList aRoomListItems;
 
     /**
@@ -80,11 +80,12 @@ public class Room
      */
     public Item getItem(final String pName){
         Item vItem = this.aRoomListItems.getItem(pName);
+        System.out.println(vItem.getItemName());
         return vItem;
     }
 
 
-    /**
+    /*
      * Defines an exit of the room.
      * @param pDirection The direction of the exit.
      * @param pNeighbor The room in the given direction.

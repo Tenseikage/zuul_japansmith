@@ -5,8 +5,8 @@ package game;
  * @author TARATIBU Christophe
  */
 public class Item {
-    private String aItemDescription;
-    private int aItemWeight;
+    private final String aItemDescription;
+    private final int aItemWeight;
 
     /**
      * Constructor for objects of class Item

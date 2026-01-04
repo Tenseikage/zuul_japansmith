@@ -6,8 +6,8 @@ package game;
  */
 public class Command
 {
-    private String aCommandWord;
-    private String aSecondWord;
+    private final String aCommandWord;
+    private final String aSecondWord;
     /**
      * Create a command object. First and second word must be supplied, but
      * either one (or both) can be null. The command word should be null to

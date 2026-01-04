@@ -19,7 +19,7 @@ import java.util.StringTokenizer;
  */
 public class Parser 
 {
-    private CommandWords aCommandWords;  // (voir la classe CommandWords)
+    private final CommandWords aCommandWords;  // (voir la classe CommandWords)
     /**
      * Constructeur par defaut qui cree les 2 objets prevus pour les attributs
      */
@@ -46,8 +46,13 @@ public class Parser
         else
             vWord1 = null;
 
-        if ( tokenizer.hasMoreTokens() )
-            vWord2 = tokenizer.nextToken();      // get second word
+        if ( tokenizer.hasMoreTokens() ) {
+            StringBuilder vRest = new StringBuilder( tokenizer.nextToken() );
+            while ( tokenizer.hasMoreTokens() ) {
+                vRest.append( " " ).append( tokenizer.nextToken() );
+            }
+            vWord2 = vRest.toString();      // capture the full remaining input
+        }
         else
             vWord2 = null;
 
