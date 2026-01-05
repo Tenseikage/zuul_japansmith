@@ -9,6 +9,7 @@ public class Room
 {
     private final String aDescription;
     private final HashMap<String, Room> aExits; // les sorties de cette piece
+    private final HashMap<String, Room> aTrapDoors; // les trap doors unidirectionnelles
     private final String aImageName;
     private ItemList aRoomListItems;
 
@@ -20,6 +21,7 @@ public class Room
     public Room(final String pDescription, final String pImageName){
         this.aDescription = pDescription;  
         this.aExits = new HashMap<String, Room>();
+        this.aTrapDoors = new HashMap<String, Room>();
         this.aRoomListItems = new ItemList();
         this.aImageName = pImageName;
     }
@@ -48,7 +50,11 @@ public class Room
      * @return The room in the given direction.
      */
     public Room getExit(String pDirection){
-        return this.aExits.get(pDirection);
+        Room vExit = this.aExits.get(pDirection);
+        if(vExit == null){
+            vExit = this.aTrapDoors.get(pDirection);
+        }
+        return vExit;
     }
 
     /**
@@ -58,6 +64,9 @@ public class Room
     public String getExitString(){
         StringBuilder vReturnString = new StringBuilder(" Exits:");
         for (String vDirection : this.aExits.keySet() ) {
+            vReturnString.append( " " + vDirection );
+        }
+        for (String vDirection : this.aTrapDoors.keySet() ) {
             vReturnString.append( " " + vDirection );
         }
         return vReturnString.toString();
@@ -95,6 +104,15 @@ public class Room
     }
 
     /**
+     * Define a one-way trap door exit for the room
+     * @param pDirection Direction of the exit
+     * @param pNeighbor Room in the given direction
+     */
+    public void setTrapDoorExit(String pDirection, Room pNeighbor){
+        this.aTrapDoors.put(pDirection, pNeighbor);
+    }
+
+    /**
      * Remove an item from the room
      * @param pName Name of the item
      */
@@ -124,5 +142,14 @@ public class Room
      */
     public boolean hasNoItems(){
         return this.aRoomListItems.isEmpty();
+    }
+
+    /**
+     * Check if a room is an exit from this room
+     * @param pRoom Room to check
+     * @return true if the room is an exit
+     */
+    public boolean isExit(final Room pRoom){
+        return this.aTrapDoors.containsValue(pRoom);
     }
 }

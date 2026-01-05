@@ -21,7 +21,7 @@ public class GameEngine
     // Delay between test commands (ms) to let UI refresh images
     private static final int TEST_DELAY_MS = 2000;
     // Global game duration (ms) before automatic loss
-    private static final int GAME_DURATION_MS = 6000; // 10 minutes
+    private static final int GAME_DURATION_MS = 45000; // 10 minutes
 
     private final Parser        aParser;
     //private Room          aCurrentRoom;
@@ -127,6 +127,7 @@ public class GameEngine
 
         // Nara : east -> Yoshino
         vNara.setExit("east", vYoshino);
+        vNara.setTrapDoorExit("south", vOsaka);
         vNara.addItem("Horn of the goddess", new Item("A horn given by the goddess of deers", 2));
 
         // Yoshino : east -> Nagoya
@@ -136,12 +137,13 @@ public class GameEngine
         // Nagoya : up -> MtFuji, west -> Yoshino
         vNagoya.setExit("west", vYoshino);
         vNagoya.setExit("up", vMtFuji);
+        vNagoya.setTrapDoorExit("south", vTokyo);
 
         // MtFuji : north -> Sapporo, east -> Tokyo, south -> Nagoya, west -> GujoHachi
-        vMtFuji.setExit("down-north", vSapporo);
-        vMtFuji.setExit("down-east", vTokyo);
-        vMtFuji.setExit("down-south", vNagoya);
-        vMtFuji.setExit("down-west", vGujoHachi);
+        vMtFuji.setExit("down", vSapporo);
+        vMtFuji.setExit("east", vTokyo);
+        vMtFuji.setExit("south", vNagoya);
+        vMtFuji.setExit("west", vGujoHachi);
 
         // Tokyo : west -> Nagoya
         vTokyo.setExit("west", vNagoya);
@@ -199,8 +201,10 @@ public class GameEngine
      */
     private void back(){
         Room vPreviousRoom = this.aPlayer.getPreviousRoom();
-        if(vPreviousRoom == null){
+        if(vPreviousRoom == null || this.aPlayer.getCurrentRoom().isExit(vPreviousRoom)){
             this.aGui.println("You can't go back any further !");
+            this.aPlayer.emptyPreviousRooms();
+            return;
         }
         else{
             this.aPlayer.setCurrentRoom(vPreviousRoom);
@@ -224,13 +228,13 @@ public class GameEngine
 
         // countdown display each second
         this.aCountdownTimer = new Timer(1000, e -> {
-            long vRemaining = this.remainingMillis();
+            long vRemaining = this.remainingTime();
             if (vRemaining <= 0){
                 this.aCountdownTimer.stop();
                 // Let the main timer handle loss, just show 00:00 now
                 this.aGui.updateTimerLabel("00:00");
             } else {
-                this.aGui.updateTimerLabel(this.formatMillis(vRemaining));
+                this.aGui.updateTimerLabel(this.formatTime(vRemaining));
             }
         });
         this.aCountdownTimer.setRepeats(true);
@@ -244,14 +248,14 @@ public class GameEngine
         this.aGameTimer.start();
 
         // initialise display immediately
-        this.aGui.updateTimerLabel(this.formatMillis(GAME_DURATION_MS));
+        this.aGui.updateTimerLabel(this.formatTime(GAME_DURATION_MS));
     }
 
     /**
      * Calculate remaining milliseconds before time is up.
      * @return Remaining milliseconds
      */
-    private long remainingMillis(){
+    private long remainingTime(){
         long vElapsed = System.currentTimeMillis() - this.aGameStartMillis;
         return Math.max(0, GAME_DURATION_MS - vElapsed);
     }
@@ -261,7 +265,7 @@ public class GameEngine
      * @param pMillis Milliseconds to format
      * @return Formatted string
      */
-    private String formatMillis(final long pMillis){
+    private String formatTime(final long pMillis){
         long vTotalSeconds = pMillis / 1000;
         long vMinutes = vTotalSeconds / 60;
         long vSeconds = vTotalSeconds % 60;

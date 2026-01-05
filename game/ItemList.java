@@ -63,6 +63,14 @@ public class ItemList {
         return this.aListItems.keySet().toArray(new String[0]);
     }
 
+    /**
+     * Get the internal map of items
+     * @return map of items
+     */
+    public HashMap<String, Item> getItemsMap(){
+        return this.aListItems;
+    }
+
 
     /**
      * Check whether there are any items stored

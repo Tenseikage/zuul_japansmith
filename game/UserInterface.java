@@ -26,6 +26,8 @@ public class UserInterface implements ActionListener
     private JButton aGoNorthButton;
     private JButton aGoSouthButton;
     private JButton aGoEastButton;
+    private JButton aGoUpButton;
+    private JButton aGoDownButton;
     private JButton aLookButton;
     private JButton aEatButton;
     private JButton aBackButton;
@@ -67,7 +69,7 @@ public class UserInterface implements ActionListener
 
     /**
      * Update the timer label with remaining time text.
-     * @param pText Remaining time (e.g., "09:58")
+     * @param pText Remaining time
      */
     public void updateTimerLabel(final String pText){
         this.aTimerLabel.setText("Time: " + pText);
@@ -125,6 +127,8 @@ public class UserInterface implements ActionListener
         this.aGoSouthButton = new JButton("go south");
         this.aGoEastButton = new JButton("go east");
         this.aGoWestButton = new JButton("go west");
+        this.aGoUpButton = new JButton("go up");
+        this.aGoDownButton = new JButton("go down");
         this.aLookButton = new JButton("look");
         this.aEatButton = new JButton("eat");
         this.aBackButton = new JButton("back");
@@ -146,8 +150,11 @@ public class UserInterface implements ActionListener
         vPanel.add( this.aImage, BorderLayout.NORTH );
         // Journal au centre
         vPanel.add( vListScroller, BorderLayout.CENTER );
-
-        // Bas de fenêtre : croix directionnelle + commandes au milieu
+        
+        // Bas de fenêtre : croix directionnelle + commandes au milieu + zone de saisie
+        JPanel vBottomPanel = new JPanel(new BorderLayout());
+        
+        // Panneau avec les boutons (en haut du bas)
         JPanel vSouthPanel = new JPanel(new GridBagLayout());
         GridBagConstraints vGbc = new GridBagConstraints();
         vGbc.insets = new Insets(5,5,5,5);
@@ -166,6 +173,12 @@ public class UserInterface implements ActionListener
         // sud (en bas)
         vGbc.gridx = 1; vGbc.gridy = 2; vGbc.fill = GridBagConstraints.HORIZONTAL;
         vSouthPanel.add(this.aGoSouthButton, vGbc);
+        // up (en haut à droite)
+        vGbc.gridx = 3; vGbc.gridy = 1; vGbc.fill = GridBagConstraints.HORIZONTAL;
+        vSouthPanel.add(this.aGoUpButton, vGbc);
+        // down (en bas à droite)
+        vGbc.gridx = 3; vGbc.gridy = 2; vGbc.fill = GridBagConstraints.HORIZONTAL;
+        vSouthPanel.add(this.aGoDownButton, vGbc);
         // milieu : panneau avec look/eat/back
         JPanel vMiddleCommands = new JPanel(new GridLayout(1, 7, 5, 5));
         vMiddleCommands.add(this.aLookButton);
@@ -178,9 +191,17 @@ public class UserInterface implements ActionListener
         vGbc.gridx = 1; vGbc.gridy = 1; vGbc.fill = GridBagConstraints.NONE;
         vSouthPanel.add(vMiddleCommands, vGbc);
         // bouton Quit à droite du bas
-        vGbc.gridx = 3; vGbc.gridy = 2; vGbc.fill = GridBagConstraints.HORIZONTAL;
+        vGbc.gridx = 4; vGbc.gridy = 2; vGbc.fill = GridBagConstraints.HORIZONTAL;
         vSouthPanel.add(this.aQuitButton, vGbc);
-        vPanel.add(vSouthPanel, BorderLayout.SOUTH);
+        vBottomPanel.add(vSouthPanel, BorderLayout.CENTER);
+        
+        // Zone de saisie des commandes (en bas du bas)
+        JPanel vCommandPanel = new JPanel(new BorderLayout());
+        vCommandPanel.add(new JLabel("Command: "), BorderLayout.WEST);
+        vCommandPanel.add(this.aEntryField, BorderLayout.CENTER);
+        vBottomPanel.add(vCommandPanel, BorderLayout.SOUTH);
+        
+        vPanel.add(vBottomPanel, BorderLayout.SOUTH);
         this.aMyFrame.getContentPane().add( vPanel, BorderLayout.CENTER );
         //this.aMyFrame.getContentPane().add( this.aQuitButton, BorderLayout.SOUTH );
 
@@ -191,6 +212,8 @@ public class UserInterface implements ActionListener
         this.aGoSouthButton.addActionListener(this);
         this.aGoEastButton.addActionListener(this);
         this.aGoWestButton.addActionListener(this);
+        this.aGoUpButton.addActionListener(this);
+        this.aGoDownButton.addActionListener(this);
         this.aLookButton.addActionListener(this);
         this.aEatButton.addActionListener(this);
         this.aBackButton.addActionListener(this);
@@ -211,6 +234,7 @@ public class UserInterface implements ActionListener
         this.aMyFrame.pack();
         this.aMyFrame.setVisible( true );
         this.aEntryField.requestFocus();
+        this.enable(true);
     } // createGUI()
 
     /**
@@ -233,8 +257,10 @@ public class UserInterface implements ActionListener
         }  else if(pE.getSource() == this.aGoWestButton){
             this.processCommand("go west");
         }  else if(pE.getSource() == this.aGoEastButton){
-            this.processCommand("go east");
-        } else if(pE.getSource() == this.aLookButton){
+            this.processCommand("go east");        } else if(pE.getSource() == this.aGoUpButton){
+            this.processCommand("go up");
+        } else if(pE.getSource() == this.aGoDownButton){
+            this.processCommand("go down");        } else if(pE.getSource() == this.aLookButton){
             this.processCommand("look");
         } else if(pE.getSource() == this.aEatButton){
             this.processCommand("eat");

@@ -67,7 +67,7 @@ public class Player {
             return this.aPreviouRooms.pop();
         }
         else{
-            return null;
+            return this.aCurrentRoom;
         }
     }
 
@@ -142,6 +142,20 @@ public class Player {
     public void superPower(){
         this.aMaxWeight *= 2;
     } 
+
+    /**
+     * Empty the player's inventory
+     */
+    public void emptyInventory(){
+        this.aPlayerItems.getItemsMap().clear();
+    }
+
+    /**
+     * Empty the previous rooms stack
+     */
+    public void emptyPreviousRooms(){
+        this.aPreviouRooms.clear();
+    }
     
 
     /**
