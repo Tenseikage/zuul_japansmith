@@ -32,7 +32,7 @@
 <span class="source-line-no">019</span><span id="line-19"> */</span>
 <span class="source-line-no">020</span><span id="line-20">public class Parser </span>
 <span class="source-line-no">021</span><span id="line-21">{</span>
-<span class="source-line-no">022</span><span id="line-22">    private CommandWords aCommandWords;  // (voir la classe CommandWords)</span>
+<span class="source-line-no">022</span><span id="line-22">    private final CommandWords aCommandWords;  // (voir la classe CommandWords)</span>
 <span class="source-line-no">023</span><span id="line-23">    /**</span>
 <span class="source-line-no">024</span><span id="line-24">     * Constructeur par defaut qui cree les 2 objets prevus pour les attributs</span>
 <span class="source-line-no">025</span><span id="line-25">     */</span>
@@ -59,31 +59,36 @@
 <span class="source-line-no">046</span><span id="line-46">        else</span>
 <span class="source-line-no">047</span><span id="line-47">            vWord1 = null;</span>
 <span class="source-line-no">048</span><span id="line-48"></span>
-<span class="source-line-no">049</span><span id="line-49">        if ( tokenizer.hasMoreTokens() )</span>
-<span class="source-line-no">050</span><span id="line-50">            vWord2 = tokenizer.nextToken();      // get second word</span>
-<span class="source-line-no">051</span><span id="line-51">        else</span>
-<span class="source-line-no">052</span><span id="line-52">            vWord2 = null;</span>
-<span class="source-line-no">053</span><span id="line-53"></span>
-<span class="source-line-no">054</span><span id="line-54">        // note: we just ignore the rest of the input line.</span>
-<span class="source-line-no">055</span><span id="line-55"></span>
-<span class="source-line-no">056</span><span id="line-56">        // Now check whether this word is known. If so, create a command</span>
-<span class="source-line-no">057</span><span id="line-57">        // with it. If not, create a "null" command (for unknown command).</span>
+<span class="source-line-no">049</span><span id="line-49">        if ( tokenizer.hasMoreTokens() ) {</span>
+<span class="source-line-no">050</span><span id="line-50">            StringBuilder vRest = new StringBuilder( tokenizer.nextToken() );</span>
+<span class="source-line-no">051</span><span id="line-51">            while ( tokenizer.hasMoreTokens() ) {</span>
+<span class="source-line-no">052</span><span id="line-52">                vRest.append( " " ).append( tokenizer.nextToken() );</span>
+<span class="source-line-no">053</span><span id="line-53">            }</span>
+<span class="source-line-no">054</span><span id="line-54">            vWord2 = vRest.toString();      // capture the full remaining input</span>
+<span class="source-line-no">055</span><span id="line-55">        }</span>
+<span class="source-line-no">056</span><span id="line-56">        else</span>
+<span class="source-line-no">057</span><span id="line-57">            vWord2 = null;</span>
 <span class="source-line-no">058</span><span id="line-58"></span>
-<span class="source-line-no">059</span><span id="line-59">        if ( this.aCommandWords.isCommand( vWord1 ) ) {</span>
-<span class="source-line-no">060</span><span id="line-60">            return new Command( vWord1, vWord2 );</span>
-<span class="source-line-no">061</span><span id="line-61">        } else {</span>
-<span class="source-line-no">062</span><span id="line-62">            return new Command( null, vWord2 );</span>
-<span class="source-line-no">063</span><span id="line-63">        }</span>
-<span class="source-line-no">064</span><span id="line-64">    } // getCommand(.)</span>
-<span class="source-line-no">065</span><span id="line-65"></span>
-<span class="source-line-no">066</span><span id="line-66">    /**</span>
-<span class="source-line-no">067</span><span id="line-67">     * Returns a String with valid command words.</span>
-<span class="source-line-no">068</span><span id="line-68">     * @return A string with valid command words.</span>
-<span class="source-line-no">069</span><span id="line-69">     */</span>
-<span class="source-line-no">070</span><span id="line-70">    public String showCommands(){</span>
-<span class="source-line-no">071</span><span id="line-71">        return this.aCommandWords.getCommandList();</span>
-<span class="source-line-no">072</span><span id="line-72">    } // was showCommands()</span>
-<span class="source-line-no">073</span><span id="line-73">} // Parser</span>
+<span class="source-line-no">059</span><span id="line-59">        // note: we just ignore the rest of the input line.</span>
+<span class="source-line-no">060</span><span id="line-60"></span>
+<span class="source-line-no">061</span><span id="line-61">        // Now check whether this word is known. If so, create a command</span>
+<span class="source-line-no">062</span><span id="line-62">        // with it. If not, create a "null" command (for unknown command).</span>
+<span class="source-line-no">063</span><span id="line-63"></span>
+<span class="source-line-no">064</span><span id="line-64">        if ( this.aCommandWords.isCommand( vWord1 ) ) {</span>
+<span class="source-line-no">065</span><span id="line-65">            return new Command( vWord1, vWord2 );</span>
+<span class="source-line-no">066</span><span id="line-66">        } else {</span>
+<span class="source-line-no">067</span><span id="line-67">            return new Command( null, vWord2 );</span>
+<span class="source-line-no">068</span><span id="line-68">        }</span>
+<span class="source-line-no">069</span><span id="line-69">    } // getCommand(.)</span>
+<span class="source-line-no">070</span><span id="line-70"></span>
+<span class="source-line-no">071</span><span id="line-71">    /**</span>
+<span class="source-line-no">072</span><span id="line-72">     * Returns a String with valid command words.</span>
+<span class="source-line-no">073</span><span id="line-73">     * @return A string with valid command words.</span>
+<span class="source-line-no">074</span><span id="line-74">     */</span>
+<span class="source-line-no">075</span><span id="line-75">    public String showCommands(){</span>
+<span class="source-line-no">076</span><span id="line-76">        return this.aCommandWords.getCommandList();</span>
+<span class="source-line-no">077</span><span id="line-77">    } // was showCommands()</span>
+<span class="source-line-no">078</span><span id="line-78">} // Parser</span>
 
 
 

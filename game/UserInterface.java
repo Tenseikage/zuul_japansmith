@@ -20,6 +20,7 @@ public class UserInterface implements ActionListener
     private JTextField aEntryField;
     private JTextArea  aLog;
     private JLabel     aImage;
+    private JLabel     aTimerLabel;
     private JButton   aQuitButton;
     private JButton aGoWestButton;
     private JButton aGoNorthButton;
@@ -31,6 +32,7 @@ public class UserInterface implements ActionListener
     private JButton aTakeButton;
     private JButton aDropButton;
     private JButton aItemsButton;
+    private JButton aTestButton;
 
     /**
      * Construct a UserInterface. As a parameter, a Game Engine
@@ -62,6 +64,14 @@ public class UserInterface implements ActionListener
     {
         this.print( pText + "\n" );
     } // println(.)
+
+    /**
+     * Update the timer label with remaining time text.
+     * @param pText Remaining time (e.g., "09:58")
+     */
+    public void updateTimerLabel(final String pText){
+        this.aTimerLabel.setText("Time: " + pText);
+    }
 
     /**
      * Show an image file in the interface.
@@ -121,6 +131,8 @@ public class UserInterface implements ActionListener
         this.aTakeButton = new JButton("take");
         this.aDropButton = new JButton("drop");
         this.aItemsButton = new JButton("items");
+        this.aTestButton = new JButton("test");
+        this.aTimerLabel = new JLabel("Time: --:--");
         this.aLog = new JTextArea();
         this.aLog.setEditable( false );
         JScrollPane vListScroller = new JScrollPane( this.aLog );
@@ -142,6 +154,9 @@ public class UserInterface implements ActionListener
         // nord (en haut)
         vGbc.gridx = 1; vGbc.gridy = 0; vGbc.fill = GridBagConstraints.HORIZONTAL;
         vSouthPanel.add(this.aGoNorthButton, vGbc);
+        // timer en haut à droite
+        vGbc.gridx = 3; vGbc.gridy = 0; vGbc.fill = GridBagConstraints.NONE;
+        vSouthPanel.add(this.aTimerLabel, vGbc);
         // ouest (à gauche)
         vGbc.gridx = 0; vGbc.gridy = 1; vGbc.fill = GridBagConstraints.HORIZONTAL;
         vSouthPanel.add(this.aGoWestButton, vGbc);
@@ -152,13 +167,14 @@ public class UserInterface implements ActionListener
         vGbc.gridx = 1; vGbc.gridy = 2; vGbc.fill = GridBagConstraints.HORIZONTAL;
         vSouthPanel.add(this.aGoSouthButton, vGbc);
         // milieu : panneau avec look/eat/back
-        JPanel vMiddleCommands = new JPanel(new GridLayout(1, 6, 5, 5));
+        JPanel vMiddleCommands = new JPanel(new GridLayout(1, 7, 5, 5));
         vMiddleCommands.add(this.aLookButton);
         vMiddleCommands.add(this.aEatButton);
         vMiddleCommands.add(this.aBackButton);
         vMiddleCommands.add(this.aTakeButton);
         vMiddleCommands.add(this.aDropButton);
         vMiddleCommands.add(this.aItemsButton);
+        vMiddleCommands.add(this.aTestButton);
         vGbc.gridx = 1; vGbc.gridy = 1; vGbc.fill = GridBagConstraints.NONE;
         vSouthPanel.add(vMiddleCommands, vGbc);
         // bouton Quit à droite du bas
@@ -181,6 +197,7 @@ public class UserInterface implements ActionListener
         this.aTakeButton.addActionListener(this);
         this.aDropButton.addActionListener(this);
         this.aItemsButton.addActionListener(this);
+        this.aTestButton.addActionListener(this);
 
         // to end program when window is closed
         this.aMyFrame.addWindowListener(
@@ -263,6 +280,18 @@ public class UserInterface implements ActionListener
             }
         } else if(pE.getSource() == this.aItemsButton){
             this.processCommand("items");
+        } else if(pE.getSource() == this.aTestButton){
+            // Open dialog to ask user for a file to test
+            String vFile = JOptionPane.showInputDialog(
+                this.aMyFrame,
+                "Enter the file to test:",
+                "Test File",
+                JOptionPane.QUESTION_MESSAGE
+            );
+            if (vFile != null && !vFile.isEmpty()){
+                this.println("Testing file: " + vFile + "\n");
+                this.processCommand("test " + vFile);
+            }
         } else {
             this.processCommand(null);
         }

@@ -1,7 +1,9 @@
 package game;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
-import java.util.Stack;
+import javax.swing.Timer;
 
 /**
  *  This class is part of the "World of Zuul" application. 
@@ -16,6 +18,11 @@ import java.util.Stack;
  */
 public class GameEngine
 {
+    // Delay between test commands (ms) to let UI refresh images
+    private static final int TEST_DELAY_MS = 2000;
+    // Global game duration (ms) before automatic loss
+    private static final int GAME_DURATION_MS = 6000; // 10 minutes
+
     private final Parser        aParser;
     //private Room          aCurrentRoom;
     //private Stack<Room> aPreviouRooms;
@@ -23,6 +30,9 @@ public class GameEngine
     private UserInterface aGui;
     private boolean aTestMode;
     private Player aPlayer;
+    private Timer aGameTimer;
+    private Timer aCountdownTimer;
+    private long aGameStartMillis;
 
     /**
      * Constructor for objects of class GameEngine
@@ -44,6 +54,7 @@ public class GameEngine
     {
         this.aGui = pUserInterface;
         this.printWelcome();
+        this.startGameTimer();
     }
 
     /**
@@ -200,6 +211,64 @@ public class GameEngine
     }
 
     /**
+     * Start (or restart) the global game timer. When it fires, the player loses.
+     */
+    private void startGameTimer(){
+        if (this.aGameTimer != null){
+            this.aGameTimer.stop();
+        }
+        if (this.aCountdownTimer != null){
+            this.aCountdownTimer.stop();
+        }
+        this.aGameStartMillis = System.currentTimeMillis();
+
+        // countdown display each second
+        this.aCountdownTimer = new Timer(1000, e -> {
+            long vRemaining = this.remainingMillis();
+            if (vRemaining <= 0){
+                this.aCountdownTimer.stop();
+                // Let the main timer handle loss, just show 00:00 now
+                this.aGui.updateTimerLabel("00:00");
+            } else {
+                this.aGui.updateTimerLabel(this.formatMillis(vRemaining));
+            }
+        });
+        this.aCountdownTimer.setRepeats(true);
+        this.aCountdownTimer.start();
+
+        this.aGameTimer = new Timer(GAME_DURATION_MS, e -> {
+            this.aGui.println("Time is up! You lose.");
+            this.endGame();
+        });
+        this.aGameTimer.setRepeats(false);
+        this.aGameTimer.start();
+
+        // initialise display immediately
+        this.aGui.updateTimerLabel(this.formatMillis(GAME_DURATION_MS));
+    }
+
+    /**
+     * Calculate remaining milliseconds before time is up.
+     * @return Remaining milliseconds
+     */
+    private long remainingMillis(){
+        long vElapsed = System.currentTimeMillis() - this.aGameStartMillis;
+        return Math.max(0, GAME_DURATION_MS - vElapsed);
+    }
+
+    /**
+     * Format milliseconds as mm:ss string.
+     * @param pMillis Milliseconds to format
+     * @return Formatted string
+     */
+    private String formatMillis(final long pMillis){
+        long vTotalSeconds = pMillis / 1000;
+        long vMinutes = vTotalSeconds / 60;
+        long vSeconds = vTotalSeconds % 60;
+        return String.format("%02d:%02d", vMinutes, vSeconds);
+    }
+
+    /**
      * Take an item from the room
      * @param pCmd The command to process
      */
@@ -306,24 +375,56 @@ public class GameEngine
      * @param pCommand The command to process
      */
     private void testFile (final Command pCommand){
+        if (this.aTestMode) {
+            this.aGui.println("A test is already running, please wait.");
+            return;
+        }
         if(pCommand.hasSecondWord() == false){
             this.aGui.println("Error : you must specify a file name !");
             return;
         }
       
         String vFileName = pCommand.getSecondWord();
+        System.out.println("Test file : " + vFileName);
         vFileName+=".txt";
+        System.out.println("Full file name : " + vFileName);
         InputStream vInputStream = this.getClass().getClassLoader().getResourceAsStream(vFileName);
-        Scanner vScanner = new Scanner(vInputStream);      
-        if(vInputStream != null){
-            this.aTestMode = true;
-            while(vScanner.hasNextLine()){
-                String vLigne = vScanner.nextLine();
-                this.aGui.processCommand(vLigne);
+        if (vInputStream == null){
+            this.aGui.println("Error : file not found !");
+            return;
+        }
+
+        List<String> vCommands = new ArrayList<>();
+        try (Scanner vScanner = new Scanner(vInputStream)){
+            while (vScanner.hasNextLine()){
+                String vLine = vScanner.nextLine().trim();
+                // Ignore empty lines and comments (starting with // or #)
+                if (!vLine.isEmpty() && !vLine.startsWith("//") && !vLine.startsWith("#")){
+                    vCommands.add(vLine);
+                }
             }
         }
-        this.aTestMode = false;
-        vScanner.close();
+
+        if (vCommands.isEmpty()){
+            this.aGui.println("The test file is empty or only contains comments.");
+            return;
+        }
+
+        this.aTestMode = true;
+        final int[] vIndex = {0};
+        final Timer vTimer = new Timer(TEST_DELAY_MS, null);
+        vTimer.addActionListener(ev -> {
+            if (vIndex[0] < vCommands.size()){
+                String vNext = vCommands.get(vIndex[0]++);
+                this.interpretCommand(vNext);
+            } else {
+                vTimer.stop();
+                this.aTestMode = false;
+                this.aGui.println("Test finished.");
+            }
+        });
+        vTimer.setRepeats(true);
+        vTimer.start();
     }
 
    
@@ -360,9 +461,10 @@ public class GameEngine
             this.aPlayer.addPreviousRoom(this.aPlayer.getCurrentRoom());
             this.aPlayer.setCurrentRoom(vNextRoom);
             this.aGui.println( this.aPlayer.getCurrentRoom().getLongDescription() );
-            if (this.aPlayer.getCurrentRoom().getImageName() != null )
+            if (this.aPlayer.getCurrentRoom().getImageName() != null ){
                 this.aGui.showImage( this.aPlayer.getCurrentRoom().getImageName() );
-            else{
+                System.out.println("Image affichée");
+            } else{
                 System.out.println("Image non trouvée");
             }
         }
@@ -375,6 +477,12 @@ public class GameEngine
     public void endGame(){
         this.aGui.println( "Thank you for playing.  Good bye." );
         this.aGui.enable( false );
+        if (this.aGameTimer != null){
+            this.aGameTimer.stop();
+        }
+        if (this.aCountdownTimer != null){
+            this.aCountdownTimer.stop();
+        }
     }
 
     /**

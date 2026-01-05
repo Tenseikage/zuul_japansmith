@@ -14,7 +14,6 @@ public class Player {
     private final Stack<Room> aPreviouRooms;
     private int aCurrentWeight;
     private final String aName;
-    private int aNumberOfMoves;
     /**
     * Initialization of a player
     * @param pName The name of the player
@@ -25,7 +24,7 @@ public class Player {
         this.aPreviouRooms = new Stack<>();
         this.aCurrentWeight = 0;
         this.aMaxWeight = 8;
-        this.aNumberOfMoves = 0;
+        //this.aNumberOfMoves = 0;
         this.aCurrentRoom = null;
     }
 
@@ -58,12 +57,6 @@ public class Player {
         return this.aCurrentRoom;
     }
     
-    /**
-     * Increases the number of moves of the player
-     */
-    public void addMove(){
-        this.aNumberOfMoves++;
-    }
 
     /**
      * Gives the previous room of the player
@@ -143,6 +136,9 @@ public class Player {
         return this.aPlayerItems.isEmpty();
     }
 
+    /**
+     * Activate super power to double the max weight
+     */
     public void superPower(){
         this.aMaxWeight *= 2;
     } 

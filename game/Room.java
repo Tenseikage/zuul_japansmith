@@ -85,10 +85,10 @@ public class Room
     }
 
 
-    /*
-     * Defines an exit of the room.
-     * @param pDirection The direction of the exit.
-     * @param pNeighbor The room in the given direction.
+    /**
+     * Define an exit for the room
+     * @param pDirection Direction of the exit
+     * @param pNeighbor Room in the given direction
      */
     public void setExit(String pDirection, Room pNeighbor){
         this.aExits.put(pDirection, pNeighbor);
