@@ -78,7 +78,7 @@ public class GameEngine
      */
     private void createRooms(){
         Room vShirago = new Room("in your village of birth, Shirakawa-go.","./Images/shirakawa.jpg","Shirakawa-go");
-        Room vGujoHachi = new Room("In the Gujô Hachiman castle.","./Images/gujohachi.jpg","Gujo Hachiman");
+        TransporterRoom vGujoHachi = new TransporterRoom("In the Gujô Hachiman castle.","./Images/gujohachi.jpg","Gujo Hachiman");
         Room vOsaka = new Room("in the Osaka city.","./Images/Osaka.jpg","Osaka");
         Room vTsushi = new Room("in the Tsushima island.","./Images/Tsushima.jpg","Tsushima");
         Room vSeki = new Room("in the Seki blacksmiths village, it's the end of your odyssey.","./Images/seki.jpg","Seki");
@@ -160,6 +160,10 @@ public class GameEngine
         vAogashi.addItem("Aogashima's salt", new Item("Holy salt used for purifying monsters", 1));
         this.aPlayer = new Player("Tetsuma");
         this.aPlayer.setCurrentRoom(vShirago);
+
+
+        // Set transporter room destinations
+        vGujoHachi.setDestinations(new ArrayList<Room>(List.of(vTsushi, vSapporo, vAogashi, vKinkaku)));
 
     }
 
@@ -551,13 +555,33 @@ public class GameEngine
 
         } else {
             this.aPlayer.addPreviousRoom(this.aPlayer.getCurrentRoom());
+            // If the next room is a transporter room, choose a random room among its possible rooms
+            if (vNextRoom instanceof TransporterRoom){
+                TransporterRoom vTransporterRoom = (TransporterRoom) vNextRoom;
+                this.aPlayer.setCurrentRoom(vTransporterRoom);
+                this.aGui.println(this.aPlayer.getCurrentRoom().getLongDescription());
+                if (this.aPlayer.getCurrentRoom().getImageName() != null){
+                    this.aGui.showImage(this.aPlayer.getCurrentRoom().getImageName());
+                }
+                Timer vRandomTimer = new Timer(4000, e -> {
+                    int vRngNumber = vTransporterRoom.getRngNumber();
+                    vTransporterRoom.setChosenRoom(vRngNumber);
+                    Room vChosenRoom = vTransporterRoom.getChosenRoom();
+                    this.aPlayer.setCurrentRoom(vChosenRoom);
+                    this.aGui.println("The transporter room teleports you to another place !");
+                    this.aGui.println(this.aPlayer.getCurrentRoom().getLongDescription());
+                    if (this.aPlayer.getCurrentRoom().getImageName() != null){
+                        this.aGui.showImage(this.aPlayer.getCurrentRoom().getImageName());
+                    }
+                });
+                vRandomTimer.setRepeats(false);
+                vRandomTimer.start();
+                return;
+            }
             this.aPlayer.setCurrentRoom(vNextRoom);
             this.aGui.println( this.aPlayer.getCurrentRoom().getLongDescription() );
-            if (this.aPlayer.getCurrentRoom().getImageName() != null ){
-                this.aGui.showImage( this.aPlayer.getCurrentRoom().getImageName() );
-            } else{
-                System.out.println("Image not found for this room.");
-            }
+            if ( this.aPlayer.getCurrentRoom().getImageName() != null )
+                this.aGui.showImage( this.aPlayer.getCurrentRoom().getImageName() ); 
         }
     }
 

@@ -219,143 +219,156 @@
 <span class="source-line-no">206</span><span id="line-206">        //this.aMyFrame.getContentPane().add( this.aQuitButton, BorderLayout.SOUTH );</span>
 <span class="source-line-no">207</span><span id="line-207"></span>
 <span class="source-line-no">208</span><span id="line-208">        // add some event listeners to some components</span>
-<span class="source-line-no">209</span><span id="line-209">        this.aEntryField.addActionListener( this );</span>
-<span class="source-line-no">210</span><span id="line-210">        this.aQuitButton.addActionListener(this);</span>
-<span class="source-line-no">211</span><span id="line-211">        this.aGoNorthButton.addActionListener(this);</span>
-<span class="source-line-no">212</span><span id="line-212">        this.aGoSouthButton.addActionListener(this);</span>
-<span class="source-line-no">213</span><span id="line-213">        this.aGoEastButton.addActionListener(this);</span>
-<span class="source-line-no">214</span><span id="line-214">        this.aGoWestButton.addActionListener(this);</span>
-<span class="source-line-no">215</span><span id="line-215">        this.aGoUpButton.addActionListener(this);</span>
-<span class="source-line-no">216</span><span id="line-216">        this.aGoDownButton.addActionListener(this);</span>
-<span class="source-line-no">217</span><span id="line-217">        this.aLookButton.addActionListener(this);</span>
-<span class="source-line-no">218</span><span id="line-218">        this.aEatButton.addActionListener(this);</span>
-<span class="source-line-no">219</span><span id="line-219">        this.aBackButton.addActionListener(this);</span>
-<span class="source-line-no">220</span><span id="line-220">        this.aTakeButton.addActionListener(this);</span>
-<span class="source-line-no">221</span><span id="line-221">        this.aDropButton.addActionListener(this);</span>
-<span class="source-line-no">222</span><span id="line-222">        this.aItemsButton.addActionListener(this);</span>
-<span class="source-line-no">223</span><span id="line-223">        this.aTestButton.addActionListener(this);</span>
-<span class="source-line-no">224</span><span id="line-224"></span>
-<span class="source-line-no">225</span><span id="line-225">        // to end program when window is closed</span>
-<span class="source-line-no">226</span><span id="line-226">        this.aMyFrame.addWindowListener(</span>
-<span class="source-line-no">227</span><span id="line-227">            new WindowAdapter() { // anonymous class</span>
-<span class="source-line-no">228</span><span id="line-228">                @Override public void windowClosing(final WindowEvent pE)</span>
-<span class="source-line-no">229</span><span id="line-229">                {</span>
-<span class="source-line-no">230</span><span id="line-230">                    System.exit(0);</span>
-<span class="source-line-no">231</span><span id="line-231">                }</span>
-<span class="source-line-no">232</span><span id="line-232">        } );</span>
-<span class="source-line-no">233</span><span id="line-233"></span>
-<span class="source-line-no">234</span><span id="line-234">        this.aMyFrame.pack();</span>
-<span class="source-line-no">235</span><span id="line-235">        this.aMyFrame.setVisible( true );</span>
-<span class="source-line-no">236</span><span id="line-236">        this.aEntryField.requestFocus();</span>
-<span class="source-line-no">237</span><span id="line-237">        this.enable(true);</span>
-<span class="source-line-no">238</span><span id="line-238">    } // createGUI()</span>
-<span class="source-line-no">239</span><span id="line-239"></span>
-<span class="source-line-no">240</span><span id="line-240">    /**</span>
-<span class="source-line-no">241</span><span id="line-241">     * Actionlistener interface for entry textfield.</span>
-<span class="source-line-no">242</span><span id="line-242">     */</span>
-<span class="source-line-no">243</span><span id="line-243">    @Override public void actionPerformed( final ActionEvent pE ) </span>
-<span class="source-line-no">244</span><span id="line-244">    {</span>
-<span class="source-line-no">245</span><span id="line-245">        // no need to check the type of action at the moment</span>
-<span class="source-line-no">246</span><span id="line-246">        // because there is only one possible action (text input) :</span>
-<span class="source-line-no">247</span><span id="line-247">        if(pE.getSource() == this.aQuitButton){</span>
-<span class="source-line-no">248</span><span id="line-248">            //this.aEngine.endGame();</span>
-<span class="source-line-no">249</span><span id="line-249">            this.processCommand("quit");</span>
-<span class="source-line-no">250</span><span id="line-250">            Timer vTimer = new Timer(1000, ev -&gt; System.exit(0));</span>
-<span class="source-line-no">251</span><span id="line-251">            vTimer.setRepeats(false);</span>
-<span class="source-line-no">252</span><span id="line-252">            vTimer.start();</span>
+<span class="source-line-no">209</span><span id="line-209">        this.aQuitButton.addActionListener(this);</span>
+<span class="source-line-no">210</span><span id="line-210">        this.aGoNorthButton.addActionListener(this);</span>
+<span class="source-line-no">211</span><span id="line-211">        this.aGoSouthButton.addActionListener(this);</span>
+<span class="source-line-no">212</span><span id="line-212">        this.aGoEastButton.addActionListener(this);</span>
+<span class="source-line-no">213</span><span id="line-213">        this.aGoWestButton.addActionListener(this);</span>
+<span class="source-line-no">214</span><span id="line-214">        this.aGoUpButton.addActionListener(this);</span>
+<span class="source-line-no">215</span><span id="line-215">        this.aGoDownButton.addActionListener(this);</span>
+<span class="source-line-no">216</span><span id="line-216">        this.aLookButton.addActionListener(this);</span>
+<span class="source-line-no">217</span><span id="line-217">        this.aEatButton.addActionListener(this);</span>
+<span class="source-line-no">218</span><span id="line-218">        this.aBackButton.addActionListener(this);</span>
+<span class="source-line-no">219</span><span id="line-219">        this.aTakeButton.addActionListener(this);</span>
+<span class="source-line-no">220</span><span id="line-220">        this.aDropButton.addActionListener(this);</span>
+<span class="source-line-no">221</span><span id="line-221">        this.aItemsButton.addActionListener(this);</span>
+<span class="source-line-no">222</span><span id="line-222">        this.aTestButton.addActionListener(this);</span>
+<span class="source-line-no">223</span><span id="line-223"></span>
+<span class="source-line-no">224</span><span id="line-224">        // to end program when window is closed</span>
+<span class="source-line-no">225</span><span id="line-225">        this.aMyFrame.addWindowListener(</span>
+<span class="source-line-no">226</span><span id="line-226">            new WindowAdapter() { // anonymous class</span>
+<span class="source-line-no">227</span><span id="line-227">                @Override public void windowClosing(final WindowEvent pE)</span>
+<span class="source-line-no">228</span><span id="line-228">                {</span>
+<span class="source-line-no">229</span><span id="line-229">                    System.exit(0);</span>
+<span class="source-line-no">230</span><span id="line-230">                }</span>
+<span class="source-line-no">231</span><span id="line-231">        } );</span>
+<span class="source-line-no">232</span><span id="line-232"></span>
+<span class="source-line-no">233</span><span id="line-233">        this.aMyFrame.pack();</span>
+<span class="source-line-no">234</span><span id="line-234">        this.aMyFrame.setVisible( true );</span>
+<span class="source-line-no">235</span><span id="line-235">        this.aEntryField.requestFocus();</span>
+<span class="source-line-no">236</span><span id="line-236">        this.enable(true);</span>
+<span class="source-line-no">237</span><span id="line-237">    } // createGUI()</span>
+<span class="source-line-no">238</span><span id="line-238"></span>
+<span class="source-line-no">239</span><span id="line-239">    /**</span>
+<span class="source-line-no">240</span><span id="line-240">     * Actionlistener interface for entry textfield.</span>
+<span class="source-line-no">241</span><span id="line-241">     */</span>
+<span class="source-line-no">242</span><span id="line-242">    @Override public void actionPerformed( final ActionEvent pE ) </span>
+<span class="source-line-no">243</span><span id="line-243">    {</span>
+<span class="source-line-no">244</span><span id="line-244">        // no need to check the type of action at the moment</span>
+<span class="source-line-no">245</span><span id="line-245">        // because there is only one possible action (text input) :</span>
+<span class="source-line-no">246</span><span id="line-246">        if(pE.getSource() == this.aQuitButton){</span>
+<span class="source-line-no">247</span><span id="line-247">            //this.aEngine.endGame();</span>
+<span class="source-line-no">248</span><span id="line-248">            this.processCommand("quit");</span>
+<span class="source-line-no">249</span><span id="line-249">            Timer vTimer = new Timer(1000, ev -&gt; System.exit(0));</span>
+<span class="source-line-no">250</span><span id="line-250">            vTimer.setRepeats(false);</span>
+<span class="source-line-no">251</span><span id="line-251">            vTimer.start();</span>
+<span class="source-line-no">252</span><span id="line-252"></span>
 <span class="source-line-no">253</span><span id="line-253">        } else if(pE.getSource() == this.aGoNorthButton){</span>
 <span class="source-line-no">254</span><span id="line-254">            this.processCommand("go north");</span>
-<span class="source-line-no">255</span><span id="line-255">        } else if(pE.getSource() == this.aGoSouthButton){</span>
-<span class="source-line-no">256</span><span id="line-256">            this.processCommand("go south");</span>
-<span class="source-line-no">257</span><span id="line-257">        }  else if(pE.getSource() == this.aGoWestButton){</span>
-<span class="source-line-no">258</span><span id="line-258">            this.processCommand("go west");</span>
-<span class="source-line-no">259</span><span id="line-259">        }  else if(pE.getSource() == this.aGoEastButton){</span>
-<span class="source-line-no">260</span><span id="line-260">            this.processCommand("go east");        } else if(pE.getSource() == this.aGoUpButton){</span>
-<span class="source-line-no">261</span><span id="line-261">            this.processCommand("go up");</span>
-<span class="source-line-no">262</span><span id="line-262">        } else if(pE.getSource() == this.aGoDownButton){</span>
-<span class="source-line-no">263</span><span id="line-263">            this.processCommand("go down");        } else if(pE.getSource() == this.aLookButton){</span>
-<span class="source-line-no">264</span><span id="line-264">            this.processCommand("look");</span>
-<span class="source-line-no">265</span><span id="line-265">        } else if(pE.getSource() == this.aEatButton){</span>
-<span class="source-line-no">266</span><span id="line-266">            this.processCommand("eat");</span>
-<span class="source-line-no">267</span><span id="line-267">        } else if(pE.getSource() == this.aBackButton){</span>
-<span class="source-line-no">268</span><span id="line-268">            this.processCommand("back");</span>
-<span class="source-line-no">269</span><span id="line-269">        } else if(pE.getSource() == this.aTakeButton){</span>
-<span class="source-line-no">270</span><span id="line-270">            // Open dialog to choose an item present in the room</span>
-<span class="source-line-no">271</span><span id="line-271">            String[] vOptions = this.aEngine.getCurrentRoomItemNames();</span>
-<span class="source-line-no">272</span><span id="line-272">            if (vOptions == null || vOptions.length == 0){</span>
-<span class="source-line-no">273</span><span id="line-273">                this.println("There are no items to take here.");</span>
-<span class="source-line-no">274</span><span id="line-274">            } else {</span>
-<span class="source-line-no">275</span><span id="line-275">                String vChoice = (String) JOptionPane.showInputDialog(</span>
-<span class="source-line-no">276</span><span id="line-276">                    this.aMyFrame,</span>
-<span class="source-line-no">277</span><span id="line-277">                    "Choose an item to take:",</span>
-<span class="source-line-no">278</span><span id="line-278">                    "Take",</span>
-<span class="source-line-no">279</span><span id="line-279">                    JOptionPane.QUESTION_MESSAGE,</span>
-<span class="source-line-no">280</span><span id="line-280">                    null,</span>
-<span class="source-line-no">281</span><span id="line-281">                    vOptions,</span>
-<span class="source-line-no">282</span><span id="line-282">                    vOptions[0]</span>
-<span class="source-line-no">283</span><span id="line-283">                );</span>
-<span class="source-line-no">284</span><span id="line-284">                if (vChoice != null &amp;&amp; !vChoice.isEmpty()){</span>
-<span class="source-line-no">285</span><span id="line-285">                    this.processCommand("take " + vChoice);</span>
-<span class="source-line-no">286</span><span id="line-286">                }</span>
-<span class="source-line-no">287</span><span id="line-287">            }</span>
-<span class="source-line-no">288</span><span id="line-288">        } else if(pE.getSource() == this.aDropButton){</span>
-<span class="source-line-no">289</span><span id="line-289">            // Open dialog to choose an item from inventory to drop</span>
-<span class="source-line-no">290</span><span id="line-290">            String[] vOptions = this.aEngine.getPlayerItemNames();</span>
-<span class="source-line-no">291</span><span id="line-291">            if (vOptions == null || vOptions.length == 0){</span>
-<span class="source-line-no">292</span><span id="line-292">                this.println("You have no items to drop.");</span>
-<span class="source-line-no">293</span><span id="line-293">            } else {</span>
-<span class="source-line-no">294</span><span id="line-294">                String vChoice = (String) JOptionPane.showInputDialog(</span>
-<span class="source-line-no">295</span><span id="line-295">                    this.aMyFrame,</span>
-<span class="source-line-no">296</span><span id="line-296">                    "Choose an item to drop:",</span>
-<span class="source-line-no">297</span><span id="line-297">                    "Drop",</span>
-<span class="source-line-no">298</span><span id="line-298">                    JOptionPane.QUESTION_MESSAGE,</span>
-<span class="source-line-no">299</span><span id="line-299">                    null,</span>
-<span class="source-line-no">300</span><span id="line-300">                    vOptions,</span>
-<span class="source-line-no">301</span><span id="line-301">                    vOptions[0]</span>
-<span class="source-line-no">302</span><span id="line-302">                );</span>
-<span class="source-line-no">303</span><span id="line-303">                if (vChoice != null &amp;&amp; !vChoice.isEmpty()){</span>
-<span class="source-line-no">304</span><span id="line-304">                    this.processCommand("drop " +vChoice);</span>
-<span class="source-line-no">305</span><span id="line-305">                }</span>
-<span class="source-line-no">306</span><span id="line-306">            }</span>
-<span class="source-line-no">307</span><span id="line-307">        } else if(pE.getSource() == this.aItemsButton){</span>
-<span class="source-line-no">308</span><span id="line-308">            this.processCommand("items");</span>
-<span class="source-line-no">309</span><span id="line-309">        } else if(pE.getSource() == this.aTestButton){</span>
-<span class="source-line-no">310</span><span id="line-310">            // Open dialog to ask user for a file to test</span>
-<span class="source-line-no">311</span><span id="line-311">            String vFile = JOptionPane.showInputDialog(</span>
-<span class="source-line-no">312</span><span id="line-312">                this.aMyFrame,</span>
-<span class="source-line-no">313</span><span id="line-313">                "Enter the file to test:",</span>
-<span class="source-line-no">314</span><span id="line-314">                "Test File",</span>
-<span class="source-line-no">315</span><span id="line-315">                JOptionPane.QUESTION_MESSAGE</span>
-<span class="source-line-no">316</span><span id="line-316">            );</span>
-<span class="source-line-no">317</span><span id="line-317">            if (vFile != null &amp;&amp; !vFile.isEmpty()){</span>
-<span class="source-line-no">318</span><span id="line-318">                this.println("Testing file: " + vFile + "\n");</span>
-<span class="source-line-no">319</span><span id="line-319">                this.processCommand("test " + vFile);</span>
-<span class="source-line-no">320</span><span id="line-320">            }</span>
-<span class="source-line-no">321</span><span id="line-321">        } else {</span>
-<span class="source-line-no">322</span><span id="line-322">            this.processCommand(null);</span>
-<span class="source-line-no">323</span><span id="line-323">        }</span>
-<span class="source-line-no">324</span><span id="line-324">         // never suppress this line</span>
-<span class="source-line-no">325</span><span id="line-325">    } // actionPerformed(.)</span>
-<span class="source-line-no">326</span><span id="line-326"></span>
-<span class="source-line-no">327</span><span id="line-327">    /**</span>
-<span class="source-line-no">328</span><span id="line-328">     * A command has been entered in the entry field.  </span>
-<span class="source-line-no">329</span><span id="line-329">     * Read the command and do whatever is necessary to process it.</span>
-<span class="source-line-no">330</span><span id="line-330">     * @param pInput The input command string.</span>
-<span class="source-line-no">331</span><span id="line-331">     */</span>
-<span class="source-line-no">332</span><span id="line-332">    public void processCommand(final String pInput)</span>
-<span class="source-line-no">333</span><span id="line-333">    {</span>
-<span class="source-line-no">334</span><span id="line-334">        if(pInput == null){</span>
-<span class="source-line-no">335</span><span id="line-335">            String vInputKb = this.aEntryField.getText();</span>
-<span class="source-line-no">336</span><span id="line-336">            this.aEntryField.setText( "" );</span>
-<span class="source-line-no">337</span><span id="line-337">            this.aEngine.interpretCommand( vInputKb );</span>
-<span class="source-line-no">338</span><span id="line-338">        } else {</span>
-<span class="source-line-no">339</span><span id="line-339">            this.aEntryField.setText( "" );</span>
-<span class="source-line-no">340</span><span id="line-340">            this.aEngine.interpretCommand(pInput);</span>
-<span class="source-line-no">341</span><span id="line-341">        }</span>
-<span class="source-line-no">342</span><span id="line-342">        </span>
-<span class="source-line-no">343</span><span id="line-343">    } // processCommand()</span>
-<span class="source-line-no">344</span><span id="line-344">} // UserInterface </span>
+<span class="source-line-no">255</span><span id="line-255"></span>
+<span class="source-line-no">256</span><span id="line-256">        } else if(pE.getSource() == this.aGoSouthButton){</span>
+<span class="source-line-no">257</span><span id="line-257">            this.processCommand("go south");</span>
+<span class="source-line-no">258</span><span id="line-258"></span>
+<span class="source-line-no">259</span><span id="line-259">        }  else if(pE.getSource() == this.aGoWestButton){</span>
+<span class="source-line-no">260</span><span id="line-260">            this.processCommand("go west");</span>
+<span class="source-line-no">261</span><span id="line-261"></span>
+<span class="source-line-no">262</span><span id="line-262">        }  else if(pE.getSource() == this.aGoEastButton){</span>
+<span class="source-line-no">263</span><span id="line-263">            this.processCommand("go east");        </span>
+<span class="source-line-no">264</span><span id="line-264"></span>
+<span class="source-line-no">265</span><span id="line-265">        } else if(pE.getSource() == this.aGoUpButton){</span>
+<span class="source-line-no">266</span><span id="line-266">            this.processCommand("go up");</span>
+<span class="source-line-no">267</span><span id="line-267"></span>
+<span class="source-line-no">268</span><span id="line-268">        } else if(pE.getSource() == this.aGoDownButton){</span>
+<span class="source-line-no">269</span><span id="line-269">            this.processCommand("go down");        </span>
+<span class="source-line-no">270</span><span id="line-270"></span>
+<span class="source-line-no">271</span><span id="line-271">        } else if(pE.getSource() == this.aLookButton){</span>
+<span class="source-line-no">272</span><span id="line-272">            this.processCommand("look");</span>
+<span class="source-line-no">273</span><span id="line-273"></span>
+<span class="source-line-no">274</span><span id="line-274">        } else if(pE.getSource() == this.aEatButton){</span>
+<span class="source-line-no">275</span><span id="line-275">            this.processCommand("eat");</span>
+<span class="source-line-no">276</span><span id="line-276"></span>
+<span class="source-line-no">277</span><span id="line-277">        } else if(pE.getSource() == this.aBackButton){</span>
+<span class="source-line-no">278</span><span id="line-278">            this.processCommand("back");</span>
+<span class="source-line-no">279</span><span id="line-279"></span>
+<span class="source-line-no">280</span><span id="line-280">        } else if(pE.getSource() == this.aTakeButton){</span>
+<span class="source-line-no">281</span><span id="line-281">            // Open dialog to choose an item present in the room</span>
+<span class="source-line-no">282</span><span id="line-282">            String[] vOptions = this.aEngine.getCurrentRoomItemNames();</span>
+<span class="source-line-no">283</span><span id="line-283">            if (vOptions == null || vOptions.length == 0){</span>
+<span class="source-line-no">284</span><span id="line-284">                this.println("There are no items to take here.");</span>
+<span class="source-line-no">285</span><span id="line-285">            } else {</span>
+<span class="source-line-no">286</span><span id="line-286">                String vChoice = (String) JOptionPane.showInputDialog(</span>
+<span class="source-line-no">287</span><span id="line-287">                    this.aMyFrame,</span>
+<span class="source-line-no">288</span><span id="line-288">                    "Choose an item to take:",</span>
+<span class="source-line-no">289</span><span id="line-289">                    "Take",</span>
+<span class="source-line-no">290</span><span id="line-290">                    JOptionPane.QUESTION_MESSAGE,</span>
+<span class="source-line-no">291</span><span id="line-291">                    null,</span>
+<span class="source-line-no">292</span><span id="line-292">                    vOptions,</span>
+<span class="source-line-no">293</span><span id="line-293">                    vOptions[0]</span>
+<span class="source-line-no">294</span><span id="line-294">                );</span>
+<span class="source-line-no">295</span><span id="line-295">                if (vChoice != null &amp;&amp; !vChoice.isEmpty()){</span>
+<span class="source-line-no">296</span><span id="line-296">                    this.processCommand("take " + vChoice);</span>
+<span class="source-line-no">297</span><span id="line-297">                }</span>
+<span class="source-line-no">298</span><span id="line-298">            }</span>
+<span class="source-line-no">299</span><span id="line-299"></span>
+<span class="source-line-no">300</span><span id="line-300">        } else if(pE.getSource() == this.aDropButton){</span>
+<span class="source-line-no">301</span><span id="line-301">            // Open dialog to choose an item from inventory to drop</span>
+<span class="source-line-no">302</span><span id="line-302">            String[] vOptions = this.aEngine.getPlayerItemNames();</span>
+<span class="source-line-no">303</span><span id="line-303">            if (vOptions == null || vOptions.length == 0){</span>
+<span class="source-line-no">304</span><span id="line-304">                this.println("You have no items to drop.");</span>
+<span class="source-line-no">305</span><span id="line-305">            } else {</span>
+<span class="source-line-no">306</span><span id="line-306">                String vChoice = (String) JOptionPane.showInputDialog(</span>
+<span class="source-line-no">307</span><span id="line-307">                    this.aMyFrame,</span>
+<span class="source-line-no">308</span><span id="line-308">                    "Choose an item to drop:",</span>
+<span class="source-line-no">309</span><span id="line-309">                    "Drop",</span>
+<span class="source-line-no">310</span><span id="line-310">                    JOptionPane.QUESTION_MESSAGE,</span>
+<span class="source-line-no">311</span><span id="line-311">                    null,</span>
+<span class="source-line-no">312</span><span id="line-312">                    vOptions,</span>
+<span class="source-line-no">313</span><span id="line-313">                    vOptions[0]</span>
+<span class="source-line-no">314</span><span id="line-314">                );</span>
+<span class="source-line-no">315</span><span id="line-315">                if (vChoice != null &amp;&amp; !vChoice.isEmpty()){</span>
+<span class="source-line-no">316</span><span id="line-316">                    this.processCommand("drop " +vChoice);</span>
+<span class="source-line-no">317</span><span id="line-317">                }</span>
+<span class="source-line-no">318</span><span id="line-318">            }</span>
+<span class="source-line-no">319</span><span id="line-319"></span>
+<span class="source-line-no">320</span><span id="line-320">        } else if(pE.getSource() == this.aItemsButton){</span>
+<span class="source-line-no">321</span><span id="line-321">            this.processCommand("items");</span>
+<span class="source-line-no">322</span><span id="line-322"></span>
+<span class="source-line-no">323</span><span id="line-323">        } else if(pE.getSource() == this.aTestButton){</span>
+<span class="source-line-no">324</span><span id="line-324">            // Open dialog to ask user for a file to test</span>
+<span class="source-line-no">325</span><span id="line-325">            String vFile = JOptionPane.showInputDialog(</span>
+<span class="source-line-no">326</span><span id="line-326">                this.aMyFrame,</span>
+<span class="source-line-no">327</span><span id="line-327">                "Enter the file to test:",</span>
+<span class="source-line-no">328</span><span id="line-328">                "Test File",</span>
+<span class="source-line-no">329</span><span id="line-329">                JOptionPane.QUESTION_MESSAGE</span>
+<span class="source-line-no">330</span><span id="line-330">            );</span>
+<span class="source-line-no">331</span><span id="line-331">            if (vFile != null &amp;&amp; !vFile.isEmpty()){</span>
+<span class="source-line-no">332</span><span id="line-332">                this.println("Testing file: " + vFile + "\n");</span>
+<span class="source-line-no">333</span><span id="line-333">                this.processCommand("test " + vFile);</span>
+<span class="source-line-no">334</span><span id="line-334">            }</span>
+<span class="source-line-no">335</span><span id="line-335"></span>
+<span class="source-line-no">336</span><span id="line-336">        } else if (pE.getSource() == this.aEntryField) {</span>
+<span class="source-line-no">337</span><span id="line-337">            String vInput = this.aEntryField.getText();</span>
+<span class="source-line-no">338</span><span id="line-338">            this.processCommand( vInput );</span>
+<span class="source-line-no">339</span><span id="line-339">           </span>
+<span class="source-line-no">340</span><span id="line-340">        } else {</span>
+<span class="source-line-no">341</span><span id="line-341">            this.processCommand(null);</span>
+<span class="source-line-no">342</span><span id="line-342">        }</span>
+<span class="source-line-no">343</span><span id="line-343">         // never suppress this line</span>
+<span class="source-line-no">344</span><span id="line-344">    } // actionPerformed(.)</span>
 <span class="source-line-no">345</span><span id="line-345"></span>
+<span class="source-line-no">346</span><span id="line-346">    /**</span>
+<span class="source-line-no">347</span><span id="line-347">     * A command has been entered in the entry field.  </span>
+<span class="source-line-no">348</span><span id="line-348">     * Read the command and do whatever is necessary to process it.</span>
+<span class="source-line-no">349</span><span id="line-349">     * @param pInput The input command string.</span>
+<span class="source-line-no">350</span><span id="line-350">     */</span>
+<span class="source-line-no">351</span><span id="line-351">    public void processCommand(final String pInput)</span>
+<span class="source-line-no">352</span><span id="line-352">    {</span>
+<span class="source-line-no">353</span><span id="line-353">        this.aEngine.interpretCommand( pInput );</span>
+<span class="source-line-no">354</span><span id="line-354">        this.aEntryField.setText( "" ); // clear the input field</span>
+<span class="source-line-no">355</span><span id="line-355">        </span>
+<span class="source-line-no">356</span><span id="line-356">    } // processCommand()</span>
+<span class="source-line-no">357</span><span id="line-357">} // UserInterface </span>
+<span class="source-line-no">358</span><span id="line-358"></span>
 
 
 
