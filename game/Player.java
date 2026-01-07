@@ -14,6 +14,7 @@ public class Player {
     private final Stack<Room> aPreviouRooms;
     private int aCurrentWeight;
     private final String aName;
+    private Room aPlantedRoom;
     /**
     * Initialization of a player
     * @param pName The name of the player
@@ -26,6 +27,7 @@ public class Player {
         this.aMaxWeight = 8;
         //this.aNumberOfMoves = 0;
         this.aCurrentRoom = null;
+        this.aPlantedRoom = null;
     }
 
     /**
@@ -166,5 +168,27 @@ public class Player {
         return "Items: "  + String.join(", ", this.aPlayerItems.getItemNames());
     }
 
+    /**
+     * Get the planted room
+     * @return The planted room
+     */
+    public Room getPlantedRoom(){
+        return this.aPlantedRoom;
+    }
+
+    /**
+     * Set the planted room
+     * @param pRoom The planted room
+     */
+    public void setPlantedRoom(final Room pRoom){
+        this.aPlantedRoom = pRoom;
+    }
+
+    /**
+     * reset the planted room to null
+     */
+    public void resetPlantedRoom(){
+        this.aPlantedRoom = null;
+    }
     
 }

@@ -206,7 +206,6 @@ public class UserInterface implements ActionListener
         //this.aMyFrame.getContentPane().add( this.aQuitButton, BorderLayout.SOUTH );
 
         // add some event listeners to some components
-        this.aEntryField.addActionListener( this );
         this.aQuitButton.addActionListener(this);
         this.aGoNorthButton.addActionListener(this);
         this.aGoSouthButton.addActionListener(this);
@@ -250,22 +249,34 @@ public class UserInterface implements ActionListener
             Timer vTimer = new Timer(1000, ev -> System.exit(0));
             vTimer.setRepeats(false);
             vTimer.start();
+
         } else if(pE.getSource() == this.aGoNorthButton){
             this.processCommand("go north");
+
         } else if(pE.getSource() == this.aGoSouthButton){
             this.processCommand("go south");
+
         }  else if(pE.getSource() == this.aGoWestButton){
             this.processCommand("go west");
+
         }  else if(pE.getSource() == this.aGoEastButton){
-            this.processCommand("go east");        } else if(pE.getSource() == this.aGoUpButton){
+            this.processCommand("go east");        
+
+        } else if(pE.getSource() == this.aGoUpButton){
             this.processCommand("go up");
+
         } else if(pE.getSource() == this.aGoDownButton){
-            this.processCommand("go down");        } else if(pE.getSource() == this.aLookButton){
+            this.processCommand("go down");        
+
+        } else if(pE.getSource() == this.aLookButton){
             this.processCommand("look");
+
         } else if(pE.getSource() == this.aEatButton){
             this.processCommand("eat");
+
         } else if(pE.getSource() == this.aBackButton){
             this.processCommand("back");
+
         } else if(pE.getSource() == this.aTakeButton){
             // Open dialog to choose an item present in the room
             String[] vOptions = this.aEngine.getCurrentRoomItemNames();
@@ -285,6 +296,7 @@ public class UserInterface implements ActionListener
                     this.processCommand("take " + vChoice);
                 }
             }
+
         } else if(pE.getSource() == this.aDropButton){
             // Open dialog to choose an item from inventory to drop
             String[] vOptions = this.aEngine.getPlayerItemNames();
@@ -304,8 +316,10 @@ public class UserInterface implements ActionListener
                     this.processCommand("drop " +vChoice);
                 }
             }
+
         } else if(pE.getSource() == this.aItemsButton){
             this.processCommand("items");
+
         } else if(pE.getSource() == this.aTestButton){
             // Open dialog to ask user for a file to test
             String vFile = JOptionPane.showInputDialog(
@@ -318,6 +332,11 @@ public class UserInterface implements ActionListener
                 this.println("Testing file: " + vFile + "\n");
                 this.processCommand("test " + vFile);
             }
+
+        } else if (pE.getSource() == this.aEntryField) {
+            String vInput = this.aEntryField.getText();
+            this.processCommand( vInput );
+           
         } else {
             this.processCommand(null);
         }
@@ -331,14 +350,8 @@ public class UserInterface implements ActionListener
      */
     public void processCommand(final String pInput)
     {
-        if(pInput == null){
-            String vInputKb = this.aEntryField.getText();
-            this.aEntryField.setText( "" );
-            this.aEngine.interpretCommand( vInputKb );
-        } else {
-            this.aEntryField.setText( "" );
-            this.aEngine.interpretCommand(pInput);
-        }
+        this.aEngine.interpretCommand( pInput );
+        this.aEntryField.setText( "" ); // clear the input field
         
     } // processCommand()
 } // UserInterface 

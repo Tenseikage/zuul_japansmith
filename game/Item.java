@@ -28,17 +28,11 @@ public class Item {
     }
 
     /**
-     * Get the item name
+     * Get the item description
      * @return Name of the item
      */
-    public String getItemName(){
+    public String getItemDescription(){
         return this.aItemDescription;
     }
-    /**
-     * Get the item description
-     * @return Description of the item
-     */
-    public String getItemDescription(){
-        return "There is " + this.aItemDescription + "Item weight : " + this.aItemWeight;
-    }
+    
 }

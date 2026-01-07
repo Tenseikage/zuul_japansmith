@@ -21,7 +21,7 @@ public class GameEngine
     // Delay between test commands (ms) to let UI refresh images
     private static final int TEST_DELAY_MS = 2000;
     // Global game duration (ms) before automatic loss
-    private static final int GAME_DURATION_MS = 45000; // 10 minutes
+    private static final int GAME_DURATION_MS = 600000; // 10 minutes
 
     private final Parser        aParser;
     //private Room          aCurrentRoom;
@@ -77,20 +77,20 @@ public class GameEngine
      * Create all the rooms and link their exits together.
      */
     private void createRooms(){
-        Room vShirago = new Room("in your village of birth, Shirakawa-go.","./Images/shirakawa.jpg");
-        Room vGujoHachi = new Room("In the Gujô Hachiman castle.","./Images/gujohachi.jpg");
-        Room vOsaka = new Room("in the Osaka city.","./Images/Osaka.jpg");
-        Room vTsushi = new Room("in the Tsushima island.","./Images/Tsushima.jpg");
-        Room vSeki = new Room("in the Seki blacksmiths village, it's the end of your odyssey.","./Images/seki.jpg");
-        Room vNara = new Room("in the Nara city known for its deers.","./Images/Nara_fire.jpg");
-        Room vGinkaku = new Room("in the Ginkaku-ji temple.","./Images/Ginkakuji_fall_2.jpg");
-        Room vKinkaku = new Room("in the Kinkaku-ji temple.","./Images/Kinkaku.jpg");
-        Room vYoshino = new Room("in the Yoshino national park, the forest is big here.","./Images/Yoshino_park.jpg");
-        Room vNagoya  = new Room("in the Nagoya city","./Images/Nagoya.jpg");
-        Room vMtFuji = new Room("at the foot of the Mt Fuji.","./Images/MtFuji.jpg");
-        Room vTokyo = new Room("in the Tokyo tower, the biggest tower of Japan.","./Images/tokyo_tower.jpg");
-        Room vSapporo = new Room("in the Sapporo city, in the north of Japan.","./Images/sapporo_snow.jpg");
-        Room vAogashi = new Room("in the island of Aogashima, in the middle of the ocean.","./Images/Aogashima.jpg");
+        Room vShirago = new Room("in your village of birth, Shirakawa-go.","./Images/shirakawa.jpg","Shirakawa-go");
+        Room vGujoHachi = new Room("In the Gujô Hachiman castle.","./Images/gujohachi.jpg","Gujo Hachiman");
+        Room vOsaka = new Room("in the Osaka city.","./Images/Osaka.jpg","Osaka");
+        Room vTsushi = new Room("in the Tsushima island.","./Images/Tsushima.jpg","Tsushima");
+        Room vSeki = new Room("in the Seki blacksmiths village, it's the end of your odyssey.","./Images/seki.jpg","Seki");
+        Room vNara = new Room("in the Nara city known for its deers.","./Images/Nara_fire.jpg","Nara");
+        Room vGinkaku = new Room("in the Ginkaku-ji temple.","./Images/Ginkakuji_fall_2.jpg","Ginkaku-ji");
+        Room vKinkaku = new Room("in the Kinkaku-ji temple.","./Images/Kinkaku.jpg","Kinkaku-ji");
+        Room vYoshino = new Room("in the Yoshino national park, the forest is big here.","./Images/Yoshino_park.jpg","Yoshino");
+        Room vNagoya  = new Room("in the Nagoya city","./Images/Nagoya.jpg","Nagoya");
+        Room vMtFuji = new Room("at the foot of the Mt Fuji.","./Images/MtFuji.jpg","Mt Fuji");
+        Room vTokyo = new Room("in the Tokyo tower, the biggest tower of Japan.","./Images/tokyo_tower.jpg","Tokyo");
+        Room vSapporo = new Room("in the Sapporo city, in the north of Japan.","./Images/sapporo_snow.jpg","Sapporo");
+        Room vAogashi = new Room("in the island of Aogashima, in the middle of the ocean.","./Images/Aogashima.jpg","Aogashima");
         
         
         
@@ -138,6 +138,7 @@ public class GameEngine
         vNagoya.setExit("west", vYoshino);
         vNagoya.setExit("up", vMtFuji);
         vNagoya.setTrapDoorExit("south", vTokyo);
+        vNagoya.addItem("Space-time kunai", new Item("A weapon which can send the user to another place",7));
 
         // MtFuji : north -> Sapporo, east -> Tokyo, south -> Nagoya, west -> GujoHachi
         vMtFuji.setExit("down", vSapporo);
@@ -294,6 +295,7 @@ public class GameEngine
                 this.aPlayer.setWeight(vNewWeight);
                 this.aPlayer.getCurrentRoom().removeItem(vItemName);
                 this.aGui.println("You have taken the " + vItemName);
+                this.aGui.println(vItem.getItemDescription());
             }
         }
     }
@@ -328,6 +330,76 @@ public class GameEngine
        
     }
 
+    /**
+     * Plant the kunai in the current room
+     * @param pCmd The command to process
+     */
+    private void plant(final Command pCmd){
+        if(!pCmd.hasSecondWord()){
+            this.aGui.println("Write what ?");
+            return;
+        }
+        String vText = pCmd.getSecondWord();
+        Item vItem = this.aPlayer.getItem(vText);
+        if(vItem == null){
+            this.aGui.println("You don't have this item !, you can't write your current place.");
+            return;
+
+        } else if(vText.equals("Space-time kunai")){
+            this.aPlayer.setPlantedRoom(this.aPlayer.getCurrentRoom());
+            this.aGui.println("You have used the Space-time kunai to write your current place :" + this.aPlayer.getCurrentRoom().getRoomName());
+            return;
+
+        } else {
+            this.aGui.println("You can't write with this item !");
+            return;
+        }
+        
+    }
+
+    /**
+     * Use the power of planted kunai to go to the room
+     * @param pCmd The command to process
+     */
+    private void use(final Command pCmd){
+        if(!pCmd.hasSecondWord()){
+            this.aGui.println("Use what ?");
+            return;
+        }
+        String vText = pCmd.getSecondWord();
+        Item vItem = this.aPlayer.getItem(vText);
+        if(vItem == null){
+            this.aGui.println("You don't have this item !");
+            return;
+
+        } else if(vText.equals("Space-time kunai")){
+            Room vPlantedRoom = this.aPlayer.getPlantedRoom();
+            if(vPlantedRoom == null){
+                this.aGui.println("You haven't planted any place yet !");
+                return;
+                
+            } else {
+                this.aPlayer.addPreviousRoom(this.aPlayer.getCurrentRoom());
+                this.aPlayer.setCurrentRoom(vPlantedRoom);
+                this.aGui.println( this.aPlayer.getCurrentRoom().getLongDescription() );
+                if ( this.aPlayer.getCurrentRoom().getImageName() != null )
+                    this.aGui.showImage( this.aPlayer.getCurrentRoom().getImageName() );
+                Command vForceCmd = new Command("drop", "Space-time kunai"); 
+                this.drop(vForceCmd);
+                this.aGui.println("You have used the Space-time kunai to go back to the planted place.");
+                this.aGui.println("Once used, the kunai vanishes !");
+                this.aPlayer.emptyPreviousRooms();
+                this.aPlayer.resetPlantedRoom();
+                return;
+            }
+
+        } else {
+            this.aGui.println("You can't use this item !");
+            return;
+        }
+        
+    }
+
 
     /**
      * Process the command. Return true if the command ends the game, false otherwise.
@@ -343,8 +415,10 @@ public class GameEngine
         String vCommandWord = pCmd.getCommandWord();
         if ("help".equals(vCommandWord)) {
             this.printHelp();
+
         } else if ("go".equals(vCommandWord)) {
             this.goRooms(pCmd);
+
         } else if ("quit".equals(vCommandWord)) {
             if (pCmd.hasSecondWord()) {
                 this.aGui.println("Quit what ?");
@@ -354,21 +428,33 @@ public class GameEngine
 
         } else if("look".equals(vCommandWord)){
             this.look();
+
         } else if ("eat".equals(vCommandWord)){
             this.eat(pCmd);
+
         } else if ("back".equals(vCommandWord)){
             this.back();
+
         } else if("test".equals(vCommandWord)){
             this.testFile(pCmd);
+
         } else if("take".equals(vCommandWord)){
             this.take(pCmd);
+
         } else if("drop".equals(vCommandWord)){
             this.drop(pCmd);
+
         } else if("items".equals(vCommandWord)){
             this.playerInventory();
-        }
-        else {
-            System.out.println("Erreur du programmeur : commande non reconnue !");
+
+        } else if("plant".equals(vCommandWord)){
+            this.plant(pCmd);
+
+        } else if("use".equals(vCommandWord)){
+            this.use(pCmd);
+
+        } else {
+            System.out.println("Unknown command word: " + vCommandWord);
             return;
         }
     }
@@ -456,23 +542,26 @@ public class GameEngine
         if(!pCmd.hasSecondWord()){
             System.out.println("Go where ?");
             return;
-        };
+        }
+
         String vDirection = pCmd.getSecondWord();
         Room vNextRoom = this.aPlayer.getCurrentRoom().getExit(vDirection);
         if(vNextRoom == null){
             this.aGui.println("There's no door");
+
         } else {
             this.aPlayer.addPreviousRoom(this.aPlayer.getCurrentRoom());
             this.aPlayer.setCurrentRoom(vNextRoom);
             this.aGui.println( this.aPlayer.getCurrentRoom().getLongDescription() );
             if (this.aPlayer.getCurrentRoom().getImageName() != null ){
                 this.aGui.showImage( this.aPlayer.getCurrentRoom().getImageName() );
-                System.out.println("Image affichée");
             } else{
-                System.out.println("Image non trouvée");
+                System.out.println("Image not found for this room.");
             }
         }
     }
+
+    
 
 
     /**

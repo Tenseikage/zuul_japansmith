@@ -12,18 +12,20 @@ public class Room
     private final HashMap<String, Room> aTrapDoors; // les trap doors unidirectionnelles
     private final String aImageName;
     private ItemList aRoomListItems;
+    private final String aRoomName;
 
     /**
      * Initialization of a room
      * @param pDescription Room's description
      * @param pImageName An image used to show the room
      */
-    public Room(final String pDescription, final String pImageName){
+    public Room(final String pDescription, final String pImageName, final String pRoomName){
         this.aDescription = pDescription;  
         this.aExits = new HashMap<String, Room>();
         this.aTrapDoors = new HashMap<String, Room>();
         this.aRoomListItems = new ItemList();
         this.aImageName = pImageName;
+        this.aRoomName = pRoomName;
     }
     
     /**
@@ -43,6 +45,14 @@ public class Room
         vDescription += " " + this.aRoomListItems.showItem();
         return vDescription;
         
+    }
+    
+    /**
+     * Gives the name of the room
+     * @return The name of the room
+     */
+    public String getRoomName(){
+        return this.aRoomName;
     }
     /**
      * Gives the room's exit in the given direction.
@@ -89,7 +99,7 @@ public class Room
      */
     public Item getItem(final String pName){
         Item vItem = this.aRoomListItems.getItem(pName);
-        System.out.println(vItem.getItemName());
+        //System.out.println(vItem.getItemName());
         return vItem;
     }
 
