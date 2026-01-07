@@ -33,6 +33,7 @@ public class GameEngine
     private Timer aGameTimer;
     private Timer aCountdownTimer;
     private long aGameStartMillis;
+    private String aAleaString;
 
     /**
      * Constructor for objects of class GameEngine
@@ -43,6 +44,7 @@ public class GameEngine
         this.createRooms();
         //this.aPreviouRooms = new Stack<>();
         this.aTestMode = false;
+        this.aAleaString = null;
        
     }
 
@@ -205,7 +207,9 @@ public class GameEngine
      * Go back to the previous room
      */
     private void back(){
+        //bleb
         Room vPreviousRoom = this.aPlayer.getPreviousRoom();
+        //System.out.println("Previous room : " + vPreviousRoom.getRoomName());
         if(vPreviousRoom == null || this.aPlayer.getCurrentRoom().isExit(vPreviousRoom)){
             this.aGui.println("You can't go back any further !");
             this.aPlayer.emptyPreviousRooms();
@@ -340,7 +344,7 @@ public class GameEngine
      */
     private void plant(final Command pCmd){
         if(!pCmd.hasSecondWord()){
-            this.aGui.println("Write what ?");
+            this.aGui.println("Plant what ?");
             return;
         }
         String vText = pCmd.getSecondWord();
@@ -383,7 +387,7 @@ public class GameEngine
                 return;
                 
             } else {
-                this.aPlayer.addPreviousRoom(this.aPlayer.getCurrentRoom());
+               //this.aPlayer.addPreviousRoom(this.aPlayer.getCurrentRoom());
                 this.aPlayer.setCurrentRoom(vPlantedRoom);
                 this.aGui.println( this.aPlayer.getCurrentRoom().getLongDescription() );
                 if ( this.aPlayer.getCurrentRoom().getImageName() != null )
@@ -402,6 +406,31 @@ public class GameEngine
             return;
         }
         
+    }
+
+    /**
+     * Manage the alea command to control random behavior in tests.
+     * - alea string: memorizes the string to determine the next random draw
+     * - alea: clears the string to allow truly random draws
+     * This command should only be used in test mode.
+     * @param pCmd The command to process
+     */
+    private void alea(final Command pCmd){
+        // Uncomment the next 4 lines to restrict alea to test mode only
+        // if (!this.aTestMode) {
+        //     this.aGui.println("The 'alea' command can only be used in test mode.");
+        //     return;
+        // }
+        
+        if(!pCmd.hasSecondWord()){
+            // No parameter: clear the alea string
+            this.aAleaString = null;
+            this.aGui.println("Random mode restored (alea cleared).");
+        } else {
+            // Parameter provided: memorize it
+            this.aAleaString = pCmd.getSecondWord();
+            this.aGui.println("Alea set to: " + this.aAleaString);
+        }
     }
 
 
@@ -456,6 +485,9 @@ public class GameEngine
 
         } else if("use".equals(vCommandWord)){
             this.use(pCmd);
+
+        } else if("alea".equals(vCommandWord)){
+            this.alea(pCmd);
 
         } else {
             System.out.println("Unknown command word: " + vCommandWord);
@@ -564,7 +596,21 @@ public class GameEngine
                     this.aGui.showImage(this.aPlayer.getCurrentRoom().getImageName());
                 }
                 Timer vRandomTimer = new Timer(4000, e -> {
-                    int vRngNumber = vTransporterRoom.getRngNumber();
+                    int vRngNumber;
+                    if (this.aAleaString != null) {
+                        // Use the alea string to determine the room
+                        vRngNumber = vTransporterRoom.getIndexForRoomName(this.aAleaString);
+                        if (vRngNumber == -1) {
+                            // Room name not found, use random
+                            this.aGui.println("Warning: Room '" + this.aAleaString + "' not found in destinations. Using random.");
+                            vRngNumber = vTransporterRoom.getRngNumber();
+                        }
+                        // Consume the alea string after use
+                        this.aAleaString = null;
+                    } else {
+                        // No alea string, use truly random
+                        vRngNumber = vTransporterRoom.getRngNumber();
+                    }
                     vTransporterRoom.setChosenRoom(vRngNumber);
                     Room vChosenRoom = vTransporterRoom.getChosenRoom();
                     this.aPlayer.setCurrentRoom(vChosenRoom);
@@ -574,6 +620,7 @@ public class GameEngine
                         this.aGui.showImage(this.aPlayer.getCurrentRoom().getImageName());
                     }
                 });
+                this.aPlayer.emptyPreviousRooms();
                 vRandomTimer.setRepeats(false);
                 vRandomTimer.start();
                 return;

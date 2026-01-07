@@ -69,7 +69,7 @@ public class Player {
             return this.aPreviouRooms.pop();
         }
         else{
-            return this.aCurrentRoom;
+            return null;
         }
     }
 

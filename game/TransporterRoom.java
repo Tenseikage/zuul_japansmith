@@ -53,4 +53,19 @@ public class TransporterRoom extends Room {
         return vRandom.nextInt(this.aPossibleRooms.size());
     }
 
+    /**
+     * Get the index of a room in the possible destinations by its name.
+     * Used by the alea command to control random behavior in tests.
+     * @param pRoomName The name of the room to find
+     * @return The index of the room in aPossibleRooms, or -1 if not found
+     */
+    public int getIndexForRoomName(final String pRoomName) {
+        for (int i = 0; i < this.aPossibleRooms.size(); i++) {
+            if (this.aPossibleRooms.get(i).getRoomName().equals(pRoomName)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
 }
