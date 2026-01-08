@@ -49,6 +49,14 @@ public class GameEngine
     }
 
     /**
+     *  Returns the player (used in userInterface)
+     *  @return 
+    */
+    public Player getPlayer(){
+        return this.aPlayer;
+    }
+
+    /**
      * Sets the GUI
      * @param pUserInterface User Interface 
      */
@@ -122,7 +130,7 @@ public class GameEngine
         // Tsushi : north -> Osaka, east -> Seki
         vTsushi.setExit("north", vOsaka);
         vTsushi.setExit("east", vSeki);
-        vTsushi.addItem("Volcanic stone", new Item("A stone impregnated by the sea god's energy", 2));
+        vTsushi.addItem("Ryujin's scale", new Item("A scale impregnated by the sea god's energy", 2));
 
         // Seki : west -> Tsushi
         vSeki.setExit("west", vTsushi);
@@ -130,23 +138,25 @@ public class GameEngine
         // Nara : east -> Yoshino
         vNara.setExit("east", vYoshino);
         vNara.setTrapDoorExit("south", vOsaka);
-        vNara.addItem("Horn of the goddess", new Item("A horn given by the goddess of deers", 2));
+        vNara.addItem("Horn of the deer goddess", new Item("A horn given by the goddess of deers", 2));
 
         // Yoshino : east -> Nagoya
         vYoshino.setExit("east", vNagoya);
-        vYoshino.addItem("Bamboo of holy forest", new Item("A rare type of bamboo which only exists here", 2));
+        vYoshino.addItem("Bamboo of holy forest", new Item("A rare type of bamboo which only exists here, used for blade creation", 2));
 
         // Nagoya : up -> MtFuji, west -> Yoshino
         vNagoya.setExit("west", vYoshino);
         vNagoya.setExit("up", vMtFuji);
         vNagoya.setTrapDoorExit("south", vTokyo);
-        vNagoya.addItem("Space-time kunai", new Item("A weapon which can send the user to another place",7));
+        vNagoya.addItem("Habaki",new Item("A copper necklace used for the blade crafting", 4));
+        
 
         // MtFuji : north -> Sapporo, east -> Tokyo, south -> Nagoya, west -> GujoHachi
         vMtFuji.setExit("down", vSapporo);
         vMtFuji.setExit("east", vTokyo);
         vMtFuji.setExit("south", vNagoya);
         vMtFuji.setExit("west", vGujoHachi);
+        vNagoya.addItem("Space-time kunai", new Item("A weapon which can send the user to another place",7));
 
         // Tokyo : west -> Nagoya
         vTokyo.setExit("west", vNagoya);
@@ -182,15 +192,21 @@ public class GameEngine
         if(vItem == null){
             this.aGui.println("You don't have this item !");
         } 
-        if (!vItemName.equals("Anko Mochi")){
+        if (!vItemName.equals("Anko Mochi") && !vItemName.equals("Mochi") ){
             this.aGui.println("You can't eat this item !");
             return;
 
+        } else if(vItemName.equals("Anko Mochi")){
+            this.aPlayer.superPower();
+            this.aPlayer.removeItem(vItemName);
+            this.aPlayer.setWeight(this.aPlayer.getWeight() - vItem.getItemWeight());
+            this.aGui.println("You have eaten the Anko Mochi ! Your maximum weight has been doubled !");
+        }else if(vItemName.equals("Mochi")){
+            this.aPlayer.removeItem(vItemName);
+            this.aPlayer.setWeight(this.aPlayer.getWeight() - vItem.getItemWeight());
+            this.aGui.println("You have eaten the mochi, it was really delicious !!!");
         }
-        this.aPlayer.superPower();
-        this.aPlayer.removeItem(vItemName);
-        this.aPlayer.setWeight(this.aPlayer.getWeight() - vItem.getItemWeight());
-        this.aGui.println("You have eaten the Anko Mochi ! Your maximum weight has been doubled !");
+        
         return;
     }
 
@@ -569,6 +585,22 @@ public class GameEngine
                         );
        
     }
+
+    /**
+     * 
+     * @param pCmd
+     */
+    public void winAndForge(final Room pRoom){
+        String aRoomName = pRoom.getRoomName();
+        if(aRoomName.equals("Seki")){
+            this.aGui.println("You've arrived at your destination.");
+            this.aGui.println("The blacksmith chief needs all of the objects you've found");
+            List<String> aPlayerItems = this.aPlayer.getInventoryItemNames();
+            //if(aPlayerItems.contains(aRoomName)){}
+            //if(aPlayerItems.c)
+        }
+    }
+
     /**
      * Go to the room in the given direction. If there is no room in that
      * direction, print an error message.
@@ -653,7 +685,7 @@ public class GameEngine
      * Get item names present in the current room (for UI selection)
      * @return array of item names; empty array if none
      */
-    public String[] getCurrentRoomItemNames(){
+    public List<String> getCurrentRoomItemNames(){
         return this.aPlayer.getCurrentRoom().getItemNames();
     }
 
@@ -661,7 +693,7 @@ public class GameEngine
      * Get item names present in player's inventory (for UI selection)
      * @return array of item names; empty array if none
      */
-    public String[] getPlayerItemNames(){
+    public List<String> getPlayerItemNames(){
         return this.aPlayer.getInventoryItemNames();
     }
 
