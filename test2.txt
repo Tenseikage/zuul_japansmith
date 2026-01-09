@@ -1,0 +1,60 @@
+# exploration_complete.txt — couvre un maximum de possibilités
+# Inclut déplacements, infos et actions
+take Mochi
+eat Mochi
+go south
+alea Tsushima
+take Ryujin's scale
+items
+drop Ryujin's scale
+take Ryujin's scale
+go east
+back
+go north
+take Anko mochi
+eat Anko mochi
+go east
+alea Ginkaku-ji
+take Silver Shigane
+items
+go east
+take Gold Tamagane
+back
+go south
+go south
+take Horn of the deer goddess
+go east
+items
+go east 
+take Bamboo of the holy forest
+go east
+take Habaki
+take Space-time kunai
+go up
+go down
+go south
+items
+go south
+go west
+go up
+go west
+alea Tsushima
+go east
+plant Space-time kunai
+back
+go north
+go east
+alea Aogashima
+take Aogashima's salt
+items
+go south
+go west
+go up
+go west
+alea Ginkaku-ji
+go south
+go south
+go east
+take Bamboo of the holy forest
+use Space-time kunai
+quit

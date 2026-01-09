@@ -20,7 +20,7 @@ import javax.swing.Timer;
 public class GameEngine
 {
     /**Delay between test commands (ms) to let UI refresh images*/
-    private static final int TEST_DELAY_MS = 2000;
+    private static final int TEST_DELAY_MS = 4000;
     /** Total game duration in milliseconds */
     private static final int GAME_DURATION_MS = 600000; // 10 minutes
     /** Parser used to execute commands */
@@ -87,8 +87,8 @@ public class GameEngine
     {
         this.aGui.print( "\n" );
         this.aGui.println( "Welcome to game of The return of Yamata no Orochi, " + this.aPlayer.getName() + "!" );
-        this.aGui.println( "The monster came back to life and Tetsuma must create a katana to save Japan !." );
-        this.aGui.println("From now, you have to help him find materials to let him create the weapon !");
+        this.aGui.println( "The monster came back to life and you must create a katana to save Japan !." );
+        this.aGui.println("From now, you have to find materials to create the  mythical weapon : Totsuka's blade !");
         this.aGui.println( "Type 'help' if you need help." );
         this.aGui.print( "\n" );
         this.aGui.println( this.aPlayer.getCurrentRoom().getLongDescription() );
@@ -120,10 +120,6 @@ public class GameEngine
         
         vShirago.setExit("south", vGujoHachi);
         vShirago.addItem("Mochi", new Item("A sweety mochi", 1));
-
-        // GujoHachi : up -> MtFuji, west -> Osaka
-        vGujoHachi.setExit("up", vMtFuji);
-        vGujoHachi.setExit("west", vOsaka);
 
         // Osaka : north -> Ginkaku, east -> GujoHachi, south -> Nara, west -> Tsushi
         vOsaka.setExit("north", vGinkaku);
@@ -429,6 +425,7 @@ public class GameEngine
                 this.aGui.println("You have used the Space-time kunai to go back to the planted place.");
                 this.aGui.println("Once used, the kunai vanishes !");
                 this.aPlayer.emptyPreviousRooms();
+                this.winAndForge(vPlantedRoom);
                 this.aPlayer.resetPlantedRoom();
                 return;
             }
@@ -448,11 +445,10 @@ public class GameEngine
      * @param pCmd The command to process
      */
     private void alea(final Command pCmd){
-        // Uncomment the next 4 lines to restrict alea to test mode only
-        // if (!this.aTestMode) {
-        //     this.aGui.println("The 'alea' command can only be used in test mode.");
-        //     return;
-        // }
+        if (!this.aTestMode) {
+            this.aGui.println("The 'alea' command can only be used in test mode.");
+            return;
+        }
         
         if(!pCmd.hasSecondWord()){
             // No parameter: clear the alea string
@@ -543,9 +539,7 @@ public class GameEngine
         }
       
         String vFileName = pCommand.getSecondWord();
-        System.out.println("Test file : " + vFileName);
         vFileName+=".txt";
-        System.out.println("Full file name : " + vFileName);
         InputStream vInputStream = this.getClass().getClassLoader().getResourceAsStream(vFileName);
         if (vInputStream == null){
             this.aGui.println("Error : file not found !");
