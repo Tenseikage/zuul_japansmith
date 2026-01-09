@@ -2,10 +2,13 @@ package game;
 
 /**
  * This class creates all items used in the world of Zuul
- * @author TARATIBU Christophe
+ * @author Christophe TARATIBU (2025/2026)
+ * @version 2025/2026 (09.01.2026)
  */
 public class Item {
+    /** Description of the item */
     private final String aItemDescription;
+    /** Weight of the item */
     private final int aItemWeight;
 
     /**

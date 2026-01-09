@@ -12,29 +12,50 @@ import java.util.List;
  * text entry area, a text output area and an optional image.
  * 
  * @author Michael Kolling
- * @version 1.0 (Jan 2003) DB edited (2023) Christophe TARATIBU modified (2025)
+ * @version 1.0 (Jan 2003) DB edited (2023) Christophe TARATIBU modified (2025/2026)
  */
 public class UserInterface implements ActionListener
 {
+    /** The GameEngine object implementing the game logic */
     private GameEngine aEngine;
+    /** The main frame for the GUI. */
     private JFrame     aMyFrame;
+    /** Text field for user input. */
     private JTextField aEntryField;
+    /** Text area for displaying text output. */
     private JTextArea  aLog;
+    /** Label to show the image. */
     private JLabel     aImage;
+    /** Label to show the timer. */
     private JLabel     aTimerLabel;
+    /** Button to end the game session. */
     private JButton   aQuitButton;
+    /** Directional buttons */
+    /** West button */
     private JButton aGoWestButton;
+    /** North button */
     private JButton aGoNorthButton;
+    /** South button */
     private JButton aGoSouthButton;
+    /** East button */
     private JButton aGoEastButton;
+    /** Up button */
     private JButton aGoUpButton;
+    /** Down button */
     private JButton aGoDownButton;
+    /** Look button */
     private JButton aLookButton;
+    /** Eat button */
     private JButton aEatButton;
+    /** Back button */
     private JButton aBackButton;
+    /** Take button */
     private JButton aTakeButton;
+    /** Drop button */
     private JButton aDropButton;
+    /** Items button */
     private JButton aItemsButton;
+    /** Test button */
     private JButton aTestButton;
 
     /**

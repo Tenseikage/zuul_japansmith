@@ -5,16 +5,23 @@ import java.util.Stack;
 
 /**
  * Player class - a player in an adventure game.
- *
- * @author Christophe TARATIBU
+ *@author Christophe TARATIBU
+ *@version 2025/2026 (09.01.2026)
  */
 public class Player {
+    /** Current Room */
     private Room aCurrentRoom;
+    /** List of player's items */
     private final ItemList aPlayerItems;
+    /** Max weight of player's inventory */
     private int aMaxWeight;
+    /** Stack of previous rooms */
     private final Stack<Room> aPreviouRooms;
+    /** Current weight of players inventory */
     private int aCurrentWeight;
+    /** Player's name */
     private final String aName;
+    /** Room of the planted kunai (weapon used by ninjas) */
     private Room aPlantedRoom;
     /**
     * Initialization of a player

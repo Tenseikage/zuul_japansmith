@@ -7,9 +7,11 @@ import java.util.stream.Collectors;
 
 /**
  *  Items class which manages a collection of items.
- *  @author Christophe TARATIBU
+ *  @author Christophe TARATIBU (2025/2026)
+ *  @version 2025/2026 (09.01.2026)
  */
 public class ItemList {
+    /** List of items with their name as keys */
     private HashMap<String,Item> aListItems;
 
     /**

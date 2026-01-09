@@ -14,11 +14,13 @@ import java.util.StringTokenizer;
  * the known commands, and if the input is not one of the known commands, it
  * returns a command object that is marked as an unknown command.
  * 
- * @author  Michael Kolling and David J. Barnes + D.Bureau
- * @version 2008.03.30 + 2013.09.15
+ * @author  Michael Kolling and David J. Barnes + D.Bureau + Christophe TARATIBU
+ * @version 2008.03.30 + 2013.09.15 + 09.01.2026
  */
 public class Parser 
 {
+
+    /** Words used as commands */
     private final CommandWords aCommandWords;  // (voir la classe CommandWords)
     /**
      * Constructeur par defaut qui cree les 2 objets prevus pour les attributs

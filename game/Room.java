@@ -3,22 +3,29 @@ import java.util.List;
 import java.util.HashMap;
 /**
  * Room class - a room in an adventure game.
- *
  * @author Christophe TARATIBU
+ * @version 2025/2026 (09.01.2026)
  */
 public class Room
 {
+    /** Description of the room */
     private final String aDescription;
-    private final HashMap<String, Room> aExits; // les sorties de cette piece
-    private final HashMap<String, Room> aTrapDoors; // les trap doors unidirectionnelles
+    /** Possible exists of the room */
+    private final HashMap<String, Room> aExits; 
+    /** Trap doors */
+    private final HashMap<String, Room> aTrapDoors; 
+    /** Name of the images (used to show rooms) */
     private final String aImageName;
+    /** List of present items in the room */
     private ItemList aRoomListItems;
+    /** Name of the room */
     private final String aRoomName;
 
     /**
      * Initialization of a room
      * @param pDescription Room's description
      * @param pImageName An image used to show the room
+     * @param pRoomName The name of the room
      */
     public Room(final String pDescription, final String pImageName, final String pRoomName){
         this.aDescription = pDescription;  

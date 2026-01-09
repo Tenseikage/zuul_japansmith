@@ -7,12 +7,12 @@ package game;
  * This class holds an enumeration table of all command words known to the game.
  * It is used to recognise commands as they are typed in.
  *
- * @author  Michael Kolling and David J. Barnes + D.Bureau
- * @version 2008.03.30 + 2019.09.25
+ * @author  Michael Kolling and David J. Barnes + D.Bureau Christophe TARATIBU
+ * @version 2008.03.30 + 2019.09.25 + 09.01.2026
  */
 public class CommandWords
 {
-    // a constant array that will hold all valid command words
+    /** List of valid commands*/
     private final String[] aValidCommands = {
         "go", "quit", "help", "look", "eat","back","take","drop","test", "items","plant","use","alea"
     };

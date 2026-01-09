@@ -4,14 +4,22 @@ import java.util.Random;
 
 
 
+/**
+ * TransporterRoom class - a room that transports the player to a random room.
+ * @author Christophe TARATIBU
+ * @version 2025/2026 (09.01.2026)
+ */
 public class TransporterRoom extends Room {
+    /** List of possible rooms */
     private ArrayList<Room> aPossibleRooms;
+    /** Chosen room */
     private Room aChosenRoom;
 
     /**
      * Initialization of a transporter room
      * @param pDescription Room's description
      * @param pImage An image used to show the room
+     * @param pRoomName The name of the room
      */
     public TransporterRoom(String pDescription,final String pImage, final String pRoomName) {
         super(pDescription,pImage,pRoomName);
@@ -68,8 +76,8 @@ public class TransporterRoom extends Room {
         return -1;
     }
 
-    /*
-     * reset the chosen room to null
+    /**
+     * Resets the chosen room to null
      */
     public void resetChosenRoom() {
         this.aChosenRoom = null;

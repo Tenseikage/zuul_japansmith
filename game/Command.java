@@ -3,10 +3,13 @@ package game;
  * Command class - a command issued by the user.
  *
  * @author Christophe TARATIBU
+ * @version 2025/2026 (09.01.2026)
  */
 public class Command
 {
+    /** Word used as command */
     private final String aCommandWord;
+    /** Second word of the command */
     private final String aSecondWord;
     /**
      * Create a command object. First and second word must be supplied, but
@@ -54,7 +57,6 @@ public class Command
      * @return true if the command word is unknown
      */
     public boolean isUnknown(){
-        //System.out.println(this.aCommandWord);
         return this.aCommandWord == null;
     }
 } // Command

@@ -15,24 +15,29 @@ import javax.swing.Timer;
  * 
  * @author  Michael Kolling and David J. Barnes
  * @version 1.0 (Jan 2003) DB edited (2019) Christophe TARATIBU modified (2025)
+ * @version 2025/2026 (09.01.2026) Christophe TARATIBU
  */
 public class GameEngine
 {
-    // Delay between test commands (ms) to let UI refresh images
+    /**Delay between test commands (ms) to let UI refresh images*/
     private static final int TEST_DELAY_MS = 2000;
-    // Global game duration (ms) before automatic loss
+    /** Total game duration in milliseconds */
     private static final int GAME_DURATION_MS = 600000; // 10 minutes
-
-    private final Parser        aParser;
-    //private Room          aCurrentRoom;
-    //private Stack<Room> aPreviouRooms;
-    //private LinkedList<Room> aLastRooms;
+    /** Parser used to execute commands */
+    private final Parser aParser;
+    /** User's graphical interface */
     private UserInterface aGui;
+    /** Attribute used for tests */
     private boolean aTestMode;
+    /** Player's data */
     private Player aPlayer;
+    /** Timer used to timegate the party */
     private Timer aGameTimer;
+    /** Countdown before the end of the game */
     private Timer aCountdownTimer;
+    /** Time when the game started */
     private long aGameStartMillis;
+    /** String used to control random behavior in tests */
     private String aAleaString;
 
     /**
@@ -40,17 +45,25 @@ public class GameEngine
      */
     public GameEngine()
     {
+        this("Tetsuma");
+    }
+
+    /**
+     * Constructor allowing to pick the player's name.
+     * @param pPlayerName player name
+     */
+    public GameEngine(final String pPlayerName)
+    {
         this.aParser = new Parser();
-        this.createRooms();
+        this.createRooms(pPlayerName);
         //this.aPreviouRooms = new Stack<>();
         this.aTestMode = false;
         this.aAleaString = null;
-       
     }
 
     /**
      *  Returns the player (used in userInterface)
-     *  @return 
+     *  @return The player
     */
     public Player getPlayer(){
         return this.aPlayer;
@@ -73,7 +86,7 @@ public class GameEngine
     private void printWelcome()
     {
         this.aGui.print( "\n" );
-        this.aGui.println( "Welcome to game of The return of Yamata no Orochi !" );
+        this.aGui.println( "Welcome to game of The return of Yamata no Orochi, " + this.aPlayer.getName() + "!" );
         this.aGui.println( "The monster came back to life and Tetsuma must create a katana to save Japan !." );
         this.aGui.println("From now, you have to help him find materials to let him create the weapon !");
         this.aGui.println( "Type 'help' if you need help." );
@@ -85,8 +98,9 @@ public class GameEngine
 
    /**
      * Create all the rooms and link their exits together.
+     * @param pPlayerName The name of the player
      */
-    private void createRooms(){
+    private void createRooms(final String pPlayerName){
         Room vShirago = new Room("in your village of birth, Shirakawa-go.","./Images/shirakawa.jpg","Shirakawa-go");
         TransporterRoom vGujoHachi = new TransporterRoom("In the Gujô Hachiman castle.","./Images/gujohachi.jpg","Gujo Hachiman");
         Room vOsaka = new Room("in the Osaka city.","./Images/Osaka.jpg","Osaka");
@@ -171,7 +185,7 @@ public class GameEngine
         vAogashi.setExit("north", vSapporo);
         vAogashi.setExit("south", vTokyo);
         vAogashi.addItem("Aogashima's salt", new Item("Holy salt used for purifying monsters", 1));
-        this.aPlayer = new Player("Tetsuma");
+        this.aPlayer = new Player(pPlayerName);
         this.aPlayer.setCurrentRoom(vShirago);
 
 
@@ -181,7 +195,8 @@ public class GameEngine
     }
 
     /**
-     * Print a sentence.
+     * Eat an item
+     * @param pCmd The command to process
      */
     private void eat(final Command pCmd){
         if(!pCmd.hasSecondWord()){
@@ -588,8 +603,8 @@ public class GameEngine
     }
 
     /**
-     * 
-     * @param pCmd
+     * Check if the player has won and forges the blade if so.
+     * @param pRoom The current room of the player
      */
     public void winAndForge(final Room pRoom){
         String aRoomName = pRoom.getRoomName();
