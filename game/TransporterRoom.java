@@ -68,4 +68,11 @@ public class TransporterRoom extends Room {
         return -1;
     }
 
+    /*
+     * reset the chosen room to null
+     */
+    public void resetChosenRoom() {
+        this.aChosenRoom = null;
+    }
+
 }

@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.net.URL;
+import java.util.List;
 //import java.awt.image.*;
 
 /**
@@ -272,14 +273,32 @@ public class UserInterface implements ActionListener
             this.processCommand("look");
 
         } else if(pE.getSource() == this.aEatButton){
-            this.processCommand("eat");
-
+            // Open dialog to choose an item present in the room
+            List<String> vOptionsList = this.aEngine.getPlayerItemNames();
+            String[] vOptions = vOptionsList.toArray(new String[0]);
+            if (vOptions == null || vOptions.length == 0){
+                this.println("There are no items to eat here.");
+            } else {
+                String vChoice = (String) JOptionPane.showInputDialog(
+                    this.aMyFrame,
+                    "Choose an item to eat:",
+                    "Eat",
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    vOptions,
+                    vOptions[0]
+                );
+                if (vChoice != null && !vChoice.isEmpty()){
+                    this.processCommand("eat " + vChoice);
+                }
+            }
         } else if(pE.getSource() == this.aBackButton){
             this.processCommand("back");
 
         } else if(pE.getSource() == this.aTakeButton){
             // Open dialog to choose an item present in the room
-            String[] vOptions = this.aEngine.getCurrentRoomItemNames();
+           List<String> vOptionsList = this.aEngine.getCurrentRoomItemNames();
+            String[] vOptions = vOptionsList.toArray(new String[0]);
             if (vOptions == null || vOptions.length == 0){
                 this.println("There are no items to take here.");
             } else {
@@ -299,7 +318,8 @@ public class UserInterface implements ActionListener
 
         } else if(pE.getSource() == this.aDropButton){
             // Open dialog to choose an item from inventory to drop
-            String[] vOptions = this.aEngine.getPlayerItemNames();
+            List<String> vOptionsList = this.aEngine.getPlayerItemNames();
+            String[] vOptions = vOptionsList.toArray(new String[0]);
             if (vOptions == null || vOptions.length == 0){
                 this.println("You have no items to drop.");
             } else {

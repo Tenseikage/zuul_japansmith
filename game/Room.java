@@ -1,4 +1,5 @@
 package game;
+import java.util.List;
 import java.util.HashMap;
 /**
  * Room class - a room in an adventure game.
@@ -142,7 +143,7 @@ public class Room
      * Get all item names present in this room
      * @return array of item names
      */
-    public String[] getItemNames(){
+    public List<String> getItemNames(){
         return this.aRoomListItems.getItemNames();
     }
 

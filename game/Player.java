@@ -1,5 +1,6 @@
 package game;
 
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -24,7 +25,7 @@ public class Player {
         this.aPlayerItems = new ItemList();
         this.aPreviouRooms = new Stack<>();
         this.aCurrentWeight = 0;
-        this.aMaxWeight = 8;
+        this.aMaxWeight = 15;
         //this.aNumberOfMoves = 0;
         this.aCurrentRoom = null;
         this.aPlantedRoom = null;
@@ -127,7 +128,7 @@ public class Player {
      * List item names in player's inventory
      * @return array of item names
      */
-    public String[] getInventoryItemNames(){
+    public List<String> getInventoryItemNames(){
         return this.aPlayerItems.getItemNames();
     }
     /**

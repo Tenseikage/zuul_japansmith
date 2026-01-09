@@ -1,6 +1,8 @@
 package game;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -59,8 +61,8 @@ public class ItemList {
      * Return the names of items as an array (for UI lists/dialogs)
      * @return array of item names
      */
-    public String[] getItemNames(){
-        return this.aListItems.keySet().toArray(new String[0]);
+    public List<String> getItemNames(){
+        return this.aListItems.keySet().stream().collect(Collectors.toList());
     }
 
     /**
