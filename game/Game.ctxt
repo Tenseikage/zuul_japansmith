@@ -1,9 +1,7 @@
 #BlueJ class context
 comment0.target=Game
-comment0.text=\r\n\ Game\ class\ -\ the\ main\ class\ of\ the\ "World\ of\ Zuul"\ application.\r\n\r\n\ @author\ TARATIBU\ Christophe\r\n
+comment0.text=\r\n\ Game\ class\ -\ the\ main\ class\ of\ the\ "World\ of\ Zuul"\ application.\r\n\r\n\ @author\ TARATIBU\ Christophe\r\n\ @version\ 2025/2026\ (09.01.2026)\r\n
 comment1.params=
 comment1.target=Game()
 comment1.text=\r\n\ Create\ the\ game\ and\ initialise\ its\ internal\ map.\ Create\ the\ inerface\ and\ link\ to\ it.\r\n
-comment2.params=pArgs
-comment2.target=void\ main(java.lang.String[])
-numComments=3
+numComments=2

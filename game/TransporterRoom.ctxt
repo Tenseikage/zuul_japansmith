@@ -1,0 +1,25 @@
+#BlueJ class context
+comment0.target=TransporterRoom
+comment0.text=\r\n\ TransporterRoom\ class\ -\ a\ room\ that\ transports\ the\ player\ to\ a\ random\ room.\r\n\ @author\ Christophe\ TARATIBU\r\n\ @version\ 2025/2026\ (09.01.2026)\r\n
+comment1.params=pDescription\ pImage\ pRoomName
+comment1.target=TransporterRoom(java.lang.String,\ java.lang.String,\ java.lang.String)
+comment1.text=\r\n\ Initialization\ of\ a\ transporter\ room\r\n\ @param\ pDescription\ Room's\ description\r\n\ @param\ pImage\ An\ image\ used\ to\ show\ the\ room\r\n\ @param\ pRoomName\ The\ name\ of\ the\ room\r\n
+comment2.params=pRooms
+comment2.target=void\ setDestinations(java.util.ArrayList)
+comment2.text=\r\n\ Sets\ the\ possible\ destination\ rooms\r\n\ @param\ pRooms\ The\ list\ of\ possible\ rooms\r\n
+comment3.params=
+comment3.target=Room\ getChosenRoom()
+comment3.text=\r\n\ Gives\ the\ room's\ exit\ in\ the\ given\ direction.\r\n\ @return\ The\ chosen\ room.\r\n
+comment4.params=pRngNumber
+comment4.target=void\ setChosenRoom(int)
+comment4.text=\r\n\ Sets\ the\ chosen\ room\ according\ to\ the\ random\ number\r\n\ @param\ pRngNumber\ The\ random\ number\r\n
+comment5.params=
+comment5.target=int\ getRngNumber()
+comment5.text=\r\n\ Gives\ the\ room's\ exit\ in\ the\ given\ direction.\r\n\ @return\ The\ chosen\ room.\r\n
+comment6.params=pRoomName
+comment6.target=int\ getIndexForRoomName(java.lang.String)
+comment6.text=\r\n\ Get\ the\ index\ of\ a\ room\ in\ the\ possible\ destinations\ by\ its\ name.\r\n\ Used\ by\ the\ alea\ command\ to\ control\ random\ behavior\ in\ tests.\r\n\ @param\ pRoomName\ The\ name\ of\ the\ room\ to\ find\r\n\ @return\ The\ index\ of\ the\ room\ in\ aPossibleRooms,\ or\ -1\ if\ not\ found\r\n
+comment7.params=
+comment7.target=void\ resetChosenRoom()
+comment7.text=\r\n\ Resets\ the\ chosen\ room\ to\ null\r\n
+numComments=8

@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.target=Item
+comment0.text=\r\n\ This\ class\ creates\ all\ items\ used\ in\ the\ world\ of\ Zuul\r\n\ @author\ Christophe\ TARATIBU\ (2025/2026)\r\n\ @version\ 2025/2026\ (09.01.2026)\r\n
+comment1.params=pItemDescription\ pItemPoids
+comment1.target=Item(java.lang.String,\ int)
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Item\r\n\ @param\ pItemDescription\ Description\ of\ the\ item\r\n\ @param\ pItemPoids\ Weight\ of\ the\ item\ \ \ \ \ \ \ \ \ \ \ \ \ \r\n
+comment2.params=
+comment2.target=int\ getItemWeight()
+comment2.text=\r\n\ Get\ the\ item\ weight\r\n\ @return\ Weight\ of\ the\ item\r\n
+comment3.params=
+comment3.target=java.lang.String\ getItemDescription()
+comment3.text=\r\n\ Get\ the\ item\ description\r\n\ @return\ Name\ of\ the\ item\r\n
+numComments=4

@@ -102,7 +102,7 @@ public class GameEngine
      */
     private void createRooms(final String pPlayerName){
         Room vShirago = new Room("in your village of birth, Shirakawa-go.","./Images/shirakawa.jpg","Shirakawa-go");
-        TransporterRoom vGujoHachi = new TransporterRoom("In the Gujô Hachiman castle.","./Images/gujohachi.jpg","Gujo Hachiman");
+        TransporterRoom vGujoHachi = new TransporterRoom("In the Gujo Hachiman castle.","./Images/gujohachi.jpg","Gujo Hachiman");
         Room vOsaka = new Room("in the Osaka city.","./Images/Osaka.jpg","Osaka");
         Room vTsushi = new Room("in the Tsushima island.","./Images/Tsushima.jpg","Tsushima");
         Room vSeki = new Room("in the Seki blacksmiths village, it's the end of your odyssey.","./Images/seki.jpg","Seki");
