@@ -142,7 +142,7 @@ public class GameEngine
 
         // Yoshino : east -> Nagoya
         vYoshino.setExit("east", vNagoya);
-        vYoshino.addItem("Bamboo of holy forest", new Item("A rare type of bamboo which only exists here, used for blade creation", 2));
+        vYoshino.addItem("Bamboo of the holy forest", new Item("A rare type of bamboo which only exists here, used for blade creation", 2));
 
         // Nagoya : up -> MtFuji, west -> Yoshino
         vNagoya.setExit("west", vYoshino);
@@ -160,10 +160,11 @@ public class GameEngine
 
         // Tokyo : west -> Nagoya
         vTokyo.setExit("west", vNagoya);
+        vTokyo.addItem("Amaterasu's amulet",new Item("An amulet which burns monsters and yokais", 3));
 
         // Sapporo : south -> Aogashi
         vSapporo.setExit("south", vAogashi);
-        vSapporo.addItem("Ice'dragon's amulet",new Item("An amulet which freezes monsters and yokais", 5));
+        vSapporo.addItem("Ice dragon's amulet",new Item("An amulet which freezes monsters and yokais", 4));
 
 
         // Aogashi : north -> Sapporo, south -> Tokyo
@@ -175,7 +176,7 @@ public class GameEngine
 
 
         // Set transporter room destinations
-        vGujoHachi.setDestinations(new ArrayList<Room>(List.of(vTsushi, vSapporo, vAogashi, vKinkaku)));
+        vGujoHachi.setDestinations(new ArrayList<Room>(List.of(vTsushi, vSapporo, vAogashi, vGinkaku)));
 
     }
 
@@ -192,11 +193,11 @@ public class GameEngine
         if(vItem == null){
             this.aGui.println("You don't have this item !");
         } 
-        if (!vItemName.equals("Anko Mochi") && !vItemName.equals("Mochi") ){
+        if (!vItemName.equals("Anko mochi") && !vItemName.equals("Mochi") ){
             this.aGui.println("You can't eat this item !");
             return;
 
-        } else if(vItemName.equals("Anko Mochi")){
+        } else if(vItemName.equals("Anko mochi")){
             this.aPlayer.superPower();
             this.aPlayer.removeItem(vItemName);
             this.aPlayer.setWeight(this.aPlayer.getWeight() - vItem.getItemWeight());
@@ -595,9 +596,20 @@ public class GameEngine
         if(aRoomName.equals("Seki")){
             this.aGui.println("You've arrived at your destination.");
             this.aGui.println("The blacksmith chief needs all of the objects you've found");
-            List<String> aPlayerItems = this.aPlayer.getInventoryItemNames();
-            //if(aPlayerItems.contains(aRoomName)){}
-            //if(aPlayerItems.c)
+            List<String> vPlayerItems = this.aPlayer.getInventoryItemNames();
+            List<String> vItemsBlade = new ArrayList<String>(List.of("Silver Shigane","Gold Tamagane",
+            "Ryujin's scale","Horn of the deer goddess","Bamboo of the holy forest","Habaki","Aogashima's salt"
+            ));
+            if(vPlayerItems.containsAll(vItemsBlade) ){
+                this.aGui.println("You got all of the items, the blade was created and given to Susanoo !");
+                this.aGui.println("You've won !");
+                this.endGame();
+            } else {
+                this.aGui.println("Some items are missing, you need to find them quickly !");
+                this.aGui.println("The monster is coming! Hurry up !");
+            }
+        }else {
+            return;
         }
     }
 
@@ -651,6 +663,7 @@ public class GameEngine
                     if (this.aPlayer.getCurrentRoom().getImageName() != null){
                         this.aGui.showImage(this.aPlayer.getCurrentRoom().getImageName());
                     }
+                    vTransporterRoom.resetChosenRoom();
                 });
                 this.aPlayer.emptyPreviousRooms();
                 vRandomTimer.setRepeats(false);
@@ -661,6 +674,8 @@ public class GameEngine
             this.aGui.println( this.aPlayer.getCurrentRoom().getLongDescription() );
             if ( this.aPlayer.getCurrentRoom().getImageName() != null )
                 this.aGui.showImage( this.aPlayer.getCurrentRoom().getImageName() ); 
+            this.winAndForge(vNextRoom);
+
         }
     }
 
