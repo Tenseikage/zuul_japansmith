@@ -1,7 +1,20 @@
 # court.txt — fichier de test court
-# Au moins 3 commandes différentes
 look
-go north
-eat
+go south
+alea Sapporo
 back
+take Ice dragon's amulet
+go south
+take Aogashima's salt
+go south
+take Amaterasu's amulet
+items
+go west
+go east
+take Space-time kunai
+take Habaki
+drop Aogashima's salt
+items
+take Habaki
+look
 quit
