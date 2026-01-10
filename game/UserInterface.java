@@ -370,7 +370,7 @@ public class UserInterface implements ActionListener
                 JOptionPane.QUESTION_MESSAGE
             );
             if (vFile != null && !vFile.isEmpty()){
-                this.println("Testing file: " + vFile + "\n");
+                this.println("Testing file: " + vFile + ".txt" + "\n");
                 this.processCommand("test " + vFile);
             }
 
