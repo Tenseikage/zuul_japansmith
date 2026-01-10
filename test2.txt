@@ -1,4 +1,4 @@
-# exploration_complete.txt — couvre un maximum de possibilités
+# test.txt — couvre un maximum de possibilités et permet à la fin de gagner
 # Inclut déplacements, infos et actions
 take Mochi
 eat Mochi
